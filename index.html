@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Sonu Shah — Flutter Developer | iOS & macOS Engineer</title>
+<meta name="description" content="Flutter Developer with 2+ years shipping production iOS, macOS & Android apps. Expert in Twilio VoIP, WebRTC, Firebase, GetX, Bloc, custom editors & IAP systems."/>
+<meta name="keywords" content="Flutter Developer, iOS Developer, macOS, Dart, Firebase, WebRTC, GetX, Twilio, Ahmedabad, Germany, Dubai"/>
+<meta property="og:title" content="Sonu Shah — Flutter Developer"/>
+<meta property="og:description" content="I build premium mobile & desktop experiences. 12+ production apps. iOS, macOS, Android."/>
+<meta property="og:type" content="website"/>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#050508;--bg2:#0a0a12;--bg3:#0f0f1a;
+  --cyan:#00D4FF;--purple:#7B2FFF;--warm:#FF6B35;--green:#00FF87;
+  --white:#F0F4FF;--muted:#6B7FA3;
+  --glass:rgba(255,255,255,0.04);--glass-border:rgba(255,255,255,0.08);
+  --glow-cyan:0 0 40px rgba(0,212,255,0.3);
+  --glow-purple:0 0 40px rgba(123,47,255,0.3);
+  --font-display:'Space Grotesk',sans-serif;
+  --font-body:'Inter',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--white);font-family:var(--font-body);overflow-x:hidden;cursor:none}
+::selection{background:rgba(0,212,255,0.2);color:var(--cyan)}
+
+/* Cursor */
+#cursor{position:fixed;top:0;left:0;width:12px;height:12px;background:var(--cyan);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s,background .2s}
+#cursor-ring{position:fixed;top:0;left:0;width:40px;height:40px;border:1px solid rgba(0,212,255,0.4);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all .08s ease}
+body:has(a:hover) #cursor,body:has(button:hover) #cursor{width:6px;height:6px;background:var(--warm)}
+body:has(a:hover) #cursor-ring,body:has(button:hover) #cursor-ring{width:60px;height:60px;border-color:var(--warm)}
+
+/* Loader */
+#loader{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:10000;gap:24px}
+#loader-bar-wrap{width:200px;height:1px;background:rgba(255,255,255,0.1);position:relative;overflow:hidden}
+#loader-bar{position:absolute;left:-100%;top:0;width:100%;height:100%;background:linear-gradient(90deg,var(--purple),var(--cyan))}
+#loader-pct,#loader-label{font-family:var(--font-mono);font-size:11px;color:var(--muted);letter-spacing:4px}
+#loader-label{letter-spacing:6px;text-transform:uppercase}
+
+/* Canvas */
+#hero-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+
+/* Nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 48px;display:flex;justify-content:space-between;align-items:center;background:transparent;transition:background .4s}
+nav.scrolled{background:rgba(5,5,8,0.88);backdrop-filter:blur(20px);border-bottom:1px solid var(--glass-border)}
+.nav-logo{font-family:var(--font-display);font-size:18px;font-weight:700;background:linear-gradient(135deg,var(--cyan),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-decoration:none;letter-spacing:-0.5px}
+.nav-links{display:flex;gap:36px;list-style:none}
+.nav-links a{font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;letter-spacing:.5px;transition:color .2s;text-transform:uppercase}
+.nav-links a:hover{color:var(--cyan)}
+.nav-cta{font-family:var(--font-mono);font-size:12px;padding:10px 22px;border:1px solid var(--cyan);color:var(--cyan);border-radius:2px;background:transparent;cursor:pointer;text-decoration:none;transition:background .2s,color .2s;letter-spacing:1px}
+.nav-cta:hover{background:var(--cyan);color:var(--bg)}
+.nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer}
+.nav-hamburger span{width:24px;height:1px;background:var(--white);display:block;transition:.3s}
+
+/* Layout */
+section{position:relative;z-index:1}
+.container{max-width:1200px;margin:0 auto;padding:0 48px}
+
+/* Hero */
+#hero{min-height:100vh;display:flex;align-items:center;padding:0;position:relative;overflow:hidden}
+.hero-inner{padding:120px 48px 80px;max-width:1200px;margin:0 auto;width:100%}
+.hero-tag{font-family:var(--font-mono);font-size:12px;color:var(--cyan);letter-spacing:4px;text-transform:uppercase;opacity:0;margin-bottom:28px;display:flex;align-items:center;gap:12px}
+.hero-tag::before{content:'';width:40px;height:1px;background:var(--cyan)}
+.hero-name{font-family:var(--font-display);font-size:clamp(56px,9vw,120px);font-weight:700;line-height:.9;letter-spacing:-3px;opacity:0;margin-bottom:32px}
+.hero-name .line1{display:block;color:var(--white)}
+.hero-name .line2{display:block;background:linear-gradient(135deg,var(--cyan) 0%,var(--purple) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-tagline{font-size:clamp(16px,2.5vw,22px);color:var(--muted);font-weight:400;max-width:580px;line-height:1.6;opacity:0;margin-bottom:48px}
+.hero-roles{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:56px;opacity:0}
+.role-chip{font-family:var(--font-mono);font-size:12px;padding:8px 18px;border:1px solid var(--glass-border);border-radius:2px;color:var(--muted);background:var(--glass);backdrop-filter:blur(10px);transition:all .3s}
+.role-chip.active,.role-chip:hover{border-color:var(--cyan);color:var(--cyan);background:rgba(0,212,255,0.05)}
+.hero-actions{display:flex;gap:20px;opacity:0;flex-wrap:wrap}
+.btn-primary{padding:16px 36px;background:linear-gradient(135deg,var(--cyan),var(--purple));color:var(--bg);font-family:var(--font-display);font-weight:700;font-size:15px;border:none;border-radius:2px;cursor:pointer;text-decoration:none;transition:opacity .2s,transform .2s,box-shadow .2s;display:inline-block}
+.btn-primary:hover{opacity:.9;transform:translateY(-2px);box-shadow:var(--glow-cyan)}
+.btn-ghost{padding:16px 36px;background:transparent;color:var(--white);font-family:var(--font-display);font-weight:600;font-size:15px;border:1px solid var(--glass-border);border-radius:2px;cursor:pointer;text-decoration:none;transition:all .3s;display:inline-block}
+.btn-ghost:hover{border-color:var(--white)}
+.hero-stats{position:absolute;right:48px;bottom:80px;display:flex;flex-direction:column;gap:32px;opacity:0}
+.stat-num{font-family:var(--font-display);font-size:36px;font-weight:700;background:linear-gradient(135deg,var(--cyan),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.stat-label{font-size:12px;color:var(--muted);letter-spacing:1px;margin-top:4px}
+.scroll-hint{position:absolute;bottom:32px;left:48px;font-family:var(--font-mono);font-size:11px;color:var(--muted);letter-spacing:3px;display:flex;align-items:center;gap:12px;animation:scrollHint 2s ease-in-out infinite}
+.scroll-hint::after{content:'';width:1px;height:40px;background:linear-gradient(to bottom,var(--muted),transparent)}
+@keyframes scrollHint{0%,100%{opacity:.4;transform:translateY(0)}50%{opacity:1;transform:translateY(-4px)}}
+
+/* About */
+#about{padding:140px 0}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.section-eyebrow{font-family:var(--font-mono);font-size:12px;color:var(--cyan);letter-spacing:4px;text-transform:uppercase;margin-bottom:24px;display:flex;align-items:center;gap:12px}
+.section-eyebrow::before{content:'';width:32px;height:1px;background:var(--cyan)}
+.section-title{font-family:var(--font-display);font-size:clamp(32px,5vw,52px);font-weight:700;letter-spacing:-1.5px;line-height:1.1;margin-bottom:24px}
+.section-title .accent{color:var(--cyan)}
+.about-text{font-size:16px;line-height:1.8;color:var(--muted);margin-bottom:20px}
+.about-text strong{color:var(--white);font-weight:500}
+.about-main-card{background:var(--glass);border:1px solid var(--glass-border);border-radius:4px;padding:40px;position:relative;overflow:hidden}
+.about-main-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent)}
+.card-label{font-family:var(--font-mono);font-size:10px;color:var(--muted);letter-spacing:3px;text-transform:uppercase;margin-bottom:16px}
+.location-line{font-family:var(--font-display);font-size:22px;font-weight:600;color:var(--white);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.location-dot{width:8px;height:8px;background:var(--cyan);border-radius:50%;box-shadow:0 0 12px var(--cyan);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.7;transform:scale(1.4)}}
+.available-tag{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:11px;color:var(--green);background:rgba(0,255,135,0.08);border:1px solid rgba(0,255,135,0.2);padding:6px 14px;border-radius:2px;margin-top:16px;letter-spacing:1px}
+.available-tag::before{content:'';width:6px;height:6px;background:var(--green);border-radius:50%;animation:pulse 1.5s ease-in-out infinite}
+.floating-tag{position:absolute;background:var(--glass);border:1px solid var(--glass-border);backdrop-filter:blur(20px);border-radius:4px;padding:14px 18px;font-family:var(--font-mono);font-size:11px;white-space:nowrap}
+.ft1{top:-24px;right:-24px;color:var(--cyan)}
+.ft2{bottom:-20px;left:-24px;color:var(--purple)}
+.about-card-wrap{position:relative}
+
+/* Timeline */
+#journey{padding:140px 0;background:var(--bg2)}
+.timeline{position:relative;margin-top:80px}
+.timeline::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent,var(--glass-border),var(--cyan),var(--glass-border),transparent);transform:translateX(-50%)}
+.timeline-item{display:grid;grid-template-columns:1fr 60px 1fr;gap:0;margin-bottom:80px;position:relative}
+.timeline-item:nth-child(odd) .tl-content{grid-column:1;text-align:right}
+.timeline-item:nth-child(odd) .tl-spacer{grid-column:2}
+.timeline-item:nth-child(odd) .tl-empty{grid-column:3}
+.timeline-item:nth-child(odd) .tl-tags{justify-content:flex-end}
+.timeline-item:nth-child(even) .tl-content{grid-column:3}
+.timeline-item:nth-child(even) .tl-spacer{grid-column:2}
+.timeline-item:nth-child(even) .tl-empty{grid-column:1}
+.tl-spacer{display:flex;align-items:flex-start;justify-content:center;padding-top:20px}
+.tl-dot{width:14px;height:14px;border-radius:50%;background:var(--bg);border:2px solid var(--cyan);box-shadow:0 0 20px rgba(0,212,255,0.4);position:relative;z-index:1;transition:all .3s;flex-shrink:0}
+.tl-dot.purple{border-color:var(--purple);box-shadow:0 0 20px rgba(123,47,255,0.4)}
+.timeline-item:hover .tl-dot{transform:scale(1.5)}
+.tl-content{padding:0 40px}
+.tl-period{font-family:var(--font-mono);font-size:11px;color:var(--muted);letter-spacing:2px;margin-bottom:12px;text-transform:uppercase}
+.tl-title{font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--white);margin-bottom:4px}
+.tl-company{font-size:14px;color:var(--cyan);margin-bottom:16px;font-weight:500}
+.tl-desc{font-size:14px;color:var(--muted);line-height:1.7}
+.tl-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.tl-tag{font-family:var(--font-mono);font-size:10px;padding:4px 10px;border:1px solid var(--glass-border);color:var(--muted);border-radius:2px;letter-spacing:1px}
+/* App chips inside timeline */
+.tl-apps{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.timeline-item:nth-child(odd) .tl-apps{justify-content:flex-end}
+.app-chip{font-size:11px;padding:5px 12px;background:rgba(0,212,255,0.06);border:1px solid rgba(0,212,255,0.15);color:var(--cyan);border-radius:2px;font-family:var(--font-mono)}
+.app-chip.warm{background:rgba(255,107,53,0.06);border-color:rgba(255,107,53,0.2);color:var(--warm)}
+
+/* Skills */
+#skills{padding:140px 0}
+.skills-header{text-align:center;margin-bottom:80px}
+#skill-canvas-wrap{width:100%;height:500px;position:relative;margin-bottom:60px;cursor:crosshair}
+#skill-canvas{width:100%;height:100%}
+.skill-tooltip{position:absolute;background:rgba(10,10,18,0.96);border:1px solid var(--glass-border);border-radius:4px;padding:16px 20px;pointer-events:none;opacity:0;transition:opacity .2s;backdrop-filter:blur(20px);min-width:220px;box-shadow:var(--glow-cyan)}
+.skill-tooltip-name{font-family:var(--font-display);font-size:16px;font-weight:700;color:var(--white);margin-bottom:6px}
+.skill-tooltip-bar{height:2px;background:var(--glass-border);border-radius:1px;margin:10px 0;overflow:hidden}
+.skill-tooltip-fill{height:100%;background:linear-gradient(90deg,var(--purple),var(--cyan));border-radius:1px}
+.skill-tooltip-meta{font-size:12px;color:var(--muted)}
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:2px}
+.skill-card{background:var(--glass);border:1px solid var(--glass-border);padding:24px;transition:all .3s;position:relative;overflow:hidden;cursor:pointer}
+.skill-card::before{content:'';position:absolute;inset:0;opacity:0;background:linear-gradient(135deg,rgba(0,212,255,0.05),rgba(123,47,255,0.05));transition:opacity .3s}
+.skill-card:hover::before{opacity:1}
+.skill-card:hover{border-color:rgba(0,212,255,0.3);transform:translateY(-2px)}
+.skill-icon{font-size:28px;margin-bottom:12px}
+.skill-name{font-family:var(--font-display);font-size:15px;font-weight:600;color:var(--white);margin-bottom:6px}
+.skill-lvl{font-family:var(--font-mono);font-size:11px;color:var(--cyan);letter-spacing:2px}
+
+/* Company badge */
+.company-badge{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:11px;padding:6px 14px;border-radius:2px;letter-spacing:1px;margin-bottom:16px}
+.badge-apple{background:rgba(0,212,255,0.06);border:1px solid rgba(0,212,255,0.2);color:var(--cyan)}
+.badge-pdha{background:rgba(255,107,53,0.06);border:1px solid rgba(255,107,53,0.2);color:var(--warm)}
+
+/* Projects */
+#projects{padding:140px 0;background:var(--bg2)}
+.projects-header{margin-bottom:80px}
+
+/* Tab system */
+.proj-tabs{display:flex;gap:2px;margin-bottom:48px;flex-wrap:wrap}
+.proj-tab{font-family:var(--font-mono);font-size:12px;padding:12px 24px;background:var(--glass);border:1px solid var(--glass-border);color:var(--muted);cursor:pointer;transition:all .3s;letter-spacing:1px}
+.proj-tab.active,.proj-tab:hover{background:rgba(0,212,255,0.08);border-color:var(--cyan);color:var(--cyan)}
+.proj-panel{display:none}
+.proj-panel.active{display:block}
+
+.projects-grid{display:grid;gap:2px}
+.project-card{background:var(--glass);border:1px solid var(--glass-border);padding:48px;display:grid;grid-template-columns:1fr auto;gap:48px;align-items:start;transition:all .4s;position:relative;overflow:hidden;cursor:pointer}
+.project-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);transform:scaleX(0);transition:transform .4s}
+.project-card:hover::after{transform:scaleX(1)}
+.project-card:hover{background:rgba(0,212,255,0.02)}
+.project-number{font-family:var(--font-mono);font-size:11px;color:var(--muted);letter-spacing:3px;margin-bottom:20px}
+.project-title{font-family:var(--font-display);font-size:clamp(20px,3vw,30px);font-weight:700;color:var(--white);margin-bottom:8px;line-height:1.2}
+.project-subtitle{font-size:14px;color:var(--cyan);margin-bottom:20px;font-weight:500}
+.project-desc{font-size:15px;color:var(--muted);line-height:1.7;margin-bottom:24px;max-width:600px}
+.project-impact{display:flex;flex-wrap:wrap;gap:24px;margin-bottom:28px}
+.impact-item{display:flex;flex-direction:column}
+.impact-num{font-family:var(--font-display);font-size:28px;font-weight:700;background:linear-gradient(135deg,var(--cyan),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.impact-label{font-size:12px;color:var(--muted)}
+.project-tech{display:flex;flex-wrap:wrap;gap:8px}
+.tech-chip{font-family:var(--font-mono);font-size:11px;padding:6px 12px;background:rgba(0,212,255,0.06);border:1px solid rgba(0,212,255,0.15);color:var(--cyan);border-radius:2px;letter-spacing:.5px}
+.tech-chip.warm{background:rgba(255,107,53,0.06);border-color:rgba(255,107,53,0.2);color:var(--warm)}
+.project-right{display:flex;flex-direction:column;align-items:flex-end;gap:16px}
+.project-visual{width:130px;height:190px;border-radius:4px;overflow:hidden;flex-shrink:0}
+.project-visual-inner{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:52px;border:1px solid var(--glass-border);border-radius:4px}
+.project-arrow{font-size:24px;color:var(--muted);transition:color .3s,transform .3s}
+.project-card:hover .project-arrow{color:var(--cyan);transform:translate(4px,-4px)}
+
+/* Experience */
+#experience{padding:140px 0}
+.exp-card{background:var(--glass);border:1px solid var(--glass-border);padding:48px;border-radius:4px;position:relative;overflow:hidden;margin-bottom:2px}
+.exp-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--cyan),var(--purple))}
+.exp-card.warm-accent::before{background:linear-gradient(to bottom,var(--warm),var(--purple))}
+.exp-header{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px;margin-bottom:24px}
+.exp-role{font-family:var(--font-display);font-size:24px;font-weight:700;color:var(--white)}
+.exp-company{font-size:16px;color:var(--cyan);margin-top:4px;font-weight:500}
+.exp-company.warm{color:var(--warm)}
+.exp-period{font-family:var(--font-mono);font-size:12px;color:var(--muted);border:1px solid var(--glass-border);padding:6px 14px;border-radius:2px;letter-spacing:1px;white-space:nowrap}
+.exp-bullets{list-style:none;display:flex;flex-direction:column;gap:12px}
+.exp-bullets li{display:flex;gap:16px;font-size:15px;color:var(--muted);line-height:1.6}
+.exp-bullets li::before{content:'→';color:var(--cyan);font-family:var(--font-mono);font-size:12px;margin-top:3px;flex-shrink:0}
+.exp-bullets li.warm-arrow::before{color:var(--warm)}
+.exp-bullets strong{color:var(--white);font-weight:500}
+.exp-app-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-top:28px;padding-top:28px;border-top:1px solid var(--glass-border)}
+.exp-app-item{background:rgba(255,255,255,0.03);border:1px solid var(--glass-border);border-radius:3px;padding:14px 16px;transition:all .3s}
+.exp-app-item:hover{border-color:rgba(0,212,255,0.25);background:rgba(0,212,255,0.04)}
+.exp-app-name{font-family:var(--font-display);font-size:14px;font-weight:600;color:var(--white);margin-bottom:4px}
+.exp-app-tag{font-family:var(--font-mono);font-size:10px;color:var(--muted);letter-spacing:1px}
+
+/* Tech ticker */
+#techstack{padding:100px 0;background:var(--bg2)}
+.tech-scroll-wrap{overflow:hidden;position:relative}
+.tech-scroll-track{display:flex;gap:2px;width:max-content;animation:scrollTrack 35s linear infinite}
+.tech-scroll-track:hover{animation-play-state:paused}
+@keyframes scrollTrack{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.tech-item{background:var(--glass);border:1px solid var(--glass-border);padding:20px 32px;white-space:nowrap;display:flex;align-items:center;gap:12px;font-family:var(--font-display);font-size:15px;font-weight:500;color:var(--muted);transition:all .3s;flex-shrink:0}
+.tech-item:hover{color:var(--white);background:rgba(255,255,255,0.06)}
+.tech-item-icon{font-size:20px}
+
+/* Hire */
+#hire{padding:140px 0}
+.hire-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2px;margin-top:80px}
+.hire-card{padding:40px;background:var(--glass);border:1px solid var(--glass-border);transition:all .4s;position:relative;overflow:hidden}
+.hire-card:hover{background:rgba(0,212,255,0.03);border-color:rgba(0,212,255,0.2);transform:translateY(-4px)}
+.hire-icon{font-size:36px;margin-bottom:20px}
+.hire-title{font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--white);margin-bottom:12px}
+.hire-desc{font-size:14px;color:var(--muted);line-height:1.7}
+
+/* Contact */
+#contact{padding:140px 0;text-align:center;position:relative;overflow:hidden}
+#contact::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(123,47,255,0.08) 0%,transparent 70%);pointer-events:none}
+.contact-big{font-family:var(--font-display);font-size:clamp(48px,8vw,100px);font-weight:700;letter-spacing:-3px;line-height:1;margin-bottom:32px}
+.contact-big .grad{background:linear-gradient(135deg,var(--cyan),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.contact-sub{font-size:18px;color:var(--muted);margin:0 auto 48px;max-width:480px}
+.contact-links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.contact-link{display:flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:13px;color:var(--muted);text-decoration:none;padding:12px 24px;border:1px solid var(--glass-border);border-radius:2px;transition:all .3s}
+.contact-link:hover{color:var(--cyan);border-color:var(--cyan);background:rgba(0,212,255,0.04)}
+
+/* Footer */
+footer{padding:40px 48px;border-top:1px solid var(--glass-border);display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--muted);flex-wrap:wrap;gap:16px}
+footer span{color:var(--white)}
+
+/* Reveal */
+.reveal{opacity:0;transform:translateY(40px)}
+
+/* Mobile */
+@media(max-width:768px){
+  nav{padding:16px 24px}
+  .nav-links{display:none}
+  .nav-hamburger{display:flex}
+  nav.menu-open .nav-links{display:flex;flex-direction:column;position:fixed;top:0;left:0;right:0;bottom:0;background:var(--bg);align-items:center;justify-content:center;font-size:20px;gap:32px;z-index:99}
+  .hero-inner{padding:100px 24px 60px}
+  .hero-stats{display:none}
+  .container{padding:0 24px}
+  .about-grid{grid-template-columns:1fr;gap:48px}
+  .timeline::before{left:24px}
+  .timeline-item{grid-template-columns:48px 1fr}
+  .timeline-item:nth-child(odd) .tl-content,.timeline-item:nth-child(even) .tl-content{grid-column:2;text-align:left}
+  .timeline-item:nth-child(odd) .tl-tags,.timeline-item:nth-child(odd) .tl-apps{justify-content:flex-start}
+  .timeline-item:nth-child(odd) .tl-empty,.timeline-item:nth-child(even) .tl-empty{display:none}
+  .tl-spacer{grid-column:1}
+  .tl-content{padding:0 0 0 24px}
+  .project-card{grid-template-columns:1fr;padding:28px;gap:24px}
+  .project-right{align-items:flex-start}
+  .project-visual{width:80px;height:110px}
+  .exp-header{flex-direction:column}
+  footer{padding:24px}
+  #cursor,#cursor-ring{display:none}
+  .ft1,.ft2{display:none}
+}
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- Loader -->
+<div id="loader">
+  <div id="loader-label">Initialising</div>
+  <div id="loader-bar-wrap"><div id="loader-bar"></div></div>
+  <div id="loader-pct">000%</div>
+</div>
+
+<canvas id="hero-canvas"></canvas>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#hero" class="nav-logo">Sonu Shah</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#journey">Journey</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="mailto:sonu.shah99098@gmail.com" class="nav-cta">Hire Me →</a>
+  <div class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">Available for relocation · Ahmedabad → Germany / Dubai</div>
+    <h1 class="hero-name">
+      <span class="line1">Sonu</span>
+      <span class="line2">Shah.</span>
+    </h1>
+    <p class="hero-tagline">
+      I build premium mobile &amp; desktop experiences — iOS, macOS, Android — that feel native, perform at scale, and ship on time.
+    </p>
+    <div class="hero-roles">
+      <span class="role-chip active">Flutter Developer</span>
+      <span class="role-chip">iOS &amp; macOS Engineer</span>
+      <span class="role-chip">VoIP / Twilio</span>
+      <span class="role-chip">Custom Editor Builder</span>
+      <span class="role-chip">Firebase Expert</span>
+    </div>
+    <div class="hero-actions">
+      <a href="#projects" class="btn-primary">View My Work</a>
+      <a href="mailto:sonu.shah99098@gmail.com" class="btn-ghost">Let's Talk</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num" data-count="12">0</div>
+      <div class="stat-label">Production Apps</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" data-count="2">0</div>
+      <div class="stat-label">Years Experience</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" data-count="3">0</div>
+      <div class="stat-label">Custom Editors Built</div>
+    </div>
+  </div>
+  <div class="scroll-hint">SCROLL</div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-left reveal">
+        <div class="section-eyebrow">About Me</div>
+        <h2 class="section-title">Engineering depth.<br><span class="accent">Product mindset.</span></h2>
+        <p class="about-text">
+          I'm a Flutter developer based in Ahmedabad with <strong>2+ years of production experience</strong> shipping apps across iOS, macOS, iPad, and Android. I've built everything from VoIP calling apps with Twilio to custom graphic design editors with drawing engines — all from a single Dart codebase.
+        </p>
+        <p class="about-text">
+          At <strong>Applie Info Solution</strong> I ship iOS and macOS apps — WiFi calling with Twilio SDK, eSign, PDF Maker, Voice Memo, and three full custom creative editors (Logo Maker, Invitation Maker, Graphic Design). At <strong>Pdhamecha LLP</strong> I built Android apps including Cloud Vidhya's e-learning platform and a full HRMS with geolocation and payroll.
+        </p>
+        <p class="about-text">
+          Targeting <strong>Senior Flutter / Mobile Engineer roles in Germany and Dubai</strong>. Open to relocation. Available immediately.
+        </p>
+        <div class="available-tag">Open to Work · Relocation Ready</div>
+      </div>
+      <div class="about-right reveal">
+        <div class="about-card-wrap">
+          <div class="about-main-card">
+            <div class="card-label">Current Base</div>
+            <div class="location-line"><span class="location-dot"></span>Ahmedabad, India</div>
+            <div style="font-size:14px;color:var(--muted);margin-top:4px">GMT+5:30 · Targeting Germany / Dubai</div>
+            <div style="margin-top:24px;border-top:1px solid var(--glass-border);padding-top:24px">
+              <div class="card-label">Current Company</div>
+              <div style="font-size:15px;color:var(--white);font-weight:600">Applie Info Solution Pvt. Ltd.</div>
+              <div style="font-size:13px;color:var(--cyan)">Flutter Developer · iOS &amp; macOS</div>
+            </div>
+            <div style="margin-top:24px;border-top:1px solid var(--glass-border);padding-top:24px">
+              <div class="card-label">Core Stack</div>
+              <div style="font-family:var(--font-mono);font-size:13px;color:var(--cyan);line-height:2.2">
+                Flutter · Dart · Firebase<br>
+                GetX · Bloc · Twilio Voice SDK<br>
+                iOS · macOS · Swift Channels
+              </div>
+            </div>
+            <div style="margin-top:24px;border-top:1px solid var(--glass-border);padding-top:24px">
+              <div class="card-label">Education</div>
+              <div style="font-size:14px;color:var(--white);font-weight:500">MCA — LJ Institute of Computer Applications</div>
+              <div style="font-size:13px;color:var(--muted)">Top 10% of batch · 2022–2024</div>
+            </div>
+          </div>
+          <div class="floating-tag ft1">🍎 iOS · macOS · iPad</div>
+          <div class="floating-tag ft2">📞 Twilio VoIP Expert</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- JOURNEY -->
+<section id="journey">
+  <div class="container">
+    <div class="section-eyebrow reveal" style="justify-content:center">Journey</div>
+    <h2 class="section-title reveal" style="text-align:center">How I got here</h2>
+    <div class="timeline">
+
+      <!-- Current: Applie Info Solution -->
+      <div class="timeline-item">
+        <div class="tl-content reveal">
+          <div class="tl-period">Fab 2026 – Present</div>
+          <div class="company-badge badge-apple">🍎 Current Role</div>
+          <div class="tl-title">Flutter Developer</div>
+          <div class="tl-company">Applie Info Solution Pvt. Ltd. · Ahmedabad</div>
+          <div class="tl-desc">Building iOS and macOS production apps. Specialising in VoIP calling with Twilio Voice SDK, custom creative editors with drawing engines, document tools, and App Store deployment.</div>
+          <div class="tl-apps">
+            <span class="app-chip">WiFi Calling App</span>
+            <span class="app-chip">eSign</span>
+            <span class="app-chip">PDF Maker</span>
+            <span class="app-chip">Voice Memo</span>
+            <span class="app-chip">Self Employed</span>
+            <span class="app-chip">BG Remover</span>
+            <span class="app-chip">Logo Maker</span>
+            <span class="app-chip">Invitation Maker</span>
+            <span class="app-chip">Graphic Design App</span>
+          </div>
+          <div class="tl-tags" style="margin-top:12px">
+            <span class="tl-tag">iOS</span><span class="tl-tag">macOS</span>
+            <span class="tl-tag">Twilio SDK</span><span class="tl-tag">GetX</span>
+            <span class="tl-tag">App Store</span><span class="tl-tag">IAP</span>
+          </div>
+        </div>
+        <div class="tl-spacer"><div class="tl-dot"></div></div>
+        <div class="tl-empty"></div>
+      </div>
+
+      <!-- Pdhamecha LLP -->
+      <div class="timeline-item">
+        <div class="tl-empty"></div>
+        <div class="tl-spacer"><div class="tl-dot purple"></div></div>
+        <div class="tl-content reveal">
+          <div class="tl-period">Jun 2024 – Dec 2024</div>
+          <div class="company-badge badge-pdha">📱 Previous Role</div>
+          <div class="tl-title">Flutter Developer</div>
+          <div class="tl-company">Pdhamecha LLP · Ahmedabad</div>
+          <div class="tl-desc">Built production Android apps spanning e-learning and HR/enterprise automation. Delivered WebRTC live video, full HRMS with real-time geolocation tracking, payroll, and attendance.</div>
+          <div class="tl-apps">
+            <span class="app-chip warm">Cloud Vidhya</span>
+            <span class="app-chip warm">HRMS + Geolocation</span>
+          </div>
+          <div class="tl-tags" style="margin-top:12px">
+            <span class="tl-tag">Android</span><span class="tl-tag">WebRTC</span>
+            <span class="tl-tag">Google Maps</span><span class="tl-tag">Bloc</span>
+            <span class="tl-tag">Firebase</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Education -->
+      <div class="timeline-item">
+        <div class="tl-content reveal">
+          <div class="tl-period">2022 – 2024</div>
+          <div class="tl-title">Master of Computer Applications</div>
+          <div class="tl-company">LJ Institute of Computer Applications · Ahmedabad</div>
+          <div class="tl-desc">Graduated in the top 10% of batch. Core coursework in DSA, OOP, DBMS, Computer Networks, and Mobile Development — built the engineering foundation for production-grade work.</div>
+          <div class="tl-tags">
+            <span class="tl-tag">Top 10%</span><span class="tl-tag">DSA</span>
+            <span class="tl-tag">OOP</span><span class="tl-tag">DBMS</span>
+          </div>
+        </div>
+        <div class="tl-spacer"><div class="tl-dot"></div></div>
+        <div class="tl-empty"></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="container">
+    <div class="skills-header reveal">
+      <div class="section-eyebrow" style="justify-content:center">Skills</div>
+      <h2 class="section-title">The <span class="accent">constellation</span><br>I ship with.</h2>
+      <p style="color:var(--muted);margin-top:16px;font-size:16px">Hover each node to explore depth &amp; context</p>
+    </div>
+    <div id="skill-canvas-wrap">
+      <canvas id="skill-canvas"></canvas>
+      <div class="skill-tooltip" id="skill-tooltip">
+        <div class="skill-tooltip-name" id="tt-name"></div>
+        <div class="skill-tooltip-bar"><div class="skill-tooltip-fill" id="tt-bar"></div></div>
+        <div class="skill-tooltip-meta" id="tt-meta"></div>
+      </div>
+    </div>
+    <div class="skills-grid reveal">
+      <div class="skill-card"><div class="skill-icon">🎯</div><div class="skill-name">Flutter</div><div class="skill-lvl">EXPERT</div></div>
+      <div class="skill-card"><div class="skill-icon">🍎</div><div class="skill-name">iOS / macOS</div><div class="skill-lvl">ADVANCED</div></div>
+      <div class="skill-card"><div class="skill-icon">🔥</div><div class="skill-name">Firebase</div><div class="skill-lvl">EXPERT</div></div>
+      <div class="skill-card"><div class="skill-icon">⚡</div><div class="skill-name">GetX / Bloc</div><div class="skill-lvl">EXPERT</div></div>
+      <div class="skill-card"><div class="skill-icon">📞</div><div class="skill-name">Twilio Voice</div><div class="skill-lvl">ADVANCED</div></div>
+      <div class="skill-card"><div class="skill-icon">🎨</div><div class="skill-name">Custom Editors</div><div class="skill-lvl">ADVANCED</div></div>
+      <div class="skill-card"><div class="skill-icon">📡</div><div class="skill-name">WebRTC</div><div class="skill-lvl">ADVANCED</div></div>
+      <div class="skill-card"><div class="skill-icon">💳</div><div class="skill-name">StoreKit / IAP</div><div class="skill-lvl">ADVANCED</div></div>
+      <div class="skill-card"><div class="skill-icon">🗺️</div><div class="skill-name">Google Maps</div><div class="skill-lvl">ADVANCED</div></div>
+      <div class="skill-card"><div class="skill-icon">📄</div><div class="skill-name">PDF / Document</div><div class="skill-lvl">ADVANCED</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="container">
+    <div class="projects-header reveal">
+      <div class="section-eyebrow">Projects</div>
+      <h2 class="section-title">12 apps. 2 companies.<br><span class="accent">All production.</span></h2>
+    </div>
+
+    <!-- Tab selector -->
+    <div class="proj-tabs reveal">
+      <div class="proj-tab active" onclick="switchTab('applie')">🍎 Applie Info Solution</div>
+      <div class="proj-tab" onclick="switchTab('pdha')">📱 Pdhamecha LLP</div>
+    </div>
+
+    <!-- APPLIE panel -->
+    <div class="proj-panel active" id="panel-applie">
+      <div class="projects-grid">
+
+        <div class="project-card reveal">
+          <div>
+            <div class="project-number">01 / VOIP · iOS · iPad</div>
+            <div class="project-title">WiFi Calling App</div>
+            <div class="project-subtitle">Twilio Voice SDK — second phone number dialer for iOS &amp; iPad</div>
+            <p class="project-desc">Full-featured WiFi calling app built with <strong style="color:var(--white)">Twilio Voice SDK and Plugin</strong> for iOS and iPadOS. CallKit-style active call UI with DTMF keypad, audio device routing (earpiece / speaker / Bluetooth), and animated call screen transitions. Two-tier <strong style="color:var(--white)">StoreKit IAP subscription system</strong> with reactive GetX state. Native Swift method channels bridge audio session and CallKit flows.</p>
+            <div class="project-impact">
+              <div class="impact-item"><div class="impact-num">iOS+iPad</div><div class="impact-label">Platform</div></div>
+              <div class="impact-item"><div class="impact-num">Twilio</div><div class="impact-label">Voice SDK</div></div>
+              <div class="impact-item"><div class="impact-num">IAP</div><div class="impact-label">Subscription Gated</div></div>
+            </div>
+            <div class="project-tech">
+              <span class="tech-chip">Flutter</span><span class="tech-chip">Twilio Voice SDK</span>
+              <span class="tech-chip">Swift Channels</span><span class="tech-chip">StoreKit IAP</span>
+              <span class="tech-chip">GetX</span><span class="tech-chip">CallKit</span>
+            </div>
+          </div>
+          <div class="project-right">
+            <div class="project-visual"><div class="project-visual-inner" style="background:linear-gradient(135deg,rgba(0,212,255,0.1),rgba(123,47,255,0.1))">📞</div></div>
+            <div class="project-arrow">↗</div>
+          </div>
+        </div>
+
+        <div class="project-card reveal">
+          <div>
+            <div class="project-number">02 / CREATIVE TOOLS · iOS · macOS</div>
+            <div class="project-title">Logo Maker · Invitation Maker · Graphic Design App</div>
+            <div class="project-subtitle">Three apps — one custom-built canvas editor engine</div>
+            <p class="project-desc">Three separate App Store apps sharing a <strong style="color:var(--white)">custom-built canvas editor</strong> — drag-and-drop elements, text styling, image layers, sticker packs, colour pickers, and export flows. The editor engine handles object selection, multi-layer z-ordering, gesture-based transformations (scale, rotate, translate), and canvas-to-image rendering. Each app has a distinct template library, brand kit, and IAP asset packs.</p>
+            <div class="project-impact">
+              <div class="impact-item"><div class="impact-num">3</div><div class="impact-label">Apps, 1 Editor Engine</div></div>
+              <div class="impact-item"><div class="impact-num">Custom</div><div class="impact-label">Canvas Renderer</div></div>
+              <div class="impact-item"><div class="impact-num">iOS+macOS</div><div class="impact-label">Platform</div></div>
+            </div>
+            <div class="project-tech">
+              <span class="tech-chip">Flutter</span><span class="tech-chip">Custom Canvas Editor</span>
+              <span class="tech-chip">Gesture Engine</span><span class="tech-chip">iOS · macOS</span>
+              <span class="tech-chip">IAP Asset Packs</span><span class="tech-chip">GetX</span>
+            </div>
+          </div>
+          <div class="project-right">
+            <div class="project-visual"><div class="project-visual-inner" style="background:linear-gradient(135deg,rgba(255,107,53,0.12),rgba(123,47,255,0.1))">🎨</div></div>
+            <div class="project-arrow">↗</div>
+          </div>
+        </div>
+
+        <div class="project-card reveal">
+          <div>
+            <div class="project-number">03 / DOCUMENT TOOLS · iOS · macOS</div>
+            <div class="project-title">eSign · PDF Maker</div>
+            <div class="project-subtitle">Digital signing and document generation for iOS &amp; macOS</div>
+            <p class="project-desc"><strong style="color:var(--white)">eSign</strong> lets users draw, place, and apply digital signatures to PDFs with field detection and multi-page support. <strong style="color:var(--white)">PDF Maker</strong> generates formatted PDFs from templates — invoices, resumes, reports — with live preview, custom fonts, and native macOS print/share integration. Both apps support iCloud Drive and Files app integration.</p>
+            <div class="project-impact">
+              <div class="impact-item"><div class="impact-num">PDF</div><div class="impact-label">Generation + Signing</div></div>
+              <div class="impact-item"><div class="impact-num">iCloud</div><div class="impact-label">Drive Integrated</div></div>
+              <div class="impact-item"><div class="impact-num">macOS</div><div class="impact-label">Native Print</div></div>
+            </div>
+            <div class="project-tech">
+              <span class="tech-chip">Flutter</span><span class="tech-chip">PDF Kit</span>
+              <span class="tech-chip">iOS · macOS</span><span class="tech-chip">iCloud / Files</span>
+              <span class="tech-chip">share_plus</span>
+            </div>
+          </div>
+          <div class="project-right">
+            <div class="project-visual"><div class="project-visual-inner" style="background:linear-gradient(135deg,rgba(0,255,135,0.08),rgba(0,212,255,0.1))">✍️</div></div>
+            <div class="project-arrow">↗</div>
+          </div>
+        </div>
+
+        <div class="project-card reveal">
+          <div>
+            <div class="project-number">04 / UTILITIES · iOS · macOS</div>
+            <div class="project-title">Voice Memo · Self Employed · BG Remover</div>
+            <div class="project-subtitle">Three utility apps — audio, freelance tracking, AI image processing</div>
+            <p class="project-desc"><strong style="color:var(--white)">Voice Memo</strong> — high-fidelity recording with waveform visualisation, playback controls, and Hive local storage with build_runner codegen. <strong style="color:var(--white)">Self Employed</strong> — freelance income tracker with invoicing, expense tagging, and tax summary views. <strong style="color:var(--white)">BG Remover</strong> — isolate-based background removal pipeline with split-panel desktop layout, sticker overlays, and mobile export.</p>
+            <div class="project-impact">
+              <div class="impact-item"><div class="impact-num">3</div><div class="impact-label">Utility Apps</div></div>
+              <div class="impact-item"><div class="impact-num">Isolate</div><div class="impact-label">Based Processing</div></div>
+              <div class="impact-item"><div class="impact-num">iOS+macOS</div><div class="impact-label">Platform</div></div>
+            </div>
+            <div class="project-tech">
+              <span class="tech-chip">Flutter</span><span class="tech-chip">Hive + build_runner</span>
+              <span class="tech-chip">AudioSession</span><span class="tech-chip">Dart Isolates</span>
+              <span class="tech-chip">iOS · macOS Desktop</span>
+            </div>
+          </div>
+          <div class="project-right">
+            <div class="project-visual"><div class="project-visual-inner" style="background:linear-gradient(135deg,rgba(123,47,255,0.12),rgba(0,212,255,0.08))">🛠️</div></div>
+            <div class="project-arrow">↗</div>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- /panel-applie -->
+
+    <!-- PDHAMECHA panel -->
+    <div class="proj-panel" id="panel-pdha">
+      <div class="projects-grid">
+
+        <div class="project-card reveal">
+          <div>
+            <div class="project-number">01 / EDTECH · Android</div>
+            <div class="project-title">Cloud Vidhya</div>
+            <div class="project-subtitle">Live e-learning platform — WebRTC video classes · Android</div>
+            <p class="project-desc">E-learning platform built at Pdhamecha LLP for Android. <strong style="color:var(--white)">WebRTC live video classes</strong> powered by a custom Node.js signalling server, optimised media caching for smooth playback, gamified learning paths, quizzes, and FCM push notifications. Bloc state management ensures predictable UI across complex async flows.</p>
+            <div class="project-impact">
+              <div class="impact-item"><div class="impact-num">65%</div><div class="impact-label">Engagement ↑</div></div>
+              <div class="impact-item"><div class="impact-num">WebRTC</div><div class="impact-label">Live Classes</div></div>
+              <div class="impact-item"><div class="impact-num">Android</div><div class="impact-label">Platform</div></div>
+            </div>
+            <div class="project-tech">
+              <span class="tech-chip warm">Flutter Android</span><span class="tech-chip warm">WebRTC</span>
+              <span class="tech-chip warm">Node.js Signalling</span><span class="tech-chip warm">Bloc</span>
+              <span class="tech-chip warm">Firebase FCM</span>
+            </div>
+          </div>
+          <div class="project-right">
+            <div class="project-visual"><div class="project-visual-inner" style="background:linear-gradient(135deg,rgba(255,107,53,0.1),rgba(123,47,255,0.1))">🎓</div></div>
+            <div class="project-arrow">↗</div>
+          </div>
+        </div>
+
+        <div class="project-card reveal">
+          <div>
+            <div class="project-number">02 / ENTERPRISE · Android</div>
+            <div class="project-title">HRMS with Geolocation</div>
+            <div class="project-subtitle">Real-time location tracking · Attendance · Payroll · Employee management</div>
+            <p class="project-desc">Full HR Management System with <strong style="color:var(--white)">Google Maps real-time location tracking</strong> and geofenced punch-in/out. Features include automated attendance logs, payroll calculation, employee directory, leave management, and manager approval flows. Firestore real-time listeners power the live dashboard. Reduced manual HR workload by 70%.</p>
+            <div class="project-impact">
+              <div class="impact-item"><div class="impact-num">90%</div><div class="impact-label">Attendance Accuracy ↑</div></div>
+              <div class="impact-item"><div class="impact-num">70%</div><div class="impact-label">Manual Work ↓</div></div>
+              <div class="impact-item"><div class="impact-num">Real-time</div><div class="impact-label">Location Tracking</div></div>
+            </div>
+            <div class="project-tech">
+              <span class="tech-chip warm">Flutter Android</span><span class="tech-chip warm">Google Maps API</span>
+              <span class="tech-chip warm">Geofencing</span><span class="tech-chip warm">Firestore Realtime</span>
+              <span class="tech-chip warm">Firebase Auth</span><span class="tech-chip warm">Payroll Engine</span>
+            </div>
+          </div>
+          <div class="project-right">
+            <div class="project-visual"><div class="project-visual-inner" style="background:linear-gradient(135deg,rgba(255,107,53,0.12),rgba(255,165,0,0.08))">🏢</div></div>
+            <div class="project-arrow">↗</div>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- /panel-pdha -->
+
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-eyebrow">Experience</div>
+      <h2 class="section-title">Where I've <span class="accent">shipped</span> production.</h2>
+    </div>
+    <div style="margin-top:60px;display:flex;flex-direction:column;gap:2px">
+
+      <!-- Applie Info Solution -->
+      <div class="exp-card reveal">
+        <div class="exp-header">
+          <div>
+            <div class="company-badge badge-apple" style="margin-bottom:12px">🍎 Current</div>
+            <div class="exp-role">Flutter Developer</div>
+            <div class="exp-company">Applie Info Solution Pvt. Ltd. · Ahmedabad, India</div>
+          </div>
+          <div class="exp-period">Jan 2025 – Present</div>
+        </div>
+        <ul class="exp-bullets">
+          <li>Built <strong>WiFi Calling App</strong> using Twilio Voice SDK and Plugin for iOS and iPad — CallKit-style UI, DTMF keypad, audio device routing (earpiece/speaker/Bluetooth), native Swift method channels for audio session integration.</li>
+          <li>Engineered a <strong>two-tier StoreKit IAP subscription system</strong> with GetX reactive state, purchase persistence via GetStorage, and paywall screens with shimmer loading states.</li>
+          <li>Designed and built a <strong>custom canvas editor engine</strong> used across three App Store apps (Logo Maker, Invitation Maker, Graphic Design App) — multi-layer z-ordering, gesture-based transforms, sticker/image/text tools, and canvas-to-image export.</li>
+          <li>Delivered <strong>eSign</strong> (digital signature placement on PDFs, multi-page, field detection) and <strong>PDF Maker</strong> (template-based PDF generation with live preview and macOS native print/share).</li>
+          <li>Built <strong>Voice Memo</strong> with high-fidelity audio recording, waveform visualisation, and Hive local DB with build_runner codegen; <strong>BG Remover</strong> with isolate-based processing and adaptive desktop/mobile layout.</li>
+          <li>Built <strong>Self Employed</strong> — a freelance income and expense tracker with invoicing, tax summaries, and Firestore sync.</li>
+          <li>Managed App Store Connect deployments, TestFlight beta distribution, provisioning profiles, and CocoaPods dependency resolution across all iOS/macOS targets.</li>
+        </ul>
+        <div class="exp-app-grid">
+          <div class="exp-app-item"><div class="exp-app-name">📞 WiFi Calling</div><div class="exp-app-tag">TWILIO · IOS · IPAD</div></div>
+          <div class="exp-app-item"><div class="exp-app-name">✍️ eSign</div><div class="exp-app-tag">PDF · IOS · MACOS</div></div>
+          <div class="exp-app-item"><div class="exp-app-name">📄 PDF Maker</div><div class="exp-app-tag">DOCUMENT · IOS · MACOS</div></div>
+          <div class="exp-app-item"><div class="exp-app-name">🎙️ Voice Memo</div><div class="exp-app-tag">AUDIO · IOS · MACOS</div></div>
+          <div class="exp-app-item"><div class="exp-app-name">💼 Self Employed</div><div class="exp-app-tag">FINTECH · IOS</div></div>
+          <div class="exp-app-item"><div class="exp-app-name">🌄 BG Remover</div><div class="exp-app-tag">AI · IOS · MACOS</div></div>
+          <div class="exp-app-item"><div class="exp-app-name">🎨 Logo Maker</div><div class="exp-app-tag">EDITOR · IOS · MACOS</div></div>
+          <div class="exp-app-item"><div class="exp-app-name">💌 Invitation Maker</div><div class="exp-app-tag">EDITOR · IOS · MACOS</div></div>
+          <div class="exp-app-item"><div class="exp-app-name">🖌️ Graphic Design</div><div class="exp-app-tag">EDITOR · IOS · MACOS</div></div>
+        </div>
+      </div>
+
+      <!-- Pdhamecha LLP -->
+      <div class="exp-card warm-accent reveal">
+        <div class="exp-header">
+          <div>
+            <div class="company-badge badge-pdha" style="margin-bottom:12px">📱 Previous</div>
+            <div class="exp-role">Flutter Developer</div>
+            <div class="exp-company warm">Pdhamecha LLP · Ahmedabad, India</div>
+          </div>
+          <div class="exp-period">Jun 2024 – Dec 2024</div>
+        </div>
+        <ul class="exp-bullets">
+          <li class="warm-arrow">Built <strong>Cloud Vidhya</strong> — Android e-learning platform with WebRTC live video classes, a Node.js signalling server, optimised media caching, gamified learning paths, quizzes, and FCM push notifications.</li>
+          <li class="warm-arrow">Delivered <strong>HRMS with Geolocation</strong> — real-time employee location tracking via Google Maps API, geofenced attendance punch-in/out, payroll calculation, leave management, and manager approval flows using Firestore real-time listeners.</li>
+          <li class="warm-arrow">Achieved <strong>90% attendance accuracy improvement</strong> through geofencing and <strong>70% reduction in manual HR workload</strong> through automation and data-driven dashboards.</li>
+          <li class="warm-arrow">Managed <strong>Bloc state architecture</strong> across both apps — stream-based async flows, event-driven state transitions, and real-time UI updates.</li>
+        </ul>
+        <div class="exp-app-grid">
+          <div class="exp-app-item"><div class="exp-app-name">🎓 Cloud Vidhya</div><div class="exp-app-tag">EDTECH · ANDROID · WEBRTC</div></div>
+          <div class="exp-app-item"><div class="exp-app-name">🏢 HRMS + Geolocation</div><div class="exp-app-tag">ENTERPRISE · ANDROID · MAPS</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- TECH TICKER -->
+<section id="techstack">
+  <div style="text-align:center;margin-bottom:48px;padding:0 48px" class="reveal">
+    <div class="section-eyebrow" style="justify-content:center">Full Stack</div>
+    <h2 class="section-title">Everything I work with.</h2>
+  </div>
+  <div class="tech-scroll-wrap">
+    <div class="tech-scroll-track">
+      <div class="tech-item"><span class="tech-item-icon">🎯</span>Flutter</div>
+      <div class="tech-item"><span class="tech-item-icon">🐦</span>Dart</div>
+      <div class="tech-item"><span class="tech-item-icon">🍎</span>iOS · macOS · iPad</div>
+      <div class="tech-item"><span class="tech-item-icon">📞</span>Twilio Voice SDK</div>
+      <div class="tech-item"><span class="tech-item-icon">🔥</span>Firebase</div>
+      <div class="tech-item"><span class="tech-item-icon">⚡</span>GetX</div>
+      <div class="tech-item"><span class="tech-item-icon">🧱</span>Bloc</div>
+      <div class="tech-item"><span class="tech-item-icon">📡</span>WebRTC</div>
+      <div class="tech-item"><span class="tech-item-icon">🎨</span>Custom Canvas Editor</div>
+      <div class="tech-item"><span class="tech-item-icon">✍️</span>eSign · PDF</div>
+      <div class="tech-item"><span class="tech-item-icon">🗺️</span>Google Maps · Geofencing</div>
+      <div class="tech-item"><span class="tech-item-icon">💳</span>StoreKit IAP</div>
+      <div class="tech-item"><span class="tech-item-icon">🟡</span>Hive + build_runner</div>
+      <div class="tech-item"><span class="tech-item-icon">☁️</span>Firestore Realtime</div>
+      <div class="tech-item"><span class="tech-item-icon">🔐</span>Firebase Auth</div>
+      <div class="tech-item"><span class="tech-item-icon">🚀</span>Node.js Signalling</div>
+      <div class="tech-item"><span class="tech-item-icon">📦</span>App Store Connect</div>
+      <div class="tech-item"><span class="tech-item-icon">🧪</span>TestFlight</div>
+      <div class="tech-item"><span class="tech-item-icon">🌀</span>CocoaPods</div>
+      <div class="tech-item"><span class="tech-item-icon">🖼️</span>Dart Isolates</div>
+      <!-- duplicate for seamless scroll -->
+      <div class="tech-item"><span class="tech-item-icon">🎯</span>Flutter</div>
+      <div class="tech-item"><span class="tech-item-icon">🐦</span>Dart</div>
+      <div class="tech-item"><span class="tech-item-icon">🍎</span>iOS · macOS · iPad</div>
+      <div class="tech-item"><span class="tech-item-icon">📞</span>Twilio Voice SDK</div>
+      <div class="tech-item"><span class="tech-item-icon">🔥</span>Firebase</div>
+      <div class="tech-item"><span class="tech-item-icon">⚡</span>GetX</div>
+      <div class="tech-item"><span class="tech-item-icon">🧱</span>Bloc</div>
+      <div class="tech-item"><span class="tech-item-icon">📡</span>WebRTC</div>
+      <div class="tech-item"><span class="tech-item-icon">🎨</span>Custom Canvas Editor</div>
+      <div class="tech-item"><span class="tech-item-icon">✍️</span>eSign · PDF</div>
+      <div class="tech-item"><span class="tech-item-icon">🗺️</span>Google Maps · Geofencing</div>
+      <div class="tech-item"><span class="tech-item-icon">💳</span>StoreKit IAP</div>
+      <div class="tech-item"><span class="tech-item-icon">🟡</span>Hive + build_runner</div>
+      <div class="tech-item"><span class="tech-item-icon">☁️</span>Firestore Realtime</div>
+      <div class="tech-item"><span class="tech-item-icon">🔐</span>Firebase Auth</div>
+      <div class="tech-item"><span class="tech-item-icon">🚀</span>Node.js Signalling</div>
+      <div class="tech-item"><span class="tech-item-icon">📦</span>App Store Connect</div>
+      <div class="tech-item"><span class="tech-item-icon">🧪</span>TestFlight</div>
+      <div class="tech-item"><span class="tech-item-icon">🌀</span>CocoaPods</div>
+      <div class="tech-item"><span class="tech-item-icon">🖼️</span>Dart Isolates</div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY HIRE ME -->
+<section id="hire">
+  <div class="container">
+    <div class="reveal" style="text-align:center">
+      <div class="section-eyebrow" style="justify-content:center">Why Hire Me</div>
+      <h2 class="section-title">Not just a Flutter dev.<br><span class="accent">A mobile product engineer.</span></h2>
+    </div>
+    <div class="hire-grid">
+      <div class="hire-card reveal">
+        <div class="hire-icon">🍎</div>
+        <div class="hire-title">iOS & macOS Depth</div>
+        <div class="hire-desc">I own the Apple ecosystem layer — Twilio Voice SDK integration, Swift method channels, AudioSession, CallKit flows, StoreKit IAP, CocoaPods, TestFlight, and App Store Connect. Not just a Flutter wrapper — deep native integration experience.</div>
+      </div>
+      <div class="hire-card reveal">
+        <div class="hire-icon">🎨</div>
+        <div class="hire-title">Custom Editor Builder</div>
+        <div class="hire-desc">Built three App Store creative apps sharing one custom canvas engine — gesture-based transforms, multi-layer rendering, sticker/text/image tools, and export pipelines. From scratch. No third-party editor SDK.</div>
+      </div>
+      <div class="hire-card reveal">
+        <div class="hire-icon">📞</div>
+        <div class="hire-title">VoIP / Real-Time Expert</div>
+        <div class="hire-desc">Twilio Voice SDK for WiFi calling (iOS/iPad) and WebRTC peer-to-peer video for live e-learning — both built from scratch, production-deployed. Real-time communication is a core competency, not an add-on.</div>
+      </div>
+      <div class="hire-card reveal">
+        <div class="hire-icon">⚡</div>
+        <div class="hire-title">Ship Velocity</div>
+        <div class="hire-desc">12+ production apps across 2 companies in under 2 years. Each domain-specific and built independently — from ideation to App Store submission. I move fast without accumulating debt.</div>
+      </div>
+      <div class="hire-card reveal">
+        <div class="hire-icon">🏗️</div>
+        <div class="hire-title">Architecture Ownership</div>
+        <div class="hire-desc">GetX coordinator patterns, Bloc stream architecture, Hive codegen, Firestore composite index management — I design for scale and maintainability, not just to make it work today.</div>
+      </div>
+      <div class="hire-card reveal">
+        <div class="hire-icon">🌍</div>
+        <div class="hire-title">Relocation Ready</div>
+        <div class="hire-desc">Actively targeting senior Flutter / Mobile Engineer roles in Germany and Dubai. Visa-ready, motivated, and excited by high-performing international engineering teams.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-big reveal">
+      Let's build<br><span class="grad">something great.</span>
+    </div>
+
+    <p class="contact-sub reveal">
+      Looking for a Flutter engineer who ships iOS, macOS, and Android apps at scale? Let's talk.
+    </p>
+
+    <div class="contact-links reveal">
+
+      <a href="mailto:sonu.shah99098@gmail.com" class="contact-link">
+        <i class="fa-solid fa-envelope"></i>
+        <span>sonu.shah99098@gmail.com</span>
+      </a>
+
+      <a href="https://www.linkedin.com/in/shah-sonu/" target="_blank" class="contact-link">
+        <i class="fa-brands fa-linkedin"></i>
+        <span>LinkedIn</span>
+      </a>
+
+      <a href="https://github.com/sonushah12" target="_blank" class="contact-link">
+        <i class="fa-brands fa-github"></i>
+        <span>GitHub</span>
+      </a>
+
+      <a href="tel:+919909843221" class="contact-link">
+        <i class="fa-solid fa-phone"></i>
+        <span>+91 9909843221</span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div>Built by <span>Sonu Shah</span> · Flutter Developer · iOS · macOS · Android</div>
+  <div style="font-family:var(--font-mono);font-size:11px;color:var(--muted);letter-spacing:2px">AHD → DE / DXB · 2025</div>
+</footer>
+
+<script>
+/* ── Cursor ─────────────────────────────────────────────────── */
+const cursor=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
+(function animCursor(){
+  cursor.style.left=mx+'px';cursor.style.top=my+'px';
+  rx+=(mx-rx)*.12;ry+=(my-ry)*.12;
+  ring.style.left=rx+'px';ring.style.top=ry+'px';
+  requestAnimationFrame(animCursor);
+})();
+
+/* ── Loader ─────────────────────────────────────────────────── */
+const loaderBar=document.getElementById('loader-bar'),loaderPct=document.getElementById('loader-pct'),loader=document.getElementById('loader');
+let progress=0;
+const loadInterval=setInterval(()=>{
+  progress+=Math.random()*16;
+  if(progress>100)progress=100;
+  gsap.to(loaderBar,{left:(progress-100)+'%',duration:.3});
+  loaderPct.textContent=String(Math.floor(progress)).padStart(3,'0')+'%';
+  if(progress>=100){
+    clearInterval(loadInterval);
+    setTimeout(()=>gsap.to(loader,{opacity:0,duration:.6,onComplete:()=>{loader.style.display='none';initHero();}}),300);
+  }
+},80);
+
+/* ── Three.js Particles ─────────────────────────────────────── */
+const canvas3d=document.getElementById('hero-canvas');
+const renderer=new THREE.WebGLRenderer({canvas:canvas3d,alpha:true,antialias:true});
+renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+renderer.setSize(window.innerWidth,window.innerHeight);
+const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,.1,1000);
+camera.position.z=5;
+const pc=1000,pos=new Float32Array(pc*3),col=new Float32Array(pc*3);
+for(let i=0;i<pc;i++){
+  pos[i*3]=(Math.random()-.5)*30;pos[i*3+1]=(Math.random()-.5)*30;pos[i*3+2]=(Math.random()-.5)*30;
+  const t=Math.random();
+  col[i*3]=t<.5?0:.48;col[i*3+1]=t<.5?.83:.18;col[i*3+2]=1;
+}
+const geo=new THREE.BufferGeometry();
+geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+geo.setAttribute('color',new THREE.BufferAttribute(col,3));
+const pts=new THREE.Points(geo,new THREE.PointsMaterial({size:.04,vertexColors:true,transparent:true,opacity:.7}));
+scene.add(pts);
+const gridGeo=new THREE.BufferGeometry();
+const lp=[];
+for(let i=-10;i<=10;i+=2){lp.push(-10,i*.5,-5,10,i*.5,-5);lp.push(i,-5,-5,i,5,-5);}
+gridGeo.setAttribute('position',new THREE.Float32BufferAttribute(lp,3));
+scene.add(new THREE.LineSegments(gridGeo,new THREE.LineBasicMaterial({color:0x0f2040,transparent:true,opacity:.3})));
+let dmx=0,dmy=0,scY=0;
+document.addEventListener('mousemove',e=>{dmx=(e.clientX/window.innerWidth-.5)*2;dmy=-(e.clientY/window.innerHeight-.5)*2});
+window.addEventListener('scroll',()=>scY=window.scrollY);
+(function render3D(){
+  requestAnimationFrame(render3D);
+  const t=Date.now()*.0005;
+  pts.rotation.y=t*.1+dmx*.05;pts.rotation.x=dmy*.03;
+  camera.position.y=-scY*.001;
+  renderer.render(scene,camera);
+})();
+window.addEventListener('resize',()=>{
+  camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth,window.innerHeight);
+});
+
+/* ── Hero animation ─────────────────────────────────────────── */
+function initHero(){
+  const tl=gsap.timeline({defaults:{ease:'power3.out'}});
+  tl.to('.hero-tag',    {opacity:1,y:0,duration:.8},.2)
+    .to('.hero-name',   {opacity:1,y:0,duration:1},.5)
+    .to('.hero-tagline',{opacity:1,y:0,duration:.8},1.0)
+    .to('.hero-roles',  {opacity:1,y:0,duration:.8},1.3)
+    .to('.hero-actions',{opacity:1,y:0,duration:.8},1.5)
+    .to('.hero-stats',  {opacity:1,x:0,duration:.8},1.6);
+  document.querySelectorAll('[data-count]').forEach(el=>{
+    const target=parseInt(el.dataset.count);
+    gsap.to({val:0},{val:target,duration:2,delay:1.8,ease:'power2.out',
+      onUpdate:function(){el.textContent=Math.round(this.targets()[0].val)+'+'}});
+  });
+}
+
+/* ── Scroll reveals ─────────────────────────────────────────── */
+gsap.registerPlugin(ScrollTrigger);
+gsap.utils.toArray('.reveal').forEach(el=>{
+  gsap.fromTo(el,{opacity:0,y:50},{opacity:1,y:0,duration:.9,ease:'power3.out',
+    scrollTrigger:{trigger:el,start:'top 85%',toggleActions:'play none none none'}});
+});
+
+/* ── Nav ────────────────────────────────────────────────────── */
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>60));
+document.getElementById('hamburger').addEventListener('click',()=>nav.classList.toggle('menu-open'));
+document.querySelectorAll('.nav-links a').forEach(a=>a.addEventListener('click',()=>nav.classList.remove('menu-open')));
+
+/* ── Project tab switcher ───────────────────────────────────── */
+function switchTab(id){
+  document.querySelectorAll('.proj-tab').forEach((t,i)=>t.classList.toggle('active',['applie','pdha'][i]===id));
+  document.querySelectorAll('.proj-panel').forEach(p=>p.classList.toggle('active',p.id==='panel-'+id));
+  // re-trigger reveals in newly shown panel
+  gsap.utils.toArray('#panel-'+id+' .reveal').forEach(el=>{
+    gsap.fromTo(el,{opacity:0,y:40},{opacity:1,y:0,duration:.7,ease:'power3.out',stagger:.05});
+  });
+}
+
+/* ── Skills constellation ───────────────────────────────────── */
+const sc=document.getElementById('skill-canvas'),sctx=sc.getContext('2d');
+const tooltip=document.getElementById('skill-tooltip');
+const skillData=[
+  {name:'Flutter',       level:95,desc:'Expert · 12+ production apps · iOS, macOS, Android, Web',x:.22,y:.28},
+  {name:'Dart',          level:90,desc:'Expert · Primary language · 2+ years',                   x:.38,y:.48},
+  {name:'Firebase',      level:88,desc:'Expert · Firestore, Auth, Storage, FCM, Realtime DB',    x:.58,y:.22},
+  {name:'GetX',          level:90,desc:'Expert · DI, reactive state, controller lifecycle',       x:.72,y:.42},
+  {name:'iOS / macOS',   level:84,desc:'Advanced · Swift channels, CallKit, AudioSession, App Store',x:.68,y:.72},
+  {name:'Twilio Voice',  level:82,desc:'Advanced · WiFi calling app · iOS · iPad · CallKit UI',  x:.50,y:.75},
+  {name:'Custom Editor', level:80,desc:'Advanced · Canvas engine for 3 App Store creative apps', x:.18,y:.62},
+  {name:'WebRTC',        level:78,desc:'Advanced · Live classes + Node.js signalling server',     x:.28,y:.80},
+  {name:'Bloc',          level:82,desc:'Advanced · Predictable stream-based async state',         x:.45,y:.62},
+  {name:'StoreKit IAP',  level:76,desc:'Advanced · Multi-tier subscriptions, paywall flows',      x:.82,y:.58},
+  {name:'Google Maps',   level:78,desc:'Advanced · Real-time tracking, geofencing, HRMS',        x:.12,y:.40},
+  {name:'Hive',          level:74,desc:'Advanced · Local DB + build_runner codegen',              x:.85,y:.28},
+];
+const edges=[[0,1],[0,2],[0,3],[1,8],[2,3],[3,4],[4,5],[5,7],[6,7],[8,6],[3,9],[0,10],[2,11]];
+let nodes=[],hoveredNode=null;
+function resizeSC(){
+  const w=document.getElementById('skill-canvas-wrap');
+  sc.width=w.clientWidth;sc.height=w.clientHeight;
+  nodes=skillData.map(s=>({...s,cx:s.x*sc.width,cy:s.y*sc.height,r:5+(s.level/100)*11,vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.25}));
+}
+resizeSC();window.addEventListener('resize',resizeSC);
+sc.addEventListener('mousemove',e=>{
+  const r=sc.getBoundingClientRect(),mx=e.clientX-r.left,my=e.clientY-r.top;
+  hoveredNode=null;
+  nodes.forEach(n=>{if(Math.hypot(mx-n.cx,my-n.cy)<n.r+22)hoveredNode=n;});
+  if(hoveredNode){
+    tooltip.style.opacity='1';
+    tooltip.style.left=(e.clientX-r.left+18)+'px';
+    tooltip.style.top=(e.clientY-r.top-10)+'px';
+    document.getElementById('tt-name').textContent=hoveredNode.name;
+    document.getElementById('tt-bar').style.width=hoveredNode.level+'%';
+    document.getElementById('tt-meta').textContent=hoveredNode.desc;
+  }else{tooltip.style.opacity='0';}
+});
+sc.addEventListener('mouseleave',()=>{tooltip.style.opacity='0';hoveredNode=null;});
+(function drawSkills(ts){
+  sctx.clearRect(0,0,sc.width,sc.height);
+  const t=ts*.001;
+  nodes.forEach(n=>{
+    n.cx+=n.vx;n.cy+=n.vy;
+    if(n.cx<n.r||n.cx>sc.width-n.r)n.vx*=-1;
+    if(n.cy<n.r||n.cy>sc.height-n.r)n.vy*=-1;
+  });
+  edges.forEach(([a,b])=>{
+    const na=nodes[a],nb=nodes[b],dist=Math.hypot(na.cx-nb.cx,na.cy-nb.cy),alpha=Math.max(0,1-dist/360);
+    sctx.beginPath();sctx.moveTo(na.cx,na.cy);sctx.lineTo(nb.cx,nb.cy);
+    const g=sctx.createLinearGradient(na.cx,na.cy,nb.cx,nb.cy);
+    g.addColorStop(0,`rgba(0,212,255,${alpha*.4})`);g.addColorStop(1,`rgba(123,47,255,${alpha*.4})`);
+    sctx.strokeStyle=g;sctx.lineWidth=1;sctx.stroke();
+  });
+  nodes.forEach(n=>{
+    const ih=n===hoveredNode,r=ih?n.r*1.7:n.r,pulse=Math.sin(t*2+n.x*10)*.3+.7;
+    const grd=sctx.createRadialGradient(n.cx,n.cy,0,n.cx,n.cy,r*3);
+    grd.addColorStop(0,ih?'rgba(0,212,255,0.35)':`rgba(0,212,255,${.14*pulse})`);
+    grd.addColorStop(1,'rgba(0,0,0,0)');
+    sctx.beginPath();sctx.arc(n.cx,n.cy,r*3,0,Math.PI*2);sctx.fillStyle=grd;sctx.fill();
+    sctx.beginPath();sctx.arc(n.cx,n.cy,r,0,Math.PI*2);
+    const cg=sctx.createRadialGradient(n.cx-r*.3,n.cy-r*.3,0,n.cx,n.cy,r);
+    cg.addColorStop(0,'#00D4FF');cg.addColorStop(1,'#7B2FFF');
+    sctx.fillStyle=cg;sctx.fill();
+    sctx.fillStyle=ih?'#FFFFFF':'rgba(240,244,255,0.75)';
+    sctx.font=`${ih?600:400} ${ih?14:11}px "Space Grotesk"`;
+    sctx.textAlign='center';sctx.fillText(n.name,n.cx,n.cy+r+16);
+  });
+  requestAnimationFrame(drawSkills);
+})(0);
+
+/* ── Magnetic buttons ───────────────────────────────────────── */
+document.querySelectorAll('.btn-primary,.btn-ghost,.nav-cta').forEach(btn=>{
+  btn.addEventListener('mousemove',e=>{
+    const r=btn.getBoundingClientRect();
+    gsap.to(btn,{x:(e.clientX-r.left-r.width/2)*.2,y:(e.clientY-r.top-r.height/2)*.2,duration:.3,ease:'power2.out'});
+  });
+  btn.addEventListener('mouseleave',()=>gsap.to(btn,{x:0,y:0,duration:.5,ease:'elastic.out(1,.5)'}));
+});
+/* ── Role chip cycling ──────────────────────────────────────── */
+const chips = document.querySelectorAll(".role-chip");
+let active = 0;
+
+if (chips.length > 0) {
+  chips[0].classList.add("active");
+
+  setInterval(() => {
+    chips[active].classList.remove("active");
+    active = (active + 1) % chips.length;
+    chips[active].classList.add("active");
+  }, 2200);
+}
+
+/* ── 3D tilt ────────────────────────────────────────────────── */
+document.querySelectorAll(".project-card, .hire-card").forEach(card => {
+  card.addEventListener("mousemove", e => {
+    const r = card.getBoundingClientRect();
+
+    gsap.to(card, {
+      rotationY: (((e.clientX - r.left) / r.width) - 0.5) * 6,
+      rotationX: -((((e.clientY - r.top) / r.height) - 0.5) * 6),
+      transformPerspective: 800,
+      duration: 0.4,
+      ease: "power2.out"
+    });
+  });
+
+  card.addEventListener("mouseleave", () => {
+    gsap.to(card, {
+      rotationY: 0,
+      rotationX: 0,
+      duration: 0.6,
+      ease: "elastic.out(1,.6)"
+    });
+  });
+});
+</script>
+</body>
+</html>
