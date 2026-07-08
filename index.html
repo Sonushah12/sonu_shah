@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-  <title>CODE RUNNER 3D - Sonu's Open World Portfolio</title>
-  <meta name="description" content="Explore Sonu Shah's career inside a realistic 3D open-world digital realm. Collect orbs, debug viruses, and scan terminals."/>
+  <title>COSMIC RUNNER - Sonu's Space Portfolio</title>
+  <meta name="description" content="Navigate the solar system to explore Sonu Shah's professional developer journey as an immersive 3D space flight simulator."/>
   
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -18,17 +18,17 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg-primary: #040814;
-      --bg-glass: rgba(10, 15, 30, 0.75);
-      --accent-cyan: #00d4ff;
-      --accent-magenta: #ff006b;
-      --accent-lime: #00ff41;
-      --accent-gold: #ffa500;
+      --bg-primary: #020208;
+      --bg-glass: rgba(6, 8, 20, 0.85);
+      --accent-cyan: #00f0ff;
+      --accent-magenta: #ff007b;
+      --accent-lime: #00ff55;
+      --accent-gold: #ffaa00;
       --text-white: #ffffff;
-      --text-muted: #8899aa;
-      --success: #00ff41;
-      --danger: #ff006b;
-      --warning: #ffa500;
+      --text-muted: #8fa0ba;
+      --success: #00ff55;
+      --danger: #ff007b;
+      --warning: #ffaa00;
     }
 
     html, body {
@@ -40,9 +40,10 @@
       overflow: hidden;
       user-select: none;
       -webkit-user-select: none;
+      touch-action: none;
     }
 
-    /* SCANLINE EFFECT */
+    /* SCANLINE HUD EFFECT */
     body::before {
       content: "";
       position: fixed;
@@ -50,9 +51,9 @@
       width: 100%; height: 100%;
       background: linear-gradient(
         0deg,
-        rgba(0, 0, 0, 0.15) 0%,
+        rgba(0, 0, 0, 0.2) 0%,
         transparent 50%,
-        rgba(0, 0, 0, 0.15) 100%
+        rgba(0, 0, 0, 0.2) 100%
       );
       background-size: 100% 4px;
       pointer-events: none;
@@ -71,7 +72,7 @@
       display: block;
     }
 
-    /* UPPER HEADS-UP DISPLAY (HUD) */
+    /* UPPER HEADS-UP DISPLAY */
     .hud-header {
       position: absolute;
       top: 16px;
@@ -86,76 +87,69 @@
 
     .hud-panel {
       background: var(--bg-glass);
-      border: 1px solid rgba(0, 212, 255, 0.3);
+      border: 1px solid rgba(0, 240, 255, 0.25);
       border-radius: 6px;
-      padding: 12px 16px;
-      backdrop-filter: blur(8px);
+      padding: 10px 14px;
+      backdrop-filter: blur(10px);
       pointer-events: auto;
-    }
-
-    .hud-title-card {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
     }
 
     .hud-title-card h1 {
       font-family: 'Orbitron', sans-serif;
-      font-size: 20px;
+      font-size: 18px;
       letter-spacing: 2px;
       color: var(--accent-cyan);
-      text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+      text-shadow: 0 0 8px rgba(0, 240, 255, 0.4);
     }
 
     .hud-subtitle {
-      font-size: 11px;
+      font-size: 10px;
       color: var(--text-muted);
       letter-spacing: 1px;
     }
 
     .hud-stats {
       display: flex;
-      gap: 24px;
+      gap: 20px;
       align-items: center;
     }
 
     .stat-box {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 2px;
     }
 
     .stat-label {
-      font-size: 10px;
+      font-size: 9px;
       color: var(--text-muted);
       letter-spacing: 1px;
     }
 
     .stat-val {
       font-family: 'Orbitron', sans-serif;
-      font-size: 16px;
-      font-weight: 900;
+      font-size: 14px;
+      font-weight: 700;
       color: var(--accent-cyan);
     }
 
     .health-bar-container {
-      width: 120px;
+      width: 100px;
       height: 6px;
-      background: rgba(255, 0, 107, 0.15);
-      border: 1px solid rgba(255, 0, 107, 0.4);
+      background: rgba(255, 0, 123, 0.15);
+      border: 1px solid rgba(255, 0, 123, 0.4);
       border-radius: 3px;
       overflow: hidden;
-      margin-top: 4px;
     }
 
     .health-bar-fill {
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, var(--accent-magenta), #ff5599);
+      background: linear-gradient(90deg, var(--accent-magenta), #ff55aa);
       transition: width 0.2s ease;
     }
 
-    /* SYSTEM TELEMETRY / RADAR */
+    /* RADAR TELEMETRY */
     .telemetry-panel {
       position: absolute;
       top: 16px;
@@ -163,20 +157,20 @@
       display: flex;
       flex-direction: column;
       align-items: flex-end;
-      gap: 12px;
+      gap: 10px;
       pointer-events: none;
       z-index: 10;
     }
 
     .radar-container {
       background: var(--bg-glass);
-      border: 1px solid rgba(0, 212, 255, 0.3);
+      border: 1px solid rgba(0, 240, 255, 0.25);
       border-radius: 50%;
-      width: 110px;
-      height: 110px;
+      width: 100px;
+      height: 100px;
       position: relative;
       overflow: hidden;
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(10px);
       pointer-events: auto;
     }
 
@@ -189,51 +183,50 @@
     .system-log-box {
       background: var(--bg-glass);
       border-left: 3px solid var(--accent-lime);
-      padding: 6px 12px;
+      padding: 6px 10px;
       border-radius: 3px;
-      max-width: 250px;
-      backdrop-filter: blur(8px);
-      transition: opacity 0.3s;
-      opacity: 0.8;
+      max-width: 220px;
+      backdrop-filter: blur(10px);
+      pointer-events: auto;
     }
 
     .system-log-text {
       font-family: 'Courier Prime', monospace;
-      font-size: 11px;
+      font-size: 10px;
       color: var(--accent-lime);
     }
 
-    /* DIRECTIVE SCAN PROMPT */
+    /* DYNAMIC ALERT PROMPT */
     .scan-prompt {
       position: absolute;
-      bottom: 180px;
+      bottom: 160px;
       left: 50%;
       transform: translateX(-50%);
-      background: rgba(255, 165, 0, 0.15);
+      background: rgba(255, 170, 0, 0.15);
       border: 1px solid var(--accent-gold);
-      padding: 10px 20px;
+      padding: 8px 16px;
       border-radius: 4px;
-      backdrop-filter: blur(6px);
+      backdrop-filter: blur(8px);
       display: none;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       z-index: 15;
       animation: pulseAlert 2s infinite;
     }
 
     @keyframes pulseAlert {
-      0%, 100% { box-shadow: 0 0 5px rgba(255, 165, 0, 0.3); }
-      50% { box-shadow: 0 0 15px rgba(255, 165, 0, 0.7); }
+      0%, 100% { box-shadow: 0 0 5px rgba(255, 170, 0, 0.2); }
+      50% { box-shadow: 0 0 15px rgba(255, 170, 0, 0.6); }
     }
 
     .scan-prompt-text {
-      font-size: 12px;
+      font-size: 11px;
       color: var(--accent-gold);
       font-weight: bold;
       letter-spacing: 1px;
     }
 
-    /* INTERACTIVE BOTTOM CONTROLS */
+    /* MOBILE FLIGHT CONTROLS */
     .ctrl-hud {
       position: absolute;
       bottom: 16px;
@@ -248,52 +241,54 @@
 
     .control-group {
       display: flex;
-      gap: 10px;
+      gap: 8px;
       pointer-events: auto;
     }
 
     .joy-btn {
-      width: 54px;
-      height: 54px;
+      width: 50px;
+      height: 50px;
       background: var(--bg-glass);
-      border: 1px solid rgba(0, 212, 255, 0.3);
+      border: 1px solid rgba(0, 240, 255, 0.25);
       border-radius: 8px;
       color: var(--accent-cyan);
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      font-size: 18px;
+      font-size: 16px;
       transition: all 0.1s;
+      touch-action: none;
     }
 
     .joy-btn:active, .joy-btn.pressed {
       background: var(--accent-cyan);
       color: var(--bg-primary);
-      box-shadow: 0 0 15px var(--accent-cyan);
+      box-shadow: 0 0 12px var(--accent-cyan);
     }
 
     .action-group {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       pointer-events: auto;
     }
 
     .action-circle-btn {
-      width: 60px;
-      height: 60px;
+      width: 54px;
+      height: 54px;
       border-radius: 50%;
       background: var(--bg-glass);
       color: var(--accent-magenta);
-      border: 1px solid rgba(255, 0, 107, 0.4);
+      border: 1px solid rgba(255, 0, 123, 0.35);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      font-size: 16px;
-      gap: 2px;
+      font-size: 14px;
+      gap: 1px;
       transition: all 0.1s;
+      touch-action: none;
     }
 
     .action-circle-btn span {
@@ -304,32 +299,32 @@
     .action-circle-btn:active, .action-circle-btn.pressed {
       background: var(--accent-magenta);
       color: var(--text-white);
-      box-shadow: 0 0 20px var(--accent-magenta);
+      box-shadow: 0 0 15px var(--accent-magenta);
     }
 
     .action-circle-btn.emp {
       color: var(--accent-lime);
-      border-color: rgba(0, 255, 65, 0.4);
+      border-color: rgba(0, 255, 85, 0.35);
     }
 
     .action-circle-btn.emp:active, .action-circle-btn.emp.pressed {
       background: var(--accent-lime);
       color: var(--bg-primary);
-      box-shadow: 0 0 20px var(--accent-lime);
+      box-shadow: 0 0 15px var(--accent-lime);
     }
 
-    /* SCREEN MODALS */
+    /* FULL OVERLAYS */
     .screen-overlay {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: rgba(4, 8, 20, 0.95);
+      background: rgba(1, 2, 6, 0.96);
       z-index: 100;
       display: none;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: 24px;
+      padding: 16px;
       backdrop-filter: blur(12px);
     }
 
@@ -338,24 +333,24 @@
     }
 
     .terminal-card {
-      max-width: 650px;
+      max-width: 750px;
       width: 100%;
-      background: rgba(10, 20, 40, 0.5);
+      background: rgba(4, 6, 15, 0.9);
       border: 2px solid var(--accent-cyan);
-      box-shadow: 0 0 30px rgba(0, 212, 255, 0.2);
+      box-shadow: 0 0 25px rgba(0, 240, 255, 0.25);
       border-radius: 8px;
-      padding: 30px;
+      padding: 24px;
       text-align: center;
       overflow-y: auto;
-      max-height: 85vh;
+      max-height: 90vh;
     }
 
     .terminal-title {
       font-family: 'Orbitron', sans-serif;
-      font-size: 32px;
+      font-size: 28px;
       font-weight: 900;
       letter-spacing: 2px;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
       background: linear-gradient(90deg, var(--accent-cyan), var(--accent-magenta));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -363,28 +358,28 @@
     }
 
     .terminal-text {
-      font-size: 15px;
-      line-height: 1.8;
+      font-size: 14px;
+      line-height: 1.6;
       color: var(--text-muted);
-      margin-bottom: 24px;
+      margin-bottom: 20px;
       text-align: left;
     }
 
     .terminal-btn-row {
       display: flex;
-      gap: 16px;
+      gap: 12px;
       justify-content: center;
-      margin-top: 24px;
+      margin-top: 16px;
       flex-wrap: wrap;
     }
 
     .tech-btn {
-      padding: 12px 28px;
+      padding: 10px 24px;
       border: 1px solid var(--accent-cyan);
-      background: rgba(0, 212, 255, 0.05);
+      background: rgba(0, 240, 255, 0.05);
       color: var(--accent-cyan);
       font-family: 'Orbitron', sans-serif;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: bold;
       letter-spacing: 1px;
       cursor: pointer;
@@ -395,70 +390,141 @@
     .tech-btn:hover {
       background: var(--accent-cyan);
       color: var(--bg-primary);
-      box-shadow: 0 0 20px var(--accent-cyan);
+      box-shadow: 0 0 15px var(--accent-cyan);
     }
 
     .tech-btn.secondary {
       border-color: var(--accent-magenta);
       color: var(--accent-magenta);
-      background: rgba(255, 0, 107, 0.05);
+      background: rgba(255, 0, 123, 0.05);
     }
 
     .tech-btn.secondary:hover {
       background: var(--accent-magenta);
       color: var(--text-white);
-      box-shadow: 0 0 20px var(--accent-magenta);
+      box-shadow: 0 0 15px var(--accent-magenta);
     }
 
-    /* SECTOR OVERLAY DESIGN */
-    .sector-header {
-      border-bottom: 1px solid rgba(255,255,255,0.1);
+    /* COMPLETE RESUME VIEW DESIGN */
+    .resume-deck {
+      text-align: left;
+      color: var(--text-muted);
+    }
+
+    .resume-header {
+      border-bottom: 2px solid var(--accent-cyan);
       padding-bottom: 12px;
       margin-bottom: 16px;
     }
 
-    .sector-tag {
-      font-size: 11px;
-      color: var(--accent-gold);
-      text-transform: uppercase;
-      font-weight: bold;
-      letter-spacing: 2px;
+    .resume-header h2 {
+      font-family: 'Orbitron', sans-serif;
+      color: #fff;
+      font-size: 24px;
     }
 
-    /* RESPONSIVE OPTIMIZATION */
+    .resume-contacts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 6px;
+      font-size: 12px;
+    }
+
+    .resume-contacts a {
+      color: var(--accent-cyan);
+      text-decoration: none;
+    }
+
+    .resume-section-title {
+      font-family: 'Orbitron', sans-serif;
+      color: var(--accent-gold);
+      font-size: 14px;
+      letter-spacing: 1px;
+      margin: 16px 0 8px 0;
+      border-bottom: 1px solid rgba(255,170,0,0.25);
+      padding-bottom: 4px;
+    }
+
+    .job-block {
+      margin-bottom: 14px;
+    }
+
+    .job-title {
+      font-weight: bold;
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      font-size: 13px;
+    }
+
+    .job-sub {
+      font-size: 11px;
+      color: var(--accent-cyan);
+      margin: 2px 0 6px 0;
+    }
+
+    .resume-bullets {
+      padding-left: 18px;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .resume-bullets li {
+      margin-bottom: 4px;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 8px;
+    }
+
+    .skill-pill {
+      background: rgba(0, 240, 255, 0.08);
+      border: 1px solid rgba(0, 240, 255, 0.2);
+      border-radius: 4px;
+      padding: 6px;
+      font-size: 11px;
+      text-align: center;
+      color: #fff;
+    }
+
+    /* RESPONSIVE LAYOUT OPTIMIZATION */
     @media (max-width: 768px) {
-      .hud-stats { gap: 14px; }
-      .stat-val { font-size: 13px; }
-      .health-bar-container { width: 90px; }
-      .terminal-card { padding: 20px; }
-      .terminal-title { font-size: 24px; }
-      .joy-btn { width: 44px; height: 44px; font-size: 15px; }
-      .action-circle-btn { width: 50px; height: 50px; font-size: 14px; }
+      .hud-stats { gap: 10px; }
+      .stat-val { font-size: 12px; }
+      .health-bar-container { width: 70px; }
+      .terminal-card { padding: 16px; }
+      .terminal-title { font-size: 22px; }
+      .joy-btn { width: 42px; height: 42px; font-size: 14px; }
+      .action-circle-btn { width: 46px; height: 46px; font-size: 12px; }
     }
   </style>
 </head>
 <body>
 
 <div id="game-container">
-  <!-- WEBGL CANVAS -->
+  <!-- WEBGL SIMULATION WORLD -->
   <canvas id="game-canvas"></canvas>
 
-  <!-- HUD STATUS LAYER -->
+  <!-- HUD INTERACTION HUD -->
   <div class="hud-header">
     <div class="hud-panel hud-title-card">
-      <h1>CODE RUNNER 3D</h1>
-      <span class="hud-subtitle">SONU'S DIGITAL REALM SIMULATOR</span>
+      <h1>COSMIC RUNNER</h1>
+      <span class="hud-subtitle">SOLAR PORTFOLIO SYSTEM</span>
     </div>
 
     <div class="hud-panel hud-stats">
       <div class="stat-box">
-        <span class="stat-label">HEALTH INTEGRITY</span>
+        <span class="stat-label">HULL INTEGRITY</span>
         <div class="health-bar-container">
           <div class="health-fill health-bar-fill" id="health-fill"></div>
         </div>
       </div>
       <div class="stat-box">
-        <span class="stat-label">DECRYPTED CODES</span>
+        <span class="stat-label">DECRYPTION POINTS</span>
         <span class="stat-val" id="score">0000</span>
       </div>
       <div class="stat-box">
@@ -468,46 +534,44 @@
     </div>
   </div>
 
-  <!-- RADAR & TELEMETRY -->
+  <!-- RADAR DIAGNOSTIC TELEMETRY -->
   <div class="telemetry-panel">
     <div class="radar-container">
-      <canvas id="minimap" width="110" height="110"></canvas>
+      <canvas id="minimap" width="100" height="100"></canvas>
     </div>
     <div class="system-log-box" id="system-log-panel">
-      <div class="system-log-text" id="system-log">> Initializing spatial drive...</div>
+      <div class="system-log-text" id="system-log">> Celestial engines loaded...</div>
     </div>
   </div>
 
-  <!-- INTERACTION PROMPT -->
+  <!-- SECTOR LINK UP PROMPT -->
   <div class="scan-prompt" id="scan-prompt">
     <i class="fas fa-satellite-dish" style="color: var(--accent-gold);"></i>
-    <span class="scan-prompt-text" id="scan-prompt-text">SECTOR NODE DETECTED. CLICK SCAN TO STREAM</span>
+    <span class="scan-prompt-text" id="scan-prompt-text">ORBITAL TARGET ACQUIRED. PRESS SCAN [F]</span>
   </div>
 
-  <!-- FLIGHT & TACTICAL CONTROLS -->
+  <!-- MOBILE INTERACTIVE CONTROLS -->
   <div class="ctrl-hud">
-    <!-- Flight Vector -->
     <div class="control-group">
       <button class="joy-btn" id="btn-left" data-key="left"><i class="fas fa-chevron-left"></i></button>
-      <div style="display: flex; flex-direction: column; gap: 10px;">
+      <div style="display: flex; flex-direction: column; gap: 6px;">
         <button class="joy-btn" id="btn-up" data-key="up"><i class="fas fa-chevron-up"></i></button>
         <button class="joy-btn" id="btn-down" data-key="down"><i class="fas fa-chevron-down"></i></button>
       </div>
       <button class="joy-btn" id="btn-right" data-key="right"><i class="fas fa-chevron-right"></i></button>
     </div>
 
-    <!-- Action Trigger Systems -->
     <div class="action-group">
-      <button class="action-circle-btn emp" id="btn-skill" title="EMP Cyber Pulse">
+      <button class="action-circle-btn emp" id="btn-skill" title="EMP Weapon Pulse">
         <i class="fas fa-wave-square"></i>
         <span>EMP [E]</span>
       </button>
-      <button class="action-circle-btn" id="btn-shoot" title="Deploy Code Lasers">
+      <button class="action-circle-btn" id="btn-shoot" title="Deploy Plasma Lasers">
         <i class="fas fa-bolt"></i>
-        <span>LASER [Space]</span>
+        <span>LASER [Spc]</span>
       </button>
-      <button class="action-circle-btn" style="color: var(--accent-gold); border-color: rgba(255,165,0,0.4);" id="btn-scan" title="Scan Terminal Node">
-        <i class="fas fa-radar"></i>
+      <button class="action-circle-btn" style="color: var(--accent-gold); border-color: rgba(255,170,0,0.4);" id="btn-scan" title="Scan Terminal Node">
+        <i class="fas fa-broadcast-tower"></i>
         <span>SCAN [F]</span>
       </button>
     </div>
@@ -516,117 +580,193 @@
 
 <!-- START SCREEN OVERLAY -->
 <div id="start-screen" class="screen-overlay active">
-  <div class="terminal-card" style="border-color: var(--accent-cyan);">
-    <div class="terminal-title">CODE RUNNER 3D</div>
+  <div class="terminal-card">
+    <div class="terminal-title">COSMIC RUNNER</div>
     <div class="terminal-text">
-      <p style="text-align: center; color: var(--accent-lime); margin-bottom: 20px;">Welcome to the hardware-accelerated 3D open-world developer portfolio of Sonu Shah.</p>
-      <p style="margin-bottom: 12px;"><strong style="color: var(--text-white);">🎮 PILOT THE CODE-POD</strong>: Traverse a virtual data ecosystem containing real architecture, frameworks, and milestones.</p>
-      <p style="margin-bottom: 12px;"><strong style="color: var(--text-white);">🛠️ EXPLORE CORE SECTORS</strong>: Navigate your pod into glowing sector beacons (Applie Solution Node, PDHamecha core, Skills Hub, and Education tower) and trigger a scan sequence.</p>
-      <p style="margin-bottom: 12px;"><strong style="color: var(--text-white);">⚡ DISCHARGE DEFENSES</strong>: Code anomalies (malware bugs) patrol the landscape. Use lasers or activate your Tech Orb-powered EMP shockwave to clear them.</p>
-      <p style="font-size: 13px; text-align: center; color: var(--accent-cyan); margin-top: 15px;">Controls: [W,S,A,D] / [Arrows] to steer & accelerate | [Space] to shoot | [E] for EMP | [F] or on-screen prompt to scan nodes.</p>
+      <p style="text-align: center; color: var(--accent-lime); margin-bottom: 16px;">
+        Navigate a miniature 3D model of the solar system mapping Sonu Shah's development portfolio.
+      </p>
+      <p style="margin-bottom: 10px;"><strong style="color: #fff;">🚀 SYSTEM MAP INDEX</strong>:</p>
+      <ul style="padding-left: 20px; font-size:12px; display:flex; flex-direction:column; gap:6px;">
+        <li><span style="color:#ffffff;">● Central Sun</span>: Contact & Communication Network Nodes</li>
+        <li><span style="color:#00f0ff;">● Earth</span>: Applie Info Solution (Senior Flutter Work)</li>
+        <li><span style="color:#ff007b;">● Mars</span>: PDHamecha LLP (WebRTC & geofencing)</li>
+        <li><span style="color:#00ff55;">● Jupiter</span>: Core Tech Skills Repository</li>
+        <li><span style="color:#ffaa00;">● Saturn</span>: Master of Computer Applications (LJ MCA)</li>
+      </ul>
+      <p style="margin-top: 14px; font-size: 13px; text-align: center; color: var(--accent-cyan);">
+        Pilot: [W,S,A,D] to steer & accelerate | [Space] to shoot lasers | [E] to clear malware with EMP | [F] to scan planet nodes.
+      </p>
     </div>
     <div class="terminal-btn-row">
-      <button class="tech-btn" onclick="startGame()">LAUNCH ENGINE</button>
+      <button class="tech-btn" onclick="startGame()">ENGAGE DRIVE</button>
+      <button class="tech-btn secondary" onclick="openCompleteResumeDeck()">FULL DATA DECK (RESUME)</button>
     </div>
   </div>
 </div>
 
-<!-- DETAILED SECTOR MODAL OVERLAYS -->
+<!-- SECTOR OR RESUME POPUP MODAL -->
 <div id="sector-modal" class="screen-overlay">
   <div class="terminal-card" id="sector-card-content">
-    <!-- Dynamic terminal content injected here -->
+    <!-- Decoupled Terminal Resume Frame Injected Here -->
   </div>
 </div>
 
-<!-- GAME OVER SCREEN OVERLAY -->
+<!-- GAME OVER OVERLAY -->
 <div id="gameover-screen" class="screen-overlay">
   <div class="terminal-card" style="border-color: var(--accent-magenta);">
-    <div class="terminal-title" style="background: var(--accent-magenta); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">VESSEL NEUTRALIZED</div>
+    <div class="terminal-title" style="color: var(--accent-magenta);">DRIVE OFFLINE</div>
     <div class="terminal-text" style="text-align: center;">
-      <p>Your pod sustained critical damage from unresolved software bugs.</p>
-      <p id="gameover-stats" style="margin-top: 15px; color: var(--accent-cyan); font-weight: bold;"></p>
+      <p>System structural integrity compromised by unresolved server exceptions.</p>
+      <p id="gameover-stats" style="margin-top: 12px; color: var(--accent-cyan); font-weight: bold;"></p>
     </div>
     <div class="terminal-btn-row">
-      <button class="tech-btn" onclick="startGame()">REBOOT CHASSIS</button>
-      <button class="tech-btn secondary" onclick="forceOpenPortfolio()">READ STRUCTURAL RESUME</button>
+      <button class="tech-btn" onclick="startGame()">REBOOT SHIP</button>
+      <button class="tech-btn secondary" onclick="openCompleteResumeDeck()">VIEW DATA DECK RESUME</button>
     </div>
   </div>
 </div>
 
 <script>
-// ============ THEME DATA & PORTFOLIO ENGINE ============
-const portfolioData = {
+// ============ FULL STRUCTURED PORTFOLIO DATA ============
+const resumeDetailsHTML = `
+  <div class="resume-deck">
+    <div class="resume-header">
+      <h2>SONU SHAH</h2>
+      <p style="color: var(--accent-cyan); font-weight:bold; font-size:14px; margin-top:2px;">Senior Flutter Developer | iOS & macOS Systems Specialist</p>
+      <div class="resume-contacts">
+        <span>📧 <a href="mailto:sonu.shah99098@gmail.com">sonu.shah99098@gmail.com</a></span>
+        <span>📞 <a href="tel:+919909843221">+91 9909843221</a></span>
+        <span>💼 <a href="https://linkedin.com/in/shah-sonu" target="_blank">linkedin.com/in/shah-sonu</a></span>
+        <span>🐙 <a href="https://github.com/sonushah12" target="_blank">github.com/sonushah12</a></span>
+      </div>
+    </div>
+
+    <div class="resume-section-title">PROFESSIONAL TIMELINE</div>
+    
+    <div class="job-block">
+      <div class="job-title">
+        <span>APPLIE INFO SOLUTION</span>
+        <span>Jan 2025 – Present</span>
+      </div>
+      <div class="job-sub">Senior Flutter Developer</div>
+      <ul class="resume-bullets">
+        <li>Architected and released production VoIP utility calling systems utilizing the Twilio Voice SDK with stable background execution pathways.</li>
+        <li>Engineered low-level canvas drawing pipelines in Flutter to render crisp vector graphics paths dynamically.</li>
+        <li>Implemented structural iOS native native-channel bridges for electronic signature tools and optimized background voice memo utilities.</li>
+      </ul>
+    </div>
+
+    <div class="job-block">
+      <div class="job-title">
+        <span>PDHAMECHA LLP</span>
+        <span>Jun 2024 – Dec 2024</span>
+      </div>
+      <div class="job-sub">Flutter Developer</div>
+      <ul class="resume-bullets">
+        <li>Designed and developed "Cloud Vidhya", a live-streaming EdTech platform powered by WebRTC real-time pipelines.</li>
+        <li>Built an Enterprise HRMS application utilizing background geofencing models with a verified accuracy of 90%.</li>
+        <li>Engineered local memory models with Hive, and orchestrated isolated asynchronous jobs using Dart Isolates under GetX state patterns.</li>
+      </ul>
+    </div>
+
+    <div class="resume-section-title">TECHNOLOGY LANDMARKS</div>
+    <div class="skills-grid" style="margin-bottom: 16px;">
+      <div class="skill-pill">Flutter & Dart</div>
+      <div class="skill-pill">iOS / Cocoa Touch</div>
+      <div class="skill-pill">macOS Platform SDK</div>
+      <div class="skill-pill">Twilio Voice integration</div>
+      <div class="skill-pill">WebRTC Pipelines</div>
+      <div class="skill-pill">GetX Architecture</div>
+      <div class="skill-pill">Firebase Suite</div>
+      <div class="skill-pill">Local Hive SQL</div>
+      <div class="skill-pill">Dart Multithreading Isolates</div>
+      <div class="skill-pill">Custom Engine Graphics</div>
+    </div>
+
+    <div class="resume-section-title">EDUCATION CRITERIA</div>
+    <div class="job-block" style="margin-bottom:0;">
+      <div class="job-title">
+        <span>LJ Institute of Computer Applications</span>
+        <span>2022 – 2024</span>
+      </div>
+      <div class="job-sub">Master of Computer Applications (MCA) — Graduated Top 10%</div>
+      <ul class="resume-bullets" style="margin-bottom:0;">
+        <li>Specialized focus on Advanced Data Structures, Network Topology Protocols, Systems Design, and Relational Database Implementations.</li>
+      </ul>
+    </div>
+  </div>
+`;
+
+const sectorMapping = {
   applie: {
-    title: 'APPLIE INFO SOLUTION',
-    role: 'Senior Flutter Developer',
-    period: 'Jan 2025 – Present',
-    tags: 'Core iOS Integration / Custom Graphics Engine / VoIP Pipelines',
+    title: 'APPLIE INFO SOLUTION NODE',
+    tags: 'SENIOR WORK / TWILIO VOICE SDK / VECTOR GRAPHICS',
     desc: `
-      <ul>
-        <li>Architected and released high-performance VoIP & Calling utility utilizing the Twilio Voice SDK, implementing custom background wake capabilities.</li>
-        <li>Built an advanced dynamic custom drawing engine utilizing Flutter's low-level Canvas rendering system, allowing high-precision stroke paths and scalable rendering.</li>
-        <li>Implemented deep platform-specific iOS/macOS channel integration for enterprise electronic signature platforms and robust localized voice recorders.</li>
+      <ul class="resume-bullets">
+        <li>Built robust background calling features via Twilio Voice SDK inside an active production mobile ecosystem.</li>
+        <li>Optimized system drawing pipelines with low-level custom painter logic to handle real-time rendering.</li>
+        <li>Secured smooth channel communication with Apple APIs on macOS and iOS platforms.</li>
       </ul>
     `
   },
   pdha: {
-    title: 'PDHAMECHA LLP',
-    role: 'Flutter Developer',
-    period: 'Jun 2024 – Dec 2024',
-    tags: 'WebRTC / Enterprise HRMS Architecture / Geofencing Telemetry',
+    title: 'PDHAMECHA LLP WORKSPACE',
+    tags: 'WEBRTC STREAMING / GEOLOCATION ALGORITHMS / MEMORY',
     desc: `
-      <ul>
-        <li>Engineered "Cloud Vidhya", a modern scalable live learning system integrated directly with WebRTC media streams.</li>
-        <li>Designed a robust automated Enterprise HRMS application integrating geofencing verification algorithms maintaining accuracy within a 90% boundary.</li>
-        <li>Optimized memory profiling across hybrid components, introducing state orchestration patterns with GetX and background Dart Isolates.</li>
+      <ul class="resume-bullets">
+        <li>Configured WebRTC interfaces for the "Cloud Vidhya" educational live stream systems.</li>
+        <li>Constructed real-time background geofencing models tracking clock-in accuracy with 90% stability.</li>
+        <li>Created multi-threaded execution bridges via Dart Isolates to minimize rendering lag.</li>
       </ul>
     `
   },
   skills: {
-    title: 'TECHNOLOGICAL REPERTOIRE',
-    role: 'Core Architectures & Frameworks',
-    period: 'Operational Ecosystem',
-    tags: 'Cross-Platform, Native APIs, Embedded Databases',
+    title: 'CORE TECH SKILLS REPOS',
+    tags: 'OPERATIONAL LANGUAGES, FRAMEWORKS & RUNTIMES',
     desc: `
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; text-align: center; margin-top: 10px;">
-        <span style="background: rgba(0,212,255,0.1); border: 1px solid var(--accent-cyan); padding: 6px; border-radius: 4px; font-size:12px;">Flutter & Dart</span>
-        <span style="background: rgba(0,212,255,0.1); border: 1px solid var(--accent-cyan); padding: 6px; border-radius: 4px; font-size:12px;">iOS Native APIs</span>
-        <span style="background: rgba(0,212,255,0.1); border: 1px solid var(--accent-cyan); padding: 6px; border-radius: 4px; font-size:12px;">macOS SDK</span>
-        <span style="background: rgba(0,212,255,0.1); border: 1px solid var(--accent-cyan); padding: 6px; border-radius: 4px; font-size:12px;">WebRTC Streams</span>
-        <span style="background: rgba(0,212,255,0.1); border: 1px solid var(--accent-cyan); padding: 6px; border-radius: 4px; font-size:12px;">Twilio Voice</span>
-        <span style="background: rgba(0,212,255,0.1); border: 1px solid var(--accent-cyan); padding: 6px; border-radius: 4px; font-size:12px;">Firebase Suite</span>
-        <span style="background: rgba(0,212,255,0.1); border: 1px solid var(--accent-cyan); padding: 6px; border-radius: 4px; font-size:12px;">GetX Engine</span>
-        <span style="background: rgba(0,212,255,0.1); border: 1px solid var(--accent-cyan); padding: 6px; border-radius: 4px; font-size:12px;">Hive & SQLite</span>
+      <div class="skills-grid">
+        <div class="skill-pill">Flutter & Dart</div>
+        <div class="skill-pill">iOS Native APIs</div>
+        <div class="skill-pill">macOS SDK</div>
+        <div class="skill-pill">WebRTC Engine</div>
+        <div class="skill-pill">Twilio Voice</div>
+        <div class="skill-pill">Firebase Integrations</div>
+        <div class="skill-pill">Hive Database</div>
+        <div class="skill-pill">Dart Isolates</div>
       </div>
     `
   },
   edu: {
-    title: 'ACADEMIC ALIGNMENT',
-    role: 'LJ Institute of Computer Applications',
-    period: 'Graduated 2024',
-    tags: 'Master of Computer Applications (MCA)',
+    title: 'LJ ACADEMY PYRAMID',
+    tags: 'MASTER OF COMPUTER APPLICATIONS / CLASS OF 2024',
     desc: `
-      <ul>
-        <li>Completed professional MCA degree path, graduating in the top 10% bracket of the academic cohort.</li>
-        <li>Specialized academic tracks: Advanced Datastructures, Systems & Networking Protocols, Distributed Architecture Systems, Relational DBMS Design.</li>
+      <ul class="resume-bullets">
+        <li>Acquired complete Master of Computer Applications (MCA) degrees, emerging in the top 10% ranks.</li>
+        <li>Completed structural projects based on relational databases, networking topologies, and complex algorithmic processes.</li>
       </ul>
     `
   },
   contact: {
-    title: 'COMMUNICATIONS PROTOCOL',
-    role: 'Establish Connection',
-    period: '24/7 Node Access',
-    tags: 'Social, Electronic Mail & Repository Nodes',
+    title: 'SOLAR COMMS NODE',
+    tags: 'ESTABLISH CONNECT CHANNELS',
     desc: `
-      <div style="font-size:14px; display:flex; flex-direction:column; gap:10px;">
-        <p>📧 <strong>E-Mail Node:</strong> <a href="mailto:sonu.shah99098@gmail.com" style="color:var(--accent-cyan);">sonu.shah99098@gmail.com</a></p>
-        <p>📞 <strong>Comm Line:</strong> <a href="tel:+919909843221" style="color:var(--accent-cyan);">+91 9909843221</a></p>
-        <p>💼 <strong>LinkedIn Stream:</strong> <a href="https://linkedin.com/in/shah-sonu" target="_blank" style="color:var(--accent-cyan);">linkedin.com/in/shah-sonu</a></p>
-        <p>🐙 <strong>Git Repositories:</strong> <a href="https://github.com/sonushah12" target="_blank" style="color:var(--accent-cyan);">github.com/sonushah12</a></p>
-      </div>
+      <p style="margin-bottom: 8px;">📧 <strong>E-Mail:</strong> sonu.shah99098@gmail.com</p>
+      <p style="margin-bottom: 8px;">📞 <strong>Mobile:</strong> +91 9909843221</p>
+      <p style="margin-bottom: 8px;">💼 <strong>LinkedIn:</strong> linkedin.com/in/shah-sonu</p>
+      <p style="margin-bottom: 8px;">🐙 <strong>GitHub:</strong> github.com/sonushah12</p>
     `
   }
 };
+
+// Celestial configuration for planets/landmark locations
+const landmarks = [
+  { id: 'contact', name: 'SUN: CENTRAL NODE', pos: { x: 0, z: 0 }, size: 8, color: '#ffaa00', emissive: 0x4d3300, isSun: true },
+  { id: 'edu', name: 'SATURN: ACADEMIA', pos: { x: 120, z: -80 }, size: 3.5, color: '#dfb76c', isSaturn: true },
+  { id: 'applie', name: 'EARTH: APPLIE SEC', pos: { x: -60, z: -50 }, size: 2.2, color: '#00f0ff' },
+  { id: 'pdha', name: 'MARS: PDHAMECHA SEC', pos: { x: 50, z: 80 }, size: 1.8, color: '#ff007b' },
+  { id: 'skills', name: 'JUPITER: SKILLS HUB', pos: { x: -110, z: 70 }, size: 5.0, color: '#00ff55', isJupiter: true }
+];
 
 // ============ GAME CONFIG ============
 const config = {
@@ -644,17 +784,11 @@ const config = {
   radarSweep: 0
 };
 
-// Procedural World Landmarks
-const landmarks = [
-  { id: 'applie', name: 'APPLIE INFO NODE', pos: { x: 0, z: -110 }, color: '#00d4ff', ringColor: 0x00d4ff },
-  { id: 'pdha', name: 'PDHAMECHA WORKSPACE', pos: { x: 120, z: 20 }, color: '#ff006b', ringColor: 0xff006b },
-  { id: 'skills', name: 'CORE SKILLS OASIS', pos: { x: -110, z: -30 }, color: '#00ff41', ringColor: 0x00ff41 },
-  { id: 'edu', name: 'LJ ACADEMY PYRAMID', pos: { x: -20, z: 120 }, color: '#ffa500', ringColor: 0xffa500 },
-  { id: 'contact', name: 'CENTRAL COMMUNICATIONS', pos: { x: 0, z: 0 }, color: '#ffffff', ringColor: 0xffffff }
-];
-
-// ============ SYSTEM WEB AUDIO SYNTHESIZER ============
+// ============ AUDIO SYNTH ENGINE ============
 let audioCtx = null;
+let bgOsc = null, bgGain = null;
+let engineOsc = null, engineGain = null;
+
 function initAudio() {
   if (!audioCtx) {
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -664,20 +798,76 @@ function initAudio() {
   }
 }
 
+function startAmbientBGM() {
+  initAudio();
+  if (!audioCtx) return;
+  
+  try {
+    // Cinematic background cosmic drone
+    bgOsc = audioCtx.createOscillator();
+    bgGain = audioCtx.createGain();
+    bgOsc.type = 'triangle';
+    bgOsc.frequency.setValueAtTime(55, audioCtx.currentTime); // Low G note
+
+    // Slow LFO sweeps to emulate deep space shifts
+    const lfo = audioCtx.createOscillator();
+    const lfoGain = audioCtx.createGain();
+    lfo.frequency.setValueAtTime(0.15, audioCtx.currentTime); // 0.15Hz (approx 6 sec loop)
+    lfoGain.gain.setValueAtTime(15, audioCtx.currentTime);
+
+    lfo.connect(lfoGain);
+    lfoGain.connect(bgOsc.frequency);
+
+    bgGain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+    bgOsc.connect(bgGain);
+    bgGain.connect(audioCtx.destination);
+
+    lfo.start();
+    bgOsc.start();
+
+    // Procedural Engine Rumble Synthesizer
+    engineOsc = audioCtx.createOscillator();
+    engineGain = audioCtx.createGain();
+    engineOsc.type = 'sawtooth';
+    engineOsc.frequency.setValueAtTime(45, audioCtx.currentTime);
+
+    const lowpass = audioCtx.createBiquadFilter();
+    lowpass.type = 'lowpass';
+    lowpass.frequency.setValueAtTime(120, audioCtx.currentTime);
+
+    engineGain.gain.setValueAtTime(0.0, audioCtx.currentTime);
+
+    engineOsc.connect(lowpass);
+    lowpass.connect(engineGain);
+    engineGain.connect(audioCtx.destination);
+    
+    engineOsc.start();
+  } catch (e) {
+    console.warn("Audio node generation failed or was blocked by host settings:", e);
+  }
+}
+
+function updateEngineSfx(speed) {
+  if (!engineOsc || !engineGain || !audioCtx) return;
+  const targetRatio = Math.max(0, speed / 1.8);
+  engineOsc.frequency.setTargetAtTime(45 + targetRatio * 75, audioCtx.currentTime, 0.1);
+  engineGain.gain.setTargetAtTime(targetRatio * 0.08, audioCtx.currentTime, 0.15);
+}
+
 function playLaserSound() {
   initAudio();
   if (!audioCtx) return;
   const osc = audioCtx.createOscillator();
   const gain = audioCtx.createGain();
-  osc.type = 'sawtooth';
-  osc.frequency.setValueAtTime(900, audioCtx.currentTime);
-  osc.frequency.exponentialRampToValueAtTime(120, audioCtx.currentTime + 0.14);
-  gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
-  gain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.14);
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(1000, audioCtx.currentTime);
+  osc.frequency.exponentialRampToValueAtTime(80, audioCtx.currentTime + 0.12);
+  gain.gain.setValueAtTime(0.06, audioCtx.currentTime);
+  gain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.12);
   osc.connect(gain);
   gain.connect(audioCtx.destination);
   osc.start();
-  osc.stop(audioCtx.currentTime + 0.14);
+  osc.stop(audioCtx.currentTime + 0.12);
 }
 
 function playCollectSound() {
@@ -685,346 +875,455 @@ function playCollectSound() {
   if (!audioCtx) return;
   const osc = audioCtx.createOscillator();
   const gain = audioCtx.createGain();
-  osc.type = 'sine';
-  osc.frequency.setValueAtTime(587.33, audioCtx.currentTime); // D5
-  osc.frequency.setValueAtTime(880, audioCtx.currentTime + 0.08); // A5
+  osc.type = 'triangle';
+  osc.frequency.setValueAtTime(440, audioCtx.currentTime);
+  osc.frequency.setValueAtTime(659, audioCtx.currentTime + 0.06);
   gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
-  gain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.25);
+  gain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
   osc.connect(gain);
   gain.connect(audioCtx.destination);
   osc.start();
-  osc.stop(audioCtx.currentTime + 0.25);
+  osc.stop(audioCtx.currentTime + 0.2);
 }
 
 function playExplosionSound() {
   initAudio();
   if (!audioCtx) return;
-  const bufferSize = audioCtx.sampleRate * 0.35;
+  const bufferSize = audioCtx.sampleRate * 0.3;
   const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
   const data = buffer.getChannelData(0);
   for (let i = 0; i < bufferSize; i++) {
     data[i] = Math.random() * 2 - 1;
   }
-  const noiseNode = audioCtx.createBufferSource();
-  noiseNode.buffer = buffer;
+  const noise = audioCtx.createBufferSource();
+  noise.buffer = buffer;
   const filter = audioCtx.createBiquadFilter();
   filter.type = 'lowpass';
-  filter.frequency.setValueAtTime(350, audioCtx.currentTime);
-  filter.frequency.exponentialRampToValueAtTime(20, audioCtx.currentTime + 0.35);
+  filter.frequency.setValueAtTime(250, audioCtx.currentTime);
+  filter.frequency.exponentialRampToValueAtTime(10, audioCtx.currentTime + 0.3);
   const gain = audioCtx.createGain();
-  gain.gain.setValueAtTime(0.18, audioCtx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.35);
-  noiseNode.connect(filter);
+  gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+  noise.connect(filter);
   filter.connect(gain);
   gain.connect(audioCtx.destination);
-  noiseNode.start();
+  noise.start();
 }
 
-// ============ THREE.JS ENGINE INITIALIZATION ============
+function playHitSound() {
+  initAudio();
+  if (!audioCtx) return;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = 'triangle';
+  osc.frequency.setValueAtTime(160, audioCtx.currentTime);
+  osc.frequency.linearRampToValueAtTime(30, audioCtx.currentTime + 0.12);
+  gain.gain.setValueAtTime(0.14, audioCtx.currentTime);
+  gain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.12);
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+  osc.start();
+  osc.stop(audioCtx.currentTime + 0.12);
+}
+
+function playScanBeeps() {
+  initAudio();
+  if (!audioCtx) return;
+  const now = audioCtx.currentTime;
+  const sequence = [523.25, 659.25, 783.99, 1046.50]; // Cyber sweep beeps
+  sequence.forEach((freq, idx) => {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(freq, now + idx * 0.08);
+    gain.gain.setValueAtTime(0.07, now + idx * 0.08);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.08 + 0.16);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start(now + idx * 0.08);
+    osc.stop(now + idx * 0.08 + 0.16);
+  });
+}
+
+function stopAmbientBGM() {
+  if (bgOsc) { try { bgOsc.stop(); } catch(e){} bgOsc = null; }
+  if (engineOsc) { try { engineOsc.stop(); } catch(e){} engineOsc = null; }
+}
+
+// ============ WEBGL SPACE SETUP ============
 let scene, camera, renderer;
-let playerGroup, playerCore, playerRing;
+let playerGroup, thrusterFlame;
 let playerRotationY = 0;
 let playerSpeed = 0;
-const friction = 0.94;
-const acceleration = 0.06;
-const maxSpeed = 1.6;
+const friction = 0.95;
+const acceleration = 0.05;
+const maxSpeed = 1.8;
 const rotationSpeed = 0.045;
-let hoverClock = 0;
+let cosmicTime = 0;
 
-// EMP active properties
 let empActive = false;
 let empMesh = null;
 let empRadius = 0;
 
+let galaxyPoints1, galaxyPoints2;
+
 function init3D() {
   const canvas = document.getElementById('game-canvas');
   scene = new THREE.Scene();
-  scene.fog = new THREE.FogExp2(0x040814, 0.014);
+  scene.fog = new THREE.FogExp2(0x020208, 0.008);
 
-  camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
   
   renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.shadowMap.enabled = true;
-  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-  // Lights
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.25);
-  scene.add(ambientLight);
+  // Dynamic Stars & Galaxies background
+  createStarfield();
+  createFarGalaxies();
 
-  const keyLight = new THREE.DirectionalLight(0x00d4ff, 1.2);
-  keyLight.position.set(40, 100, 40);
-  keyLight.castShadow = true;
-  keyLight.shadow.mapSize.width = 1024;
-  keyLight.shadow.mapSize.height = 1024;
-  scene.add(keyLight);
+  // Create Space-pod Ship
+  buildSpaceship();
 
-  const backLight = new THREE.DirectionalLight(0xff006b, 0.5);
-  backLight.position.set(-40, 50, -40);
-  scene.add(backLight);
+  // Draw procedural solar system elements
+  buildSolarSystem();
 
-  // Digital Ground Grid
-  const gridHelper = new THREE.GridHelper(600, 120, 0x00d4ff, 0x0c1530);
-  gridHelper.position.y = -0.4;
-  scene.add(gridHelper);
-
-  const floorGeo = new THREE.PlaneGeometry(600, 600);
-  const floorMat = new THREE.MeshStandardMaterial({
-    color: 0x040814,
-    roughness: 0.8,
-    metalness: 0.9
-  });
-  const floor = new THREE.Mesh(floorGeo, floorMat);
-  floor.rotation.x = -Math.PI / 2;
-  floor.position.y = -0.5;
-  floor.receiveShadow = true;
-  scene.add(floor);
-
-  // Build out player's procedural cyber-pod
-  playerGroup = new THREE.Group();
-  playerGroup.position.set(0, 0.8, 30);
-  scene.add(playerGroup);
-
-  const coreGeo = new THREE.OctahedronGeometry(0.9, 0);
-  const coreMat = new THREE.MeshStandardMaterial({
-    color: 0x00d4ff,
-    emissive: 0x003344,
-    roughness: 0.2,
-    metalness: 0.8
-  });
-  playerCore = new THREE.Mesh(coreGeo, coreMat);
-  playerCore.castShadow = true;
-  playerGroup.add(playerCore);
-
-  const ringGeo = new THREE.TorusGeometry(1.5, 0.1, 8, 32);
-  const ringMat = new THREE.MeshStandardMaterial({
-    color: 0xff006b,
-    emissive: 0x2b0012,
-    metalness: 0.9,
-    roughness: 0.1
-  });
-  playerRing = new THREE.Mesh(ringGeo, ringMat);
-  playerRing.rotation.x = Math.PI / 2;
-  playerGroup.add(playerRing);
-
-  // Build the static architectural sector monoliths
-  buildSectors();
-
-  // Resize Listener
   window.addEventListener('resize', handleResize);
 }
 
-// ============ LEVEL ARCHITECTURE GENERATOR ============
-const sectorMeshes = {};
+// ============ CELESTIAL & STARS COMPILER ============
+function createStarfield() {
+  const starGeo = new THREE.BufferGeometry();
+  const starsCount = 1800;
+  const positions = new Float32Array(starsCount * 3);
+  const colors = new Float32Array(starsCount * 3);
 
-function buildSectors() {
+  for (let i = 0; i < starsCount * 3; i += 3) {
+    const theta = Math.random() * Math.PI * 2;
+    const phi = Math.acos((Math.random() * 2) - 1);
+    const dist = 320 + Math.random() * 160;
+
+    positions[i] = dist * Math.sin(phi) * Math.cos(theta);
+    positions[i+1] = dist * Math.sin(phi) * Math.sin(theta);
+    positions[i+2] = dist * Math.cos(phi);
+
+    // Give stars realistic thermodynamic colors (warm yellow, bright white, hot blue)
+    const colorSeed = Math.random();
+    if (colorSeed < 0.2) {
+      colors[i] = 1.0; colors[i+1] = 0.85; colors[i+2] = 0.6; // Orange-yellow dwarf
+    } else if (colorSeed < 0.5) {
+      colors[i] = 0.8; colors[i+1] = 0.9; colors[i+2] = 1.0; // Blue giant
+    } else {
+      colors[i] = 1.0; colors[i+1] = 1.0; colors[i+2] = 1.0; // White dwarf
+    }
+  }
+
+  starGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  starGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+  const starMat = new THREE.PointsMaterial({
+    size: 1.3,
+    vertexColors: true,
+    transparent: true,
+    opacity: 0.9
+  });
+
+  const starField = new THREE.Points(starGeo, starMat);
+  scene.add(starField);
+}
+
+function createFarGalaxies() {
+  // Galaxy 1: Andromeda-style Spiral Galaxy
+  const galGeo1 = new THREE.BufferGeometry();
+  const starCount1 = 2500;
+  const pos1 = new Float32Array(starCount1 * 3);
+  const col1 = new Float32Array(starCount1 * 3);
+  const center1 = new THREE.Vector3(220, 110, -260);
+  const arms1 = 2;
+
+  for (let i = 0; i < starCount1; i++) {
+    const r = Math.random() * 90;
+    const armAngle = (i % arms1) * ((2 * Math.PI) / arms1);
+    const angle = r * 0.08 + armAngle + (Math.random() - 0.5) * 0.25;
+
+    const x = Math.cos(angle) * r;
+    const z = Math.sin(angle) * r;
+    const y = (Math.random() - 0.5) * (12 - r * 0.12);
+
+    pos1[i*3] = center1.x + x;
+    pos1[i*3+1] = center1.y + y;
+    pos1[i*3+2] = center1.z + z;
+
+    // Heat gradients: Gold core, fading out to deep magenta & cyan arms
+    const ratio = r / 90;
+    col1[i*3] = 1.0 - ratio * 0.4;     // Red
+    col1[i*3+1] = 0.8 - ratio * 0.8;   // Green
+    col1[i*3+2] = 1.0;                 // Blue
+  }
+  galGeo1.setAttribute('position', new THREE.BufferAttribute(pos1, 3));
+  galGeo1.setAttribute('color', new THREE.BufferAttribute(col1, 3));
+
+  const galMat1 = new THREE.PointsMaterial({
+    size: 1.6,
+    vertexColors: true,
+    transparent: true,
+    opacity: 0.85,
+    blending: THREE.AdditiveBlending
+  });
+  galaxyPoints1 = new THREE.Points(galGeo1, galMat1);
+  scene.add(galaxyPoints1);
+
+  // Galaxy 2: Ring/Elliptical Core Nebula
+  const galGeo2 = new THREE.BufferGeometry();
+  const starCount2 = 1800;
+  const pos2 = new Float32Array(starCount2 * 3);
+  const col2 = new Float32Array(starCount2 * 3);
+  const center2 = new THREE.Vector3(-240, -90, -220);
+
+  for (let i = 0; i < starCount2; i++) {
+    const theta = Math.random() * Math.PI * 2;
+    const phi = Math.acos((Math.random() * 2) - 1);
+    const r = 30 + Math.random() * 40; // Ring cluster focus
+
+    pos2[i*3] = center2.x + r * Math.sin(phi) * Math.cos(theta);
+    pos2[i*3+1] = center2.y + r * Math.sin(phi) * Math.sin(theta) * 0.3; // Flat disk representation
+    pos2[i*3+2] = center2.z + r * Math.cos(phi);
+
+    col2[i*3] = 0.2;
+    col2[i*3+1] = 0.8 + Math.random() * 0.2; // Cyan and blue tints
+    col2[i*3+2] = 1.0;
+  }
+  galGeo2.setAttribute('position', new THREE.BufferAttribute(pos2, 3));
+  galGeo2.setAttribute('color', new THREE.BufferAttribute(col2, 3));
+
+  const galMat2 = new THREE.PointsMaterial({
+    size: 1.4,
+    vertexColors: true,
+    transparent: true,
+    opacity: 0.75,
+    blending: THREE.AdditiveBlending
+  });
+  galaxyPoints2 = new THREE.Points(galGeo2, galMat2);
+  scene.add(galaxyPoints2);
+}
+
+function buildSpaceship() {
+  playerGroup = new THREE.Group();
+  playerGroup.position.set(0, 0, 50);
+  scene.add(playerGroup);
+
+  // Craft Nose
+  const noseGeo = new THREE.ConeGeometry(0.5, 1.8, 6);
+  noseGeo.rotateX(Math.PI / 2);
+  const noseMat = new THREE.MeshStandardMaterial({ color: 0x00f0ff, roughness: 0.2 });
+  const nose = new THREE.Mesh(noseGeo, noseMat);
+  nose.position.z = 0.8;
+  playerGroup.add(nose);
+
+  // Structural Wing systems
+  const wingsGeo = new THREE.BoxGeometry(2.8, 0.1, 0.8);
+  const wingsMat = new THREE.MeshStandardMaterial({ color: 0xff007b });
+  const wings = new THREE.Mesh(wingsGeo, wingsMat);
+  wings.position.z = -0.2;
+  playerGroup.add(wings);
+
+  // Solar Panels
+  const leftPanelGeo = new THREE.BoxGeometry(1.2, 0.05, 0.5);
+  const leftPanelMat = new THREE.MeshStandardMaterial({ color: 0x000000, roughness: 0.1, metalness: 0.9, wireframe: true });
+  const leftPanel = new THREE.Mesh(leftPanelGeo, leftPanelMat);
+  leftPanel.position.set(-1.8, 0.2, -0.2);
+  playerGroup.add(leftPanel);
+
+  const rightPanel = leftPanel.clone();
+  rightPanel.position.x = 1.8;
+  playerGroup.add(rightPanel);
+
+  // Tail thruster core
+  const exhaustGeo = new THREE.CylinderGeometry(0.2, 0.2, 0.5, 6);
+  exhaustGeo.rotateX(Math.PI / 2);
+  const exhaustMat = new THREE.MeshStandardMaterial({ color: 0x333333 });
+  const exhaust = new THREE.Mesh(exhaustGeo, exhaustMat);
+  exhaust.position.z = -0.8;
+  playerGroup.add(exhaust);
+
+  // Glowing rocket plume flare
+  const flameGeo = new THREE.ConeGeometry(0.3, 1.0, 6);
+  flameGeo.rotateX(-Math.PI / 2);
+  const flameMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff, transparent: true, opacity: 0.8 });
+  thrusterFlame = new THREE.Mesh(flameGeo, flameMat);
+  thrusterFlame.position.z = -1.4;
+  playerGroup.add(thrusterFlame);
+}
+
+function buildSolarSystem() {
+  // 1. Point Light placed exactly inside Sun core coordinates (0, 0, 0)
+  const sunLight = new THREE.PointLight(0xffecd0, 2.8, 600, 1.0);
+  scene.add(sunLight);
+
+  // Subtle galactic backfill ambient light so back edges are visible
+  const galacticAmbient = new THREE.AmbientLight(0x0b0c1e, 0.08);
+  scene.add(galacticAmbient);
+
   landmarks.forEach(lm => {
     const group = new THREE.Group();
     group.position.set(lm.pos.x, 0, lm.pos.z);
     scene.add(group);
 
-    // Dynamic Spatial Tag
-    const tag = createSpatialTag(lm.name, lm.color);
-    tag.position.set(0, 11, 0);
-    group.add(tag);
+    // Planet/Sun Core Mesh
+    const sphereGeo = new THREE.SphereGeometry(lm.size, 24, 24);
+    let sphereMat;
 
-    // Glowing Activation Portal base
-    const portalGeo = new THREE.RingGeometry(10, 11, 32);
-    const portalMat = new THREE.MeshBasicMaterial({ color: lm.ringColor, side: THREE.DoubleSide, transparent: true, opacity: 0.7 });
-    const baseRing = new THREE.Mesh(portalGeo, portalMat);
-    baseRing.rotation.x = -Math.PI / 2;
-    baseRing.position.y = 0.05;
-    group.add(baseRing);
+    if (lm.isSun) {
+      sphereMat = new THREE.MeshBasicMaterial({ color: lm.color });
 
-    // Landmark Architectural primitives
-    if (lm.id === 'applie') {
-      // Tech Blocks stack
-      for (let i = 0; i < 3; i++) {
-        const boxGeo = new THREE.BoxGeometry(4 - i, 3, 4 - i);
-        const boxMat = new THREE.MeshStandardMaterial({ color: 0x00d4ff, roughness: 0.2, wireframe: true });
-        const box = new THREE.Mesh(boxGeo, boxMat);
-        box.position.y = 1.5 + i * 3;
-        group.add(box);
-      }
-    } else if (lm.id === 'pdha') {
-      // Two communication towers connected
-      const towerGeo = new THREE.CylinderGeometry(0.5, 1.5, 10, 8);
-      const towerMat = new THREE.MeshStandardMaterial({ color: 0xff006b, roughness: 0.3 });
-      
-      const t1 = new THREE.Mesh(towerGeo, towerMat);
-      t1.position.set(-3, 5, 0);
-      group.add(t1);
+      // Sun Coronary Ring
+      const coronaGeo = new THREE.RingGeometry(lm.size + 1.5, lm.size + 1.8, 32);
+      coronaGeo.rotateX(Math.PI / 2);
+      const coronaMat = new THREE.MeshBasicMaterial({ color: 0xff4500, side: THREE.DoubleSide, transparent: true, opacity: 0.3 });
+      const corona = new THREE.Mesh(coronaGeo, coronaMat);
+      group.add(corona);
+    } else {
+      // Standard dynamic shading response material facing (0,0,0)
+      sphereMat = new THREE.MeshStandardMaterial({
+        color: lm.color,
+        emissive: lm.emissive || 0x000000,
+        roughness: 0.65,
+        metalness: 0.15
+      });
 
-      const t2 = new THREE.Mesh(towerGeo, towerMat);
-      t2.position.set(3, 5, 0);
-      group.add(t2);
-
-      const bridgeGeo = new THREE.BoxGeometry(7, 0.5, 1);
-      const bridgeMat = new THREE.MeshBasicMaterial({ color: 0xff006b, wireframe: true });
-      const bridge = new THREE.Mesh(bridgeGeo, bridgeMat);
-      bridge.position.set(0, 8, 0);
-      group.add(bridge);
-    } else if (lm.id === 'skills') {
-      // Celestial pillars holding technology crystals
-      const poleGeo = new THREE.CylinderGeometry(0.2, 0.2, 5, 6);
-      const poleMat = new THREE.MeshStandardMaterial({ color: 0x00ff41, metalness: 0.8 });
-      const crystalGeo = new THREE.OctahedronGeometry(1, 0);
-      const crystalMat = new THREE.MeshStandardMaterial({ color: 0x00ff41, emissive: 0x00330d });
-
-      for (let angle = 0; angle < Math.PI * 2; angle += Math.PI / 3) {
-        const x = Math.cos(angle) * 6;
-        const z = Math.sin(angle) * 6;
-        
-        const pole = new THREE.Mesh(poleGeo, poleMat);
-        pole.position.set(x, 2.5, z);
-        group.add(pole);
-
-        const crystal = new THREE.Mesh(crystalGeo, crystalMat);
-        crystal.position.set(x, 6, z);
-        group.add(crystal);
-      }
-    } else if (lm.id === 'edu') {
-      // Master graduation glass pyramid
-      const pyrGeo = new THREE.ConeGeometry(7, 10, 4);
-      const pyrMat = new THREE.MeshStandardMaterial({ color: 0xffa500, roughness: 0.2, wireframe: true });
-      const pyr = new THREE.Mesh(pyrGeo, pyrMat);
-      pyr.position.y = 5;
-      group.add(pyr);
-    } else if (lm.id === 'contact') {
-      // Central Hologram Sphere
-      const sphereGeo = new THREE.SphereGeometry(3, 16, 16);
-      const sphereMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.1, wireframe: true });
-      const sphere = new THREE.Mesh(sphereGeo, sphereMat);
-      sphere.position.y = 4;
-      group.add(sphere);
+      // Orbital Path ring line mapped around Sun center
+      const dist = Math.hypot(lm.pos.x, lm.pos.z);
+      const ringGeo = new THREE.RingGeometry(dist, dist + 0.3, 64);
+      ringGeo.rotateX(Math.PI / 2);
+      const ringMat = new THREE.MeshBasicMaterial({ color: 0x223355, side: THREE.DoubleSide, transparent: true, opacity: 0.35 });
+      const pathRing = new THREE.Mesh(ringGeo, ringMat);
+      scene.add(pathRing);
     }
 
-    sectorMeshes[lm.id] = group;
+    const core = new THREE.Mesh(sphereGeo, sphereMat);
+    group.add(core);
+
+    // Interactive Trigger Ring (Base landing field)
+    const activeRingGeo = new THREE.RingGeometry(lm.size + 3.0, lm.size + 3.4, 32);
+    activeRingGeo.rotateX(Math.PI / 2);
+    const activeRingMat = new THREE.MeshBasicMaterial({ color: lm.color, side: THREE.DoubleSide, transparent: true, opacity: 0.5 });
+    const activeRing = new THREE.Mesh(activeRingGeo, activeRingMat);
+    group.add(activeRing);
+
+    // Decorative Saturn Rings
+    if (lm.isSaturn) {
+      const ringGeo = new THREE.RingGeometry(lm.size + 2.0, lm.size + 5.0, 32);
+      ringGeo.rotateX(Math.PI / 2.2); // Slightly tilted
+      const ringMat = new THREE.MeshStandardMaterial({ color: 0x9b8559, side: THREE.DoubleSide, transparent: true, opacity: 0.8 });
+      const saturnRing = new THREE.Mesh(ringGeo, ringMat);
+      group.add(saturnRing);
+    }
+
+    // Dynamic Floating spatial billboard tag
+    const tag = createSpatialTag(lm.name, lm.color);
+    tag.position.set(0, lm.size + 4, 0);
+    group.add(tag);
+
+    lm.meshGroup = group;
+    lm.coreMesh = core;
   });
 }
 
 function createSpatialTag(text, color) {
   const canvas = document.createElement('canvas');
-  canvas.width = 320;
-  canvas.height = 80;
+  canvas.width = 300;
+  canvas.height = 70;
   const ctx = canvas.getContext('2d');
-  ctx.clearRect(0,0,320,80);
+  ctx.clearRect(0, 0, 300, 70);
   
-  // High fidelity style text
-  ctx.font = 'bold 20px Oxanium, sans-serif';
+  ctx.font = 'bold 16px Oxanium, sans-serif';
   ctx.strokeStyle = '#000000';
-  ctx.lineWidth = 4;
+  ctx.lineWidth = 3;
   ctx.fillStyle = color;
   ctx.textAlign = 'center';
-  ctx.strokeText(text, 160, 45);
-  ctx.fillText(text, 160, 45);
+  ctx.strokeText(text, 150, 40);
+  ctx.fillText(text, 150, 40);
 
   const texture = new THREE.CanvasTexture(canvas);
   const material = new THREE.SpriteMaterial({ map: texture, transparent: true });
   const sprite = new THREE.Sprite(material);
-  sprite.scale.set(8, 2, 1);
+  sprite.scale.set(8.5, 2.0, 1.0);
   return sprite;
 }
 
-// ============ SPAWN PROCESSORS & BEHAVIORS ============
-function spawnEnemy() {
-  if (config.enemies.length >= 15) return;
+// ============ SPACE HAZARD & ORB GENERATOR ============
+function spawnSpaceVirus() {
+  if (config.enemies.length >= 12) return;
 
-  const dist = 60 + Math.random() * 80;
+  const radius = 60 + Math.random() * 70;
   const angle = Math.random() * Math.PI * 2;
-  const x = playerGroup.position.x + Math.cos(angle) * dist;
-  const z = playerGroup.position.z + Math.sin(angle) * dist;
+  const x = playerGroup.position.x + Math.cos(angle) * radius;
+  const z = playerGroup.position.z + Math.sin(angle) * radius;
 
-  // Boundary validation
-  if (Math.abs(x) > 280 || Math.abs(z) > 280) return;
+  // Space coordinate retention
+  if (Math.abs(x) > 260 || Math.abs(z) > 260) return;
 
-  const bugGeo = new THREE.DodecahedronGeometry(1.2, 0);
-  const bugMat = new THREE.MeshStandardMaterial({
-    color: 0xff0055,
-    emissive: 0x3d0012,
-    roughness: 0.2,
-    metalness: 0.8
-  });
-  const bugMesh = new THREE.Mesh(bugGeo, bugMat);
-  bugMesh.position.set(x, 1.2, z);
-  bugMesh.castShadow = true;
-  scene.add(bugMesh);
-
-  // Outer orbital protection wire
-  const shieldGeo = new THREE.TorusGeometry(1.8, 0.05, 6, 16);
-  const shieldMat = new THREE.MeshBasicMaterial({ color: 0xff0055, wireframe: true });
-  const shieldMesh = new THREE.Mesh(shieldGeo, shieldMat);
-  shieldMesh.rotation.x = Math.PI / 2;
-  bugMesh.add(shieldMesh);
+  const virusGeo = new THREE.IcosahedronGeometry(1.0, 0);
+  // MeshStandardMaterial responds correctly to Sun lighting shadows
+  const virusMat = new THREE.MeshStandardMaterial({ color: 0xff007b, emissive: 0x3d0015, metalness: 0.9, roughness: 0.1 });
+  const mesh = new THREE.Mesh(virusGeo, virusMat);
+  mesh.position.set(x, 0, z);
+  scene.add(mesh);
 
   config.enemies.push({
-    mesh: bugMesh,
-    shield: shieldMesh,
+    mesh: mesh,
     hp: 100,
-    speed: 0.12 + Math.random() * 0.15,
-    oscillateTime: Math.random() * 100
+    speed: 0.15 + Math.random() * 0.15,
+    rotSpeedX: 0.02 * (Math.random() - 0.5),
+    rotSpeedY: 0.02 * (Math.random() - 0.5)
   });
 }
 
 function spawnOrb(pos) {
-  const orbGeo = new THREE.OctahedronGeometry(0.4, 0);
-  const orbMat = new THREE.MeshStandardMaterial({
-    color: 0x00ff41,
-    emissive: 0x00380f,
-    roughness: 0.1,
-    metalness: 0.9
-  });
+  const orbGeo = new THREE.DodecahedronGeometry(0.35, 0);
+  const orbMat = new THREE.MeshStandardMaterial({ color: 0x00ff55, emissive: 0x003b12, roughness: 0.1 });
   const mesh = new THREE.Mesh(orbGeo, orbMat);
-  mesh.position.set(pos.x, 0.8, pos.z);
+  mesh.position.set(pos.x, 0, pos.z);
   scene.add(mesh);
 
   config.coinsList.push({
     mesh: mesh,
-    osc: Math.random() * 10
+    rotSpeed: 0.025 + Math.random() * 0.02
   });
 }
 
-// ============ TACTICAL COMBAT ACTIONS ============
-function deployLaser() {
-  const laserGeo = new THREE.CylinderGeometry(0.08, 0.08, 3, 6);
+// ============ LASERS & SHIP SYSTEMS ============
+function firePlasmaLaser() {
+  const laserGeo = new THREE.CylinderGeometry(0.06, 0.06, 2.8, 6);
   laserGeo.rotateX(Math.PI / 2);
-  const laserMat = new THREE.MeshBasicMaterial({ color: 0x00ff41 });
+  const laserMat = new THREE.MeshBasicMaterial({ color: 0x00ff55 });
   const mesh = new THREE.Mesh(laserGeo, laserMat);
 
-  // Set weapon origin
   mesh.position.copy(playerGroup.position);
-  mesh.position.y += 0.2;
   mesh.rotation.y = playerRotationY;
 
   scene.add(mesh);
 
   config.player.bullets.push({
     mesh: mesh,
-    vx: Math.sin(playerRotationY) * 2.5,
-    vz: Math.cos(playerRotationY) * 2.5,
-    life: 120
+    vx: Math.sin(playerRotationY) * 2.8,
+    vz: Math.cos(playerRotationY) * 2.8,
+    life: 100
   });
 
   playLaserSound();
 }
 
-function deployEmp() {
+function triggerEmpPulse() {
   if (config.coins < 5) {
-    postTelemetryLog("ENERGY DEPLETED. Need 5 Tech Orbs to discharge EMP.");
+    postTelemetryLog("ENERGY DEPLETED. Connect with 5 tech orbs for EMP discharge.");
     return;
   }
   config.coins -= 5;
   document.getElementById('coins').textContent = config.coins;
 
-  // Render 3D Expanding Pulse Ring
-  const empGeo = new THREE.SphereGeometry(1, 32, 16);
-  const empMat = new THREE.MeshBasicMaterial({
-    color: 0x00ff41,
-    transparent: true,
-    opacity: 0.6,
-    wireframe: true
-  });
+  const empGeo = new THREE.SphereGeometry(1, 24, 24);
+  const empMat = new THREE.MeshBasicMaterial({ color: 0x00ff55, transparent: true, opacity: 0.5, wireframe: true });
   empMesh = new THREE.Mesh(empGeo, empMat);
   empMesh.position.copy(playerGroup.position);
   scene.add(empMesh);
@@ -1033,15 +1332,15 @@ function deployEmp() {
   empRadius = 1;
 
   playExplosionSound();
-  postTelemetryLog("EMP BURST EMITTED - VIRUSES DEFRAGMENTED");
+  postTelemetryLog("EMP WAVE DEPLOYED - CLEARING SPACE CORRUPTIONS");
 }
 
-// ============ FLIGHT CONTROLLER INPUTS ============
-const keyBind = {
-  up: ['ArrowUp', 'w'],
-  down: ['ArrowDown', 's'],
-  left: ['ArrowLeft', 'a'],
-  right: ['ArrowRight', 'd'],
+// ============ CONTROLLERS AND MOBILE DRIVERS ============
+const keyMap = {
+  left: ['a', 'arrowleft'],
+  right: ['d', 'arrowright'],
+  up: ['w', 'arrowup'],
+  down: ['s', 'arrowdown'],
   space: [' '],
   scan: ['f'],
   emp: ['e']
@@ -1049,140 +1348,158 @@ const keyBind = {
 
 window.addEventListener('keydown', (e) => {
   const key = e.key.toLowerCase();
-  if (keyBind.up.includes(key)) config.keys.up = true;
-  if (keyBind.down.includes(key)) config.keys.down = true;
-  if (keyBind.left.includes(key)) config.keys.left = true;
-  if (keyBind.right.includes(key)) config.keys.right = true;
-  if (keyBind.space.includes(e.key)) { e.preventDefault(); config.keys.space = true; }
-  if (keyBind.scan.includes(key)) config.keys.scan = true;
-  if (keyBind.emp.includes(key)) config.keys.emp = true;
+  if (keyMap.left.includes(key)) config.keys.left = true;
+  if (keyMap.right.includes(key)) config.keys.right = true;
+  if (keyMap.up.includes(key)) config.keys.up = true;
+  if (keyMap.down.includes(key)) config.keys.down = true;
+  if (keyMap.space.includes(e.key)) { e.preventDefault(); config.keys.space = true; }
+  if (keyMap.scan.includes(key)) config.keys.scan = true;
+  if (keyMap.emp.includes(key)) config.keys.emp = true;
 });
 
 window.addEventListener('keyup', (e) => {
   const key = e.key.toLowerCase();
-  if (keyBind.up.includes(key)) config.keys.up = false;
-  if (keyBind.down.includes(key)) config.keys.down = false;
-  if (keyBind.left.includes(key)) config.keys.left = false;
-  if (keyBind.right.includes(key)) config.keys.right = false;
-  if (keyBind.space.includes(e.key)) config.keys.space = false;
-  if (keyBind.scan.includes(key)) config.keys.scan = false;
-  if (keyBind.emp.includes(key)) config.keys.emp = false;
+  if (keyMap.left.includes(key)) config.keys.left = false;
+  if (keyMap.right.includes(key)) config.keys.right = false;
+  if (keyMap.up.includes(key)) config.keys.up = false;
+  if (keyMap.down.includes(key)) config.keys.down = false;
+  if (keyMap.space.includes(e.key)) config.keys.space = false;
+  if (keyMap.scan.includes(key)) config.keys.scan = false;
+  if (keyMap.emp.includes(key)) config.keys.emp = false;
 });
 
-function setupMobileUI() {
-  const touchKeys = {
-    'btn-up': 'up',
-    'btn-down': 'down',
+function setupMobileControls() {
+  const mapIds = {
     'btn-left': 'left',
-    'btn-right': 'right'
+    'btn-right': 'right',
+    'btn-up': 'up',
+    'btn-down': 'down'
   };
 
-  Object.entries(touchKeys).forEach(([id, action]) => {
+  Object.entries(mapIds).forEach(([id, action]) => {
     const el = document.getElementById(id);
     if (!el) return;
-    
-    const start = (e) => { e.preventDefault(); config.keys[action] = true; el.classList.add('pressed'); };
-    const end = () => { config.keys[action] = false; el.classList.remove('pressed'); };
+    const press = (e) => { e.preventDefault(); config.keys[action] = true; el.classList.add('pressed'); };
+    const release = () => { config.keys[action] = false; el.classList.remove('pressed'); };
 
-    el.addEventListener('touchstart', start);
-    el.addEventListener('touchend', end);
-    el.addEventListener('mousedown', start);
-    el.addEventListener('mouseup', end);
-    el.addEventListener('mouseleave', end);
+    el.addEventListener('touchstart', press);
+    el.addEventListener('touchend', release);
+    el.addEventListener('mousedown', press);
+    el.addEventListener('mouseup', release);
+    el.addEventListener('mouseleave', release);
   });
 
-  // Action Buttons
-  const mapActions = [
+  const actions = [
     { id: 'btn-shoot', prop: 'space' },
     { id: 'btn-skill', prop: 'emp' },
     { id: 'btn-scan', prop: 'scan' }
   ];
 
-  mapActions.forEach(act => {
+  actions.forEach(act => {
     const el = document.getElementById(act.id);
     if (!el) return;
-    const start = (e) => { e.preventDefault(); config.keys[act.prop] = true; el.classList.add('pressed'); };
-    const end = () => { config.keys[act.prop] = false; el.classList.remove('pressed'); };
+    const press = (e) => { e.preventDefault(); config.keys[act.prop] = true; el.classList.add('pressed'); };
+    const release = () => { config.keys[act.prop] = false; el.classList.remove('pressed'); };
 
-    el.addEventListener('touchstart', start);
-    el.addEventListener('touchend', end);
-    el.addEventListener('mousedown', start);
-    el.addEventListener('mouseup', end);
-    el.addEventListener('mouseleave', end);
+    el.addEventListener('touchstart', press);
+    el.addEventListener('touchend', release);
+    el.addEventListener('mousedown', press);
+    el.addEventListener('mouseup', release);
+    el.addEventListener('mouseleave', release);
   });
 }
 
-// ============ GAME LOOP & COMPUTED FLIGHT PHYSICS ============
-let activeSectorNode = null;
-let lastShotTime = 0;
+// ============ SIMULATION REVOLUTION LOOP ============
+let activeTargetNode = null;
+let lastLaserTime = 0;
 
 function gameLoop() {
   if (!config.gameRunning) return;
   requestAnimationFrame(gameLoop);
 
-  // 1. Core Physics & Rotational vectors
+  // Rotate planets slightly on axial plane
+  landmarks.forEach(lm => {
+    if (lm.coreMesh) {
+      lm.coreMesh.rotation.y += 0.005;
+    }
+  });
+
+  // Slow rotation of background galaxies
+  if (galaxyPoints1) galaxyPoints1.rotation.y += 0.0003;
+  if (galaxyPoints2) galaxyPoints2.rotation.y -= 0.0001;
+
+  // Spaceship flight mechanics
   if (config.keys.left) playerRotationY += rotationSpeed;
   if (config.keys.right) playerRotationY -= rotationSpeed;
 
   if (config.keys.up) {
     playerSpeed = Math.min(playerSpeed + acceleration, maxSpeed);
+    thrusterFlame.scale.set(1, 1.5 + Math.random() * 0.5, 1);
   } else if (config.keys.down) {
-    playerSpeed = Math.max(playerSpeed - acceleration, -maxSpeed * 0.5);
+    playerSpeed = Math.max(playerSpeed - acceleration, -maxSpeed * 0.4);
+    thrusterFlame.scale.set(1, 0.4, 1);
   } else {
     playerSpeed *= friction;
+    thrusterFlame.scale.set(1, 0.7, 1);
   }
 
-  // Update spatial positioning
+  // Update dynamic engine audio hum
+  updateEngineSfx(playerSpeed);
+
+  // Position updates
   playerGroup.position.x += Math.sin(playerRotationY) * playerSpeed;
   playerGroup.position.z += Math.cos(playerRotationY) * playerSpeed;
   playerGroup.rotation.y = playerRotationY;
 
-  // Hover suspension simulation
-  hoverClock += 0.04;
-  playerCore.position.y = Math.sin(hoverClock) * 0.12;
-  playerRing.position.y = Math.sin(hoverClock) * 0.12;
-  playerRing.rotation.z += 0.015;
+  // Roll the ship visual during turn vectors
+  if (config.keys.left) {
+    playerGroup.rotation.z += (0.28 - playerGroup.rotation.z) * 0.1;
+  } else if (config.keys.right) {
+    playerGroup.rotation.z += (-0.28 - playerGroup.rotation.z) * 0.1;
+  } else {
+    playerGroup.rotation.z += (0 - playerGroup.rotation.z) * 0.1;
+  }
 
-  // Boundary retention
-  const limit = 280;
-  playerGroup.position.x = Math.max(-limit, Math.min(limit, playerGroup.position.x));
-  playerGroup.position.z = Math.max(-limit, Math.min(limit, playerGroup.position.z));
+  // Flight boundary limits
+  const bounds = 250;
+  playerGroup.position.x = Math.max(-bounds, Math.min(bounds, playerGroup.position.x));
+  playerGroup.position.z = Math.max(-bounds, Math.min(bounds, playerGroup.position.z));
 
-  // 2. Weapons deployment checks
+  // Laser processing
   if (config.keys.space) {
     const now = Date.now();
-    if (now - lastShotTime > 180) {
-      deployLaser();
-      lastShotTime = now;
+    if (now - lastLaserTime > 200) {
+      firePlasmaLaser();
+      lastLaserTime = now;
     }
   }
 
+  // EMP deployment
   if (config.keys.emp && !empActive) {
-    deployEmp();
+    triggerEmpPulse();
   }
 
-  // 3. EMP wave evolution
+  // Progressing EMP explosion sphere
   if (empActive && empMesh) {
-    empRadius += 1.4;
+    empRadius += 1.5;
     empMesh.scale.set(empRadius, empRadius, empRadius);
-    empMesh.material.opacity = 1.0 - (empRadius / 38);
+    empMesh.material.opacity = 1.0 - (empRadius / 35);
 
-    // Blast intersection logic
-    config.enemies.forEach(bug => {
-      const distance = playerGroup.position.distanceTo(bug.mesh.position);
-      if (distance < empRadius && bug.hp > 0) {
-        bug.hp = 0;
+    config.enemies.forEach(virus => {
+      const d = playerGroup.position.distanceTo(virus.mesh.position);
+      if (d < empRadius && virus.hp > 0) {
+        virus.hp = 0;
       }
     });
 
-    if (empRadius >= 38) {
+    if (empRadius >= 35) {
       scene.remove(empMesh);
       empMesh = null;
       empActive = false;
     }
   }
 
-  // 4. Bullets processing
+  // Process deployed lasers
   config.player.bullets = config.player.bullets.filter(b => {
     b.mesh.position.x += b.vx;
     b.mesh.position.z += b.vz;
@@ -1190,12 +1507,11 @@ function gameLoop() {
 
     let keep = b.life > 0;
 
-    // Check hit register on active bugs
-    config.enemies.forEach(bug => {
-      if (bug.hp > 0) {
-        const dist = b.mesh.position.distanceTo(bug.mesh.position);
-        if (dist < 1.8) {
-          bug.hp -= 34;
+    config.enemies.forEach(v => {
+      if (v.hp > 0) {
+        const d = b.mesh.position.distanceTo(v.mesh.position);
+        if (d < 2.0) {
+          v.hp -= 34;
           keep = false;
         }
       }
@@ -1207,64 +1523,58 @@ function gameLoop() {
     return keep;
   });
 
-  // 5. Enemies routing & behaviors
-  if (Math.random() < 0.03) spawnEnemy();
+  // Spawn threat entities
+  if (Math.random() < 0.02) spawnSpaceVirus();
 
-  config.enemies = config.enemies.filter(bug => {
-    if (bug.hp <= 0) {
-      // Destruct animation and dropTech
+  config.enemies = config.enemies.filter(v => {
+    if (v.hp <= 0) {
       playExplosionSound();
-      spawnOrb(bug.mesh.position);
-      scene.remove(bug.mesh);
-      config.score += 250;
+      spawnOrb(v.mesh.position);
+      scene.remove(v.mesh);
+      config.score += 200;
       document.getElementById('score').textContent = String(config.score).padStart(4, '0');
       return false;
     }
 
-    // Direct movement vector targeting player pod
-    const dirX = playerGroup.position.x - bug.mesh.position.x;
-    const dirZ = playerGroup.position.z - bug.mesh.position.z;
-    const len = Math.hypot(dirX, dirZ);
+    // Direct tracking system targeting spaceship coordinates
+    const dx = playerGroup.position.x - v.mesh.position.x;
+    const dz = playerGroup.position.z - v.mesh.position.z;
+    const len = Math.hypot(dx, dz);
 
-    if (len > 1.5) {
-      bug.mesh.position.x += (dirX / len) * bug.speed;
-      bug.mesh.position.z += (dirZ / len) * bug.speed;
+    if (len > 1.0) {
+      v.mesh.position.x += (dx / len) * v.speed;
+      v.mesh.position.z += (dz / len) * v.speed;
     }
 
-    // Hover wobble behavior
-    bug.oscillateTime += 0.05;
-    bug.mesh.position.y = 1.2 + Math.sin(bug.oscillateTime) * 0.15;
-    bug.shield.rotation.y += 0.03;
+    v.mesh.rotation.x += v.rotSpeedX;
+    v.mesh.rotation.y += v.rotSpeedY;
 
-    // Direct collision damages pod
-    if (len < 2.0) {
-      config.hp -= 0.5;
+    // Contact hazard
+    if (len < 2.2) {
+      playHitSound();
+      config.hp -= 0.6;
       updateDamageBar();
       if (config.hp <= 0) {
-        executeTerminatedState();
+        triggerGameOver();
       }
     }
 
     return true;
   });
 
-  // 6. Collectible mechanics
+  // Tech orbs magnet pulling
   config.coinsList = config.coinsList.filter(orb => {
-    orb.osc += 0.05;
-    orb.mesh.position.y = 0.8 + Math.sin(orb.osc) * 0.1;
-    orb.mesh.rotation.y += 0.02;
+    orb.mesh.rotation.y += orb.rotSpeed;
+    const dist = playerGroup.position.distanceTo(orb.mesh.position);
 
-    const distance = playerGroup.position.distanceTo(orb.mesh.position);
-    
-    // Magnetic pull mechanics
-    if (distance < 12.0) {
+    if (dist < 14.0) {
       const dx = playerGroup.position.x - orb.mesh.position.x;
       const dz = playerGroup.position.z - orb.mesh.position.z;
-      orb.mesh.position.x += (dx / distance) * 0.4;
-      orb.mesh.position.z += (dz / distance) * 0.4;
+      orb.mesh.position.x += (dx / dist) * 0.45;
+      orb.mesh.position.z += (dz / dist) * 0.45;
     }
 
-    if (distance < 2.0) {
+    if (dist < 2.2) {
       playCollectSound();
       scene.remove(orb.mesh);
       config.coins += 1;
@@ -1275,197 +1585,206 @@ function gameLoop() {
     return true;
   });
 
-  // 7. Hotspot proximity node triggers
-  detectSectorProximity();
+  // Intercept orbital range checks
+  checkLandmarkProximity();
 
-  // 8. TPP Camera tracking lerp
-  trackSmoothCamera();
+  // Smooth Chase Camera follow
+  updateChaseCamera();
 
-  // 9. Draw Minimap telemetry & Render frames
-  drawTelemetryRadar();
+  // Draw diagnostic map
+  drawMinimapTelemetry();
+
   renderer.render(scene, camera);
 }
 
-// ============ SECTOR PROXIMITY ENGINE ============
-function detectSectorProximity() {
-  let activeNodeThisFrame = null;
-  const scanDistanceThreshold = 14.0;
-
+// ============ DETECT ORBITAL RANGE TARGETS ============
+function checkLandmarkProximity() {
+  let matchedLandmark = null;
+  
   landmarks.forEach(lm => {
     const dist = Math.hypot(playerGroup.position.x - lm.pos.x, playerGroup.position.z - lm.pos.z);
-    if (dist < scanDistanceThreshold) {
-      activeNodeThisFrame = lm;
+    // Dynamic entry boundaries depending on landmark sizes
+    if (dist < (lm.size + 4.5)) {
+      matchedLandmark = lm;
     }
   });
 
-  if (activeNodeThisFrame) {
-    if (activeSectorNode !== activeNodeThisFrame.id) {
-      activeSectorNode = activeNodeThisFrame.id;
-      document.getElementById('scan-prompt-text').textContent = `APPROACHING ${activeNodeThisFrame.name}. ENGAGE SCAN [F]`;
+  if (matchedLandmark) {
+    if (activeTargetNode !== matchedLandmark.id) {
+      activeTargetNode = matchedLandmark.id;
+      document.getElementById('scan-prompt-text').textContent = `ORBITAL FLIGHT WITHIN RANGE OF ${matchedLandmark.name}. SCAN [F]`;
       document.getElementById('scan-prompt').style.display = 'flex';
-      postTelemetryLog(`Node detected: ${activeNodeThisFrame.name}. Intercept active.`);
+      postTelemetryLog(`Orbit matched: ${matchedLandmark.name}. Scanner aligned.`);
     }
 
-    // Manual or key scanning execution
     if (config.keys.scan) {
-      executeScanAction(activeNodeThisFrame.id);
-      config.keys.scan = false; // Reset lock
+      openSectorScanner(matchedLandmark.id);
+      config.keys.scan = false;
     }
   } else {
-    if (activeSectorNode) {
-      activeSectorNode = null;
+    if (activeTargetNode) {
+      activeTargetNode = null;
       document.getElementById('scan-prompt').style.display = 'none';
     }
   }
 }
 
-function executeScanAction(sectorId) {
-  const data = portfolioData[sectorId];
-  if (!data) return;
+function openSectorScanner(sectorId) {
+  const details = sectorMapping[sectorId];
+  if (!details) return;
 
-  config.gameRunning = false; // Halt engine
-  const modalContent = `
-    <div class="sector-header">
-      <span class="sector-tag">${data.tags}</span>
-      <h2 class="terminal-title" style="margin-bottom:0;">${data.title}</h2>
-      <p style="color:var(--accent-cyan); font-weight:bold; font-size:14px; margin-top:4px;">${data.role} | ${data.period}</p>
-    </div>
-    <div class="terminal-text">
-      ${data.desc}
-    </div>
-    <div class="terminal-btn-row">
-      <button class="tech-btn" onclick="resumeSectorEcosystem()">CLOSE STREAM</button>
+  config.gameRunning = false;
+  playScanBeeps();
+  
+  const layout = `
+    <div class="resume-deck">
+      <div class="resume-header" style="border-bottom-color: var(--accent-magenta);">
+        <p style="color:var(--accent-gold); font-size:11px; font-weight:bold; letter-spacing:2px;">${details.tags}</p>
+        <h2 style="font-family:'Orbitron', sans-serif; font-size:22px; color:#fff; margin-top:4px;">${details.title}</h2>
+      </div>
+      <div class="terminal-text">
+        ${details.desc}
+      </div>
+      <div class="terminal-btn-row">
+        <button class="tech-btn" onclick="closeSectorScan()">RESUME FLIGHT DRIVE</button>
+        <button class="tech-btn secondary" onclick="openCompleteResumeDeck()">OPEN COMPLETE RESUME DECK</button>
+      </div>
     </div>
   `;
-  document.getElementById('sector-card-content').innerHTML = modalContent;
+  document.getElementById('sector-card-content').innerHTML = layout;
   document.getElementById('sector-modal').classList.add('active');
 }
 
-function resumeSectorEcosystem() {
+function closeSectorScan() {
   document.getElementById('sector-modal').classList.remove('active');
   config.gameRunning = true;
   gameLoop();
 }
 
-function forceOpenPortfolio() {
+function openCompleteResumeDeck() {
+  document.getElementById('start-screen').classList.remove('active');
   document.getElementById('gameover-screen').classList.remove('active');
-  executeScanAction('applie'); // Fallback direct stream entry point
+  
+  config.gameRunning = false;
+  playScanBeeps();
+
+  const layout = `
+    ${resumeDetailsHTML}
+    <div class="terminal-btn-row" style="margin-top: 24px;">
+      <button class="tech-btn" onclick="closeSectorScan()">LAUNCH SPATIAL ENGINE</button>
+    </div>
+  `;
+  document.getElementById('sector-card-content').innerHTML = layout;
+  document.getElementById('sector-modal').classList.add('active');
 }
 
-// ============ TPP THIRD-PERSON CAMERA INTERPOLATION ============
-function trackSmoothCamera() {
-  const behindDistance = -13.0;
-  const cameraHeight = 6.0;
+// ============ TPP CHASE CAMERA SYSTEM ============
+function updateChaseCamera() {
+  const relativeDistance = -12.0;
+  const cameraHeight = 5.0;
 
   const angle = playerRotationY;
-  const targetCamX = playerGroup.position.x + Math.sin(angle) * behindDistance;
-  const targetCamZ = playerGroup.position.z + Math.cos(angle) * behindDistance;
-  const targetCamY = playerGroup.position.y + cameraHeight;
+  const camX = playerGroup.position.x + Math.sin(angle) * relativeDistance;
+  const camZ = playerGroup.position.z + Math.cos(angle) * relativeDistance;
+  const camY = playerGroup.position.y + cameraHeight;
 
-  // LERP positional translation to remove jitter
-  camera.position.x += (targetCamX - camera.position.x) * 0.08;
-  camera.position.z += (targetCamZ - camera.position.z) * 0.08;
-  camera.position.y += (targetCamY - camera.position.y) * 0.08;
+  // Lerping chase vector positions
+  camera.position.x += (camX - camera.position.x) * 0.08;
+  camera.position.z += (camZ - camera.position.z) * 0.08;
+  camera.position.y += (camY - camera.position.y) * 0.08;
 
-  // Constant lock focal target point
-  const lookAtTarget = new THREE.Vector3(
-    playerGroup.position.x + Math.sin(angle) * 4.0,
-    playerGroup.position.y + 0.5,
-    playerGroup.position.z + Math.cos(angle) * 4.0
+  // Point camera target ahead of craft
+  const focusPoint = new THREE.Vector3(
+    playerGroup.position.x + Math.sin(angle) * 3.5,
+    playerGroup.position.y,
+    playerGroup.position.z + Math.cos(angle) * 3.5
   );
-  camera.lookAt(lookAtTarget);
+  camera.lookAt(focusPoint);
 }
 
-// ============ RADAR TELEMETRY CANVAS ============
-function drawTelemetryRadar() {
+// ============ COMPASS COMPACT TELEMETRY ============
+function drawMinimapTelemetry() {
   const canvas = document.getElementById('minimap');
   const ctx = canvas.getContext('2d');
-  ctx.clearRect(0,0,110,110);
+  ctx.clearRect(0, 0, 100, 100);
 
-  const cx = 55;
-  const cy = 55;
-  const scale = 0.32; // Scaling coordinates down on radar view
+  const cx = 50;
+  const cy = 50;
+  const scale = 0.3;
 
-  // Background Sweep lines
-  ctx.fillStyle = 'rgba(10,20,40,0.6)';
+  ctx.fillStyle = 'rgba(6, 8, 20, 0.85)';
   ctx.beginPath();
-  ctx.arc(cx, cy, 52, 0, Math.PI * 2);
+  ctx.arc(cx, cy, 48, 0, Math.PI * 2);
   ctx.fill();
-  ctx.strokeStyle = 'rgba(0, 212, 255, 0.2)';
-  ctx.lineWidth = 1;
+  ctx.strokeStyle = 'rgba(0, 240, 255, 0.2)';
   ctx.stroke();
 
-  // Radar Sweeper pulse line
-  config.radarSweep += 0.035;
-  const sweepX = cx + Math.sin(config.radarSweep) * 52;
-  const sweepY = cy - Math.cos(config.radarSweep) * 52;
-  ctx.strokeStyle = 'rgba(0, 212, 255, 0.15)';
+  // Dial sweep line
+  config.radarSweep += 0.04;
+  const sx = cx + Math.sin(config.radarSweep) * 48;
+  const sy = cy - Math.cos(config.radarSweep) * 48;
+  ctx.strokeStyle = 'rgba(0, 240, 255, 0.1)';
   ctx.beginPath();
   ctx.moveTo(cx, cy);
-  ctx.lineTo(sweepX, sweepY);
+  ctx.lineTo(sx, sy);
   ctx.stroke();
 
-  // Render Sectors positions relative to player
+  // Draw Planet Positions on minimap
   landmarks.forEach(lm => {
     const rx = (lm.pos.x - playerGroup.position.x) * scale;
     const rz = (lm.pos.z - playerGroup.position.z) * scale;
-    const dist = Math.hypot(rx, rz);
+    const distance = Math.hypot(rx, rz);
 
-    if (dist < 48) {
+    if (distance < 45) {
       ctx.fillStyle = lm.color;
-      ctx.shadowColor = lm.color;
-      ctx.shadowBlur = 4;
       ctx.beginPath();
-      ctx.arc(cx + rx, cy + rz, 3.5, 0, Math.PI * 2);
+      ctx.arc(cx + rx, cy + rz, 3, 0, Math.PI * 2);
       ctx.fill();
     }
   });
 
-  // Render Hostile bugs relative to player
-  config.enemies.forEach(bug => {
-    const rx = (bug.mesh.position.x - playerGroup.position.x) * scale;
-    const rz = (bug.mesh.position.z - playerGroup.position.z) * scale;
-    const dist = Math.hypot(rx, rz);
+  // Render threats
+  config.enemies.forEach(v => {
+    const rx = (v.mesh.position.x - playerGroup.position.x) * scale;
+    const rz = (v.mesh.position.z - playerGroup.position.z) * scale;
+    const distance = Math.hypot(rx, rz);
 
-    if (dist < 48) {
-      ctx.fillStyle = '#ff0055';
-      ctx.shadowColor = '#ff0055';
-      ctx.shadowBlur = 2;
+    if (distance < 45) {
+      ctx.fillStyle = '#ff007b';
       ctx.beginPath();
-      ctx.arc(cx + rx, cy + rz, 2, 0, Math.PI * 2);
+      ctx.arc(cx + rx, cy + rz, 1.5, 0, Math.PI * 2);
       ctx.fill();
     }
   });
-  ctx.shadowBlur = 0; // Reset
 
-  // Core Player point center heading direction line
-  ctx.fillStyle = '#00ff41';
+  // Center vector marker (Ship)
+  ctx.fillStyle = '#00ff55';
   ctx.beginPath();
-  ctx.arc(cx, cy, 3, 0, Math.PI * 2);
+  ctx.arc(cx, cy, 2.5, 0, Math.PI * 2);
   ctx.fill();
 
-  ctx.strokeStyle = '#00ff41';
-  ctx.lineWidth = 1.5;
+  ctx.strokeStyle = '#00ff55';
+  ctx.lineWidth = 1.2;
   ctx.beginPath();
   ctx.moveTo(cx, cy);
-  ctx.lineTo(cx + Math.sin(playerRotationY) * 9, cy + Math.cos(playerRotationY) * 9);
+  ctx.lineTo(cx + Math.sin(playerRotationY) * 8, cy + Math.cos(playerRotationY) * 8);
   ctx.stroke();
 }
 
 function postTelemetryLog(msg) {
-  const textEl = document.getElementById('system-log');
-  textEl.textContent = `> ${msg}`;
-  const el = document.getElementById('system-log-panel');
-  el.style.opacity = '1.0';
-  clearTimeout(window.telemetryTimer);
-  window.telemetryTimer = setTimeout(() => {
-    el.style.opacity = '0.6';
+  const element = document.getElementById('system-log');
+  element.textContent = `> ${msg}`;
+  const wrapper = document.getElementById('system-log-panel');
+  wrapper.style.opacity = '1.0';
+  clearTimeout(window.logTimeoutID);
+  window.logTimeoutID = setTimeout(() => {
+    wrapper.style.opacity = '0.6';
   }, 4000);
 }
 
 function updateDamageBar() {
-  const percent = Math.max(0, (config.hp / config.maxHp) * 100);
-  document.getElementById('health-fill').style.width = percent + '%';
+  const ratio = Math.max(0, (config.hp / config.maxHp) * 100);
+  document.getElementById('health-fill').style.width = ratio + '%';
 }
 
 function handleResize() {
@@ -1474,12 +1793,14 @@ function handleResize() {
   renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
-// ============ ENGINE LIFE CYCLES ============
+// ============ SPATIAL LIFE CYCLES ============
 function startGame() {
   document.getElementById('start-screen').classList.remove('active');
   document.getElementById('gameover-screen').classList.remove('active');
+  document.getElementById('sector-modal').classList.remove('active');
 
-  initAudio();
+  stopAmbientBGM();
+  startAmbientBGM();
 
   // Reset metrics
   config.score = 0;
@@ -1491,34 +1812,53 @@ function startGame() {
   document.getElementById('coins').textContent = '0';
   updateDamageBar();
 
-  // Reposition pod to safe digital vector
-  playerGroup.position.set(0, 0.8, 30);
+  // Reposition player
+  playerGroup.position.set(0, 0, 50);
   playerRotationY = 0;
   playerSpeed = 0;
 
-  // Purge entities
-  config.enemies.forEach(e => scene.remove(e.mesh));
-  config.coinsList.forEach(c => scene.remove(c.mesh));
+  // Clear scene of residual items
+  config.enemies.forEach(v => scene.remove(v.mesh));
+  config.coinsList.forEach(o => scene.remove(o.mesh));
   config.player.bullets.forEach(b => scene.remove(b.mesh));
 
   config.enemies = [];
   config.coinsList = [];
   config.player.bullets = [];
 
-  postTelemetryLog("Systems active. Sector drives online.");
+  postTelemetryLog("Thruster drives connected. Solar paths visible.");
 
   gameLoop();
 }
 
-function executeTerminatedState() {
+function triggerGameOver() {
   config.gameRunning = false;
-  document.getElementById('gameover-stats').textContent = `Final Decryption Points: ${config.score} | Collected Orbs: ${config.coins}`;
+  
+  // Terminal audio decay descending sweep
+  if (audioCtx) {
+    try {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(300, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(30, audioCtx.currentTime + 1.2);
+      gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.2);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 1.2);
+    } catch(e){}
+  }
+  
+  stopAmbientBGM();
+  document.getElementById('gameover-stats').textContent = `Total Points: ${config.score} | Energy Orbs: ${config.coins}`;
   document.getElementById('gameover-screen').classList.add('active');
 }
 
-// Bootstrapper Entry Point
+// Initializer triggers
 init3D();
-setupMobileUI();
+setupMobileControls();
 </script>
 
 </body>
