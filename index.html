@@ -40,24 +40,7 @@
       overflow: hidden;
       user-select: none;
       -webkit-user-select: none;
-      touch-action: none;
-    }
-
-    /* SCANLINE HUD EFFECT */
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: linear-gradient(
-        0deg,
-        rgba(0, 0, 0, 0.2) 0%,
-        transparent 50%,
-        rgba(0, 0, 0, 0.2) 100%
-      );
-      background-size: 100% 4px;
-      pointer-events: none;
-      z-index: 9999;
+      /* touch-action: none is removed here to allow native clicks/taps on overlays and buttons */
     }
 
     #game-container {
@@ -70,6 +53,7 @@
       width: 100%;
       height: 100%;
       display: block;
+      touch-action: none; /* Restricted purely to WebGL canvas to avoid interfering with menus */
     }
 
     /* UPPER HEADS-UP DISPLAY */
@@ -258,7 +242,7 @@
       cursor: pointer;
       font-size: 16px;
       transition: all 0.1s;
-      touch-action: none;
+      touch-action: none; /* Steering pads retain optimized touch action */
     }
 
     .joy-btn:active, .joy-btn.pressed {
@@ -319,13 +303,15 @@
       top: 0; left: 0;
       width: 100%; height: 100%;
       background: rgba(1, 2, 6, 0.96);
-      z-index: 100;
+      z-index: 1000; /* Extremely high z-index to dominate canvas rendering space */
       display: none;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       padding: 16px;
       backdrop-filter: blur(12px);
+      pointer-events: auto; /* Forces standard click actions to fire */
+      touch-action: auto; /* Restores default tap/scroll capabilities for terminal content */
     }
 
     .screen-overlay.active {
@@ -343,6 +329,7 @@
       text-align: center;
       overflow-y: auto;
       max-height: 90vh;
+      pointer-events: auto;
     }
 
     .terminal-title {
@@ -385,6 +372,7 @@
       cursor: pointer;
       border-radius: 4px;
       transition: all 0.2s;
+      pointer-events: auto;
     }
 
     .tech-btn:hover {
@@ -1412,9 +1400,14 @@ function setupMobileControls() {
 // ============ SIMULATION REVOLUTION LOOP ============
 let activeTargetNode = null;
 let lastLaserTime = 0;
+let isLooping = false;
 
 function gameLoop() {
-  if (!config.gameRunning) return;
+  if (!config.gameRunning) {
+    isLooping = false;
+    return;
+  }
+  isLooping = true;
   requestAnimationFrame(gameLoop);
 
   // Rotate planets slightly on axial plane
@@ -1658,7 +1651,7 @@ function openSectorScanner(sectorId) {
 function closeSectorScan() {
   document.getElementById('sector-modal').classList.remove('active');
   config.gameRunning = true;
-  gameLoop();
+  if (!isLooping) gameLoop();
 }
 
 function openCompleteResumeDeck() {
@@ -1828,7 +1821,7 @@ function startGame() {
 
   postTelemetryLog("Thruster drives connected. Solar paths visible.");
 
-  gameLoop();
+  if (!isLooping) gameLoop();
 }
 
 function triggerGameOver() {
