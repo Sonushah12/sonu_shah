@@ -40,7 +40,23 @@
       overflow: hidden;
       user-select: none;
       -webkit-user-select: none;
-      /* touch-action: none is removed here to allow native clicks/taps on overlays and buttons */
+    }
+
+    /* SCANLINE HUD EFFECT */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: linear-gradient(
+        0deg,
+        rgba(255, 255, 255, 0.05) 0%,
+        transparent 50%,
+        rgba(255, 255, 255, 0.05) 100%
+      );
+      background-size: 100% 4px;
+      pointer-events: none;
+      z-index: 9999;
     }
 
     #game-container {
@@ -53,7 +69,7 @@
       width: 100%;
       height: 100%;
       display: block;
-      touch-action: none; /* Restricted purely to WebGL canvas to avoid interfering with menus */
+      touch-action: none;
     }
 
     /* UPPER HEADS-UP DISPLAY */
@@ -63,38 +79,24 @@
       left: 16px;
       right: 16px;
       display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
+      justify-content: center;
       pointer-events: none;
       z-index: 10;
     }
 
     .hud-panel {
       background: var(--bg-glass);
-      border: 1px solid rgba(0, 240, 255, 0.25);
+      border: 1px solid rgba(0, 240, 255, 0.35);
       border-radius: 6px;
-      padding: 10px 14px;
+      padding: 10px 18px;
       backdrop-filter: blur(10px);
       pointer-events: auto;
-    }
-
-    .hud-title-card h1 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 18px;
-      letter-spacing: 2px;
-      color: var(--accent-cyan);
-      text-shadow: 0 0 8px rgba(0, 240, 255, 0.4);
-    }
-
-    .hud-subtitle {
-      font-size: 10px;
-      color: var(--text-muted);
-      letter-spacing: 1px;
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.15);
     }
 
     .hud-stats {
       display: flex;
-      gap: 20px;
+      gap: 24px;
       align-items: center;
     }
 
@@ -112,7 +114,7 @@
 
     .stat-val {
       font-family: 'Orbitron', sans-serif;
-      font-size: 14px;
+      font-size: 15px;
       font-weight: 700;
       color: var(--accent-cyan);
     }
@@ -148,7 +150,7 @@
 
     .radar-container {
       background: var(--bg-glass);
-      border: 1px solid rgba(0, 240, 255, 0.25);
+      border: 1px solid rgba(0, 240, 255, 0.35);
       border-radius: 50%;
       width: 100px;
       height: 100px;
@@ -213,7 +215,7 @@
     /* MOBILE FLIGHT CONTROLS */
     .ctrl-hud {
       position: absolute;
-      bottom: 16px;
+      bottom: 30px;
       left: 16px;
       right: 16px;
       display: flex;
@@ -230,25 +232,27 @@
     }
 
     .joy-btn {
-      width: 50px;
-      height: 50px;
-      background: var(--bg-glass);
-      border: 1px solid rgba(0, 240, 255, 0.25);
-      border-radius: 8px;
-      color: var(--accent-cyan);
+      width: 58px;
+      height: 58px;
+      background: rgba(0, 240, 255, 0.22);
+      border: 2px solid var(--accent-cyan);
+      border-radius: 10px;
+      color: #ffffff;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      font-size: 16px;
+      font-size: 20px;
       transition: all 0.1s;
-      touch-action: none; /* Steering pads retain optimized touch action */
+      touch-action: none;
+      text-shadow: 0 0 8px var(--accent-cyan);
+      box-shadow: 0 0 10px rgba(0, 240, 255, 0.25);
     }
 
     .joy-btn:active, .joy-btn.pressed {
       background: var(--accent-cyan);
       color: var(--bg-primary);
-      box-shadow: 0 0 12px var(--accent-cyan);
+      box-shadow: 0 0 20px var(--accent-cyan);
     }
 
     .action-group {
@@ -258,21 +262,23 @@
     }
 
     .action-circle-btn {
-      width: 54px;
-      height: 54px;
+      width: 62px;
+      height: 62px;
       border-radius: 50%;
-      background: var(--bg-glass);
-      color: var(--accent-magenta);
-      border: 1px solid rgba(255, 0, 123, 0.35);
+      background: rgba(255, 0, 123, 0.22);
+      color: #ffffff;
+      border: 2px solid var(--accent-magenta);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      font-size: 14px;
+      font-size: 16px;
       gap: 1px;
       transition: all 0.1s;
       touch-action: none;
+      text-shadow: 0 0 8px var(--accent-magenta);
+      box-shadow: 0 0 10px rgba(255, 0, 123, 0.25);
     }
 
     .action-circle-btn span {
@@ -283,18 +289,21 @@
     .action-circle-btn:active, .action-circle-btn.pressed {
       background: var(--accent-magenta);
       color: var(--text-white);
-      box-shadow: 0 0 15px var(--accent-magenta);
+      box-shadow: 0 0 20px var(--accent-magenta);
     }
 
     .action-circle-btn.emp {
-      color: var(--accent-lime);
-      border-color: rgba(0, 255, 85, 0.35);
+      color: #ffffff;
+      background: rgba(0, 255, 85, 0.22);
+      border-color: var(--accent-lime);
+      text-shadow: 0 0 8px var(--accent-lime);
+      box-shadow: 0 0 10px rgba(0, 255, 85, 0.25);
     }
 
     .action-circle-btn.emp:active, .action-circle-btn.emp.pressed {
       background: var(--accent-lime);
       color: var(--bg-primary);
-      box-shadow: 0 0 15px var(--accent-lime);
+      box-shadow: 0 0 20px var(--accent-lime);
     }
 
     /* FULL OVERLAYS */
@@ -302,16 +311,16 @@
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: rgba(1, 2, 6, 0.96);
-      z-index: 1000; /* Extremely high z-index to dominate canvas rendering space */
+      background: rgba(16, 20, 36, 0.96);
+      z-index: 1000;
       display: none;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       padding: 16px;
       backdrop-filter: blur(12px);
-      pointer-events: auto; /* Forces standard click actions to fire */
-      touch-action: auto; /* Restores default tap/scroll capabilities for terminal content */
+      pointer-events: auto;
+      touch-action: auto;
     }
 
     .screen-overlay.active {
@@ -486,8 +495,8 @@
       .health-bar-container { width: 70px; }
       .terminal-card { padding: 16px; }
       .terminal-title { font-size: 22px; }
-      .joy-btn { width: 42px; height: 42px; font-size: 14px; }
-      .action-circle-btn { width: 46px; height: 46px; font-size: 12px; }
+      .joy-btn { width: 50px; height: 50px; font-size: 16px; }
+      .action-circle-btn { width: 52px; height: 52px; font-size: 13px; }
     }
   </style>
 </head>
@@ -499,11 +508,6 @@
 
   <!-- HUD INTERACTION HUD -->
   <div class="hud-header">
-    <div class="hud-panel hud-title-card">
-      <h1>COSMIC RUNNER</h1>
-      <span class="hud-subtitle">SOLAR PORTFOLIO SYSTEM</span>
-    </div>
-
     <div class="hud-panel hud-stats">
       <div class="stat-box">
         <span class="stat-label">HULL INTEGRITY</span>
@@ -616,147 +620,140 @@
 </div>
 
 <script>
-// ============ FULL STRUCTURED PORTFOLIO DATA ============
-const resumeDetailsHTML = `
-  <div class="resume-deck">
-    <div class="resume-header">
-      <h2>SONU SHAH</h2>
-      <p style="color: var(--accent-cyan); font-weight:bold; font-size:14px; margin-top:2px;">Senior Flutter Developer | iOS & macOS Systems Specialist</p>
-      <div class="resume-contacts">
-        <span>📧 <a href="mailto:sonu.shah99098@gmail.com">sonu.shah99098@gmail.com</a></span>
-        <span>📞 <a href="tel:+919909843221">+91 9909843221</a></span>
-        <span>💼 <a href="https://linkedin.com/in/shah-sonu" target="_blank">linkedin.com/in/shah-sonu</a></span>
-        <span>🐙 <a href="https://github.com/sonushah12" target="_blank">github.com/sonushah12</a></span>
-      </div>
-    </div>
-
-    <div class="resume-section-title">PROFESSIONAL TIMELINE</div>
-    
-    <div class="job-block">
-      <div class="job-title">
-        <span>APPLIE INFO SOLUTION</span>
-        <span>Jan 2025 – Present</span>
-      </div>
-      <div class="job-sub">Senior Flutter Developer</div>
-      <ul class="resume-bullets">
-        <li>Architected and released production VoIP utility calling systems utilizing the Twilio Voice SDK with stable background execution pathways.</li>
-        <li>Engineered low-level canvas drawing pipelines in Flutter to render crisp vector graphics paths dynamically.</li>
-        <li>Implemented structural iOS native native-channel bridges for electronic signature tools and optimized background voice memo utilities.</li>
-      </ul>
-    </div>
-
-    <div class="job-block">
-      <div class="job-title">
-        <span>PDHAMECHA LLP</span>
-        <span>Jun 2024 – Dec 2024</span>
-      </div>
-      <div class="job-sub">Flutter Developer</div>
-      <ul class="resume-bullets">
-        <li>Designed and developed "Cloud Vidhya", a live-streaming EdTech platform powered by WebRTC real-time pipelines.</li>
-        <li>Built an Enterprise HRMS application utilizing background geofencing models with a verified accuracy of 90%.</li>
-        <li>Engineered local memory models with Hive, and orchestrated isolated asynchronous jobs using Dart Isolates under GetX state patterns.</li>
-      </ul>
-    </div>
-
-    <div class="resume-section-title">TECHNOLOGY LANDMARKS</div>
-    <div class="skills-grid" style="margin-bottom: 16px;">
-      <div class="skill-pill">Flutter & Dart</div>
-      <div class="skill-pill">iOS / Cocoa Touch</div>
-      <div class="skill-pill">macOS Platform SDK</div>
-      <div class="skill-pill">Twilio Voice integration</div>
-      <div class="skill-pill">WebRTC Pipelines</div>
-      <div class="skill-pill">GetX Architecture</div>
-      <div class="skill-pill">Firebase Suite</div>
-      <div class="skill-pill">Local Hive SQL</div>
-      <div class="skill-pill">Dart Multithreading Isolates</div>
-      <div class="skill-pill">Custom Engine Graphics</div>
-    </div>
-
-    <div class="resume-section-title">EDUCATION CRITERIA</div>
-    <div class="job-block" style="margin-bottom:0;">
-      <div class="job-title">
-        <span>LJ Institute of Computer Applications</span>
-        <span>2022 – 2024</span>
-      </div>
-      <div class="job-sub">Master of Computer Applications (MCA) — Graduated Top 10%</div>
-      <ul class="resume-bullets" style="margin-bottom:0;">
-        <li>Specialized focus on Advanced Data Structures, Network Topology Protocols, Systems Design, and Relational Database Implementations.</li>
-      </ul>
-    </div>
-  </div>
-`;
-
-const sectorMapping = {
-  applie: {
-    title: 'APPLIE INFO SOLUTION NODE',
-    tags: 'SENIOR WORK / TWILIO VOICE SDK / VECTOR GRAPHICS',
-    desc: `
-      <ul class="resume-bullets">
-        <li>Built robust background calling features via Twilio Voice SDK inside an active production mobile ecosystem.</li>
-        <li>Optimized system drawing pipelines with low-level custom painter logic to handle real-time rendering.</li>
-        <li>Secured smooth channel communication with Apple APIs on macOS and iOS platforms.</li>
-      </ul>
-    `
-  },
-  pdha: {
-    title: 'PDHAMECHA LLP WORKSPACE',
-    tags: 'WEBRTC STREAMING / GEOLOCATION ALGORITHMS / MEMORY',
-    desc: `
-      <ul class="resume-bullets">
-        <li>Configured WebRTC interfaces for the "Cloud Vidhya" educational live stream systems.</li>
-        <li>Constructed real-time background geofencing models tracking clock-in accuracy with 90% stability.</li>
-        <li>Created multi-threaded execution bridges via Dart Isolates to minimize rendering lag.</li>
-      </ul>
-    `
-  },
-  skills: {
-    title: 'CORE TECH SKILLS REPOS',
-    tags: 'OPERATIONAL LANGUAGES, FRAMEWORKS & RUNTIMES',
-    desc: `
-      <div class="skills-grid">
-        <div class="skill-pill">Flutter & Dart</div>
-        <div class="skill-pill">iOS Native APIs</div>
-        <div class="skill-pill">macOS SDK</div>
-        <div class="skill-pill">WebRTC Engine</div>
-        <div class="skill-pill">Twilio Voice</div>
-        <div class="skill-pill">Firebase Integrations</div>
-        <div class="skill-pill">Hive Database</div>
-        <div class="skill-pill">Dart Isolates</div>
-      </div>
-    `
-  },
-  edu: {
-    title: 'LJ ACADEMY PYRAMID',
-    tags: 'MASTER OF COMPUTER APPLICATIONS / CLASS OF 2024',
-    desc: `
-      <ul class="resume-bullets">
-        <li>Acquired complete Master of Computer Applications (MCA) degrees, emerging in the top 10% ranks.</li>
-        <li>Completed structural projects based on relational databases, networking topologies, and complex algorithmic processes.</li>
-      </ul>
-    `
-  },
-  contact: {
-    title: 'SOLAR COMMS NODE',
-    tags: 'ESTABLISH CONNECT CHANNELS',
-    desc: `
-      <p style="margin-bottom: 8px;">📧 <strong>E-Mail:</strong> sonu.shah99098@gmail.com</p>
-      <p style="margin-bottom: 8px;">📞 <strong>Mobile:</strong> +91 9909843221</p>
-      <p style="margin-bottom: 8px;">💼 <strong>LinkedIn:</strong> linkedin.com/in/shah-sonu</p>
-      <p style="margin-bottom: 8px;">🐙 <strong>GitHub:</strong> github.com/sonushah12</p>
-    `
+// ============ PROCEDURAL PLANETARY TEXTURE ENGINE ============
+function createSunTexture() {
+  const size = 512;
+  const canvas = document.createElement('canvas');
+  canvas.width = size; canvas.height = size;
+  const ctx = canvas.getContext('2d');
+  const grad = ctx.createRadialGradient(size/2, size/2, 0, size/2, size/2, size/2);
+  grad.addColorStop(0, '#ffffff');
+  grad.addColorStop(0.15, '#fff000');
+  grad.addColorStop(0.45, '#ff7c00');
+  grad.addColorStop(0.8, '#e63200');
+  grad.addColorStop(1.0, '#020208');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, size, size);
+  ctx.fillStyle = 'rgba(255, 190, 0, 0.12)';
+  for (let i = 0; i < 45; i++) {
+    ctx.beginPath();
+    ctx.arc(Math.random()*size, Math.random()*size, Math.random()*30 + 10, 0, Math.PI*2);
+    ctx.fill();
   }
-};
+  return new THREE.CanvasTexture(canvas);
+}
 
-// Celestial configuration for planets/landmark locations
+function createEarthTexture() {
+  const size = 512;
+  const canvas = document.createElement('canvas');
+  canvas.width = size; canvas.height = size;
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#0f2c5d'; // Deep Oceans
+  ctx.fillRect(0, 0, size, size);
+  ctx.fillStyle = '#2d6132'; // Continents
+  for (let i = 0; i < 28; i++) {
+    ctx.beginPath();
+    ctx.arc(Math.random()*size, Math.random()*size, Math.random()*55 + 25, 0, Math.PI*2);
+    ctx.fill();
+  }
+  ctx.fillStyle = 'rgba(255,255,255,0.4)'; // Clouds
+  for (let i = 0; i < 35; i++) {
+    ctx.beginPath();
+    ctx.arc(Math.random()*size, Math.random()*size, Math.random()*70 + 20, 0, Math.PI*2);
+    ctx.fill();
+  }
+  return new THREE.CanvasTexture(canvas);
+}
+
+function createMarsTexture() {
+  const size = 256;
+  const canvas = document.createElement('canvas');
+  canvas.width = size; canvas.height = size;
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#b34720'; // Rusty desert base
+  ctx.fillRect(0, 0, size, size);
+  ctx.fillStyle = '#5a1902'; // Depressions
+  for (let i = 0; i < 18; i++) {
+    ctx.beginPath();
+    ctx.arc(Math.random()*size, Math.random()*size, Math.random()*30 + 8, 0, Math.PI*2);
+    ctx.fill();
+  }
+  ctx.fillStyle = '#ffffff'; // White ice caps
+  ctx.fillRect(0, 0, size, 12);
+  ctx.fillRect(0, size-12, size, 12);
+  return new THREE.CanvasTexture(canvas);
+}
+
+function createJupiterTexture() {
+  const size = 512;
+  const canvas = document.createElement('canvas');
+  canvas.width = size; canvas.height = size;
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#b77d54'; // Base gas cream
+  ctx.fillRect(0, 0, size, size);
+  for (let y = 0; y < size; y += 4) {
+    const val = Math.sin(y * 0.04) * 0.5 + 0.5;
+    if (val > 0.45) {
+      ctx.fillStyle = `rgba(85, 42, 18, ${val * 0.65})`;
+      ctx.fillRect(0, y, size, Math.random()*12 + 4);
+    } else if (val < 0.22) {
+      ctx.fillStyle = `rgba(240, 222, 195, ${0.4 - val})`;
+      ctx.fillRect(0, y, size, Math.random()*8 + 2);
+    }
+  }
+  ctx.fillStyle = '#be261c'; // Great Red Spot
+  ctx.beginPath();
+  ctx.ellipse(size * 0.72, size * 0.68, 40, 22, 0, 0, Math.PI*2);
+  ctx.fill();
+  return new THREE.CanvasTexture(canvas);
+}
+
+function createSaturnTexture() {
+  const size = 512;
+  const canvas = document.createElement('canvas');
+  canvas.width = size; canvas.height = size;
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#dfb86c'; // Sandy gold
+  ctx.fillRect(0, 0, size, size);
+  for (let y = 0; y < size; y += 5) {
+    const val = Math.sin(y * 0.03);
+    if (val > 0.25) {
+      ctx.fillStyle = `rgba(150, 115, 70, ${0.1 + val * 0.15})`;
+      ctx.fillRect(0, y, size, 6);
+    }
+  }
+  return new THREE.CanvasTexture(canvas);
+}
+
+function createSaturnRingTexture() {
+  const size = 256;
+  const canvas = document.createElement('canvas');
+  canvas.width = size; canvas.height = size;
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0,0,size,size);
+  for (let i = 0; i < size; i++) {
+    const ratio = i / size;
+    let alpha = 0.85;
+    if (ratio > 0.58 && ratio < 0.64) {
+      alpha = 0.04; // Cassini division simulation
+    } else if (ratio > 0.35 && ratio < 0.42) {
+      alpha = 0.22;
+    }
+    ctx.fillStyle = `rgba(223, 183, 108, ${alpha})`;
+    ctx.fillRect(i, 0, 1, size);
+  }
+  return new THREE.CanvasTexture(canvas);
+}
+
+// ============ GAME STATE & CELESTIAL CONFIGS ============
 const landmarks = [
-  { id: 'contact', name: 'SUN: CENTRAL NODE', pos: { x: 0, z: 0 }, size: 8, color: '#ffaa00', emissive: 0x4d3300, isSun: true },
-  { id: 'edu', name: 'SATURN: ACADEMIA', pos: { x: 120, z: -80 }, size: 3.5, color: '#dfb76c', isSaturn: true },
-  { id: 'applie', name: 'EARTH: APPLIE SEC', pos: { x: -60, z: -50 }, size: 2.2, color: '#00f0ff' },
-  { id: 'pdha', name: 'MARS: PDHAMECHA SEC', pos: { x: 50, z: 80 }, size: 1.8, color: '#ff007b' },
-  { id: 'skills', name: 'JUPITER: SKILLS HUB', pos: { x: -110, z: 70 }, size: 5.0, color: '#00ff55', isJupiter: true }
+  { id: 'contact', name: 'SUN: CENTRAL NODE', pos: { x: 0, z: 0 }, size: 8, isSun: true },
+  { id: 'edu', name: 'SATURN: ACADEMIA', pos: { x: 125, z: -85 }, size: 3.5, isSaturn: true },
+  { id: 'applie', name: 'EARTH: APPLIE SEC', pos: { x: -60, z: -55 }, size: 2.2, isEarth: true },
+  { id: 'pdha', name: 'MARS: PDHAMECHA SEC', pos: { x: 50, z: 80 }, size: 1.8, isMars: true },
+  { id: 'skills', name: 'JUPITER: SKILLS HUB', pos: { x: -115, z: 75 }, size: 5.0, isJupiter: true }
 ];
 
-// ============ GAME CONFIG ============
 const config = {
   score: 0,
   coins: 0,
@@ -764,9 +761,7 @@ const config = {
   maxHp: 100,
   gameRunning: false,
   keys: { up: false, down: false, left: false, right: false, space: false, scan: false, emp: false },
-  player: {
-    bullets: []
-  },
+  player: { bullets: [] },
   enemies: [],
   coinsList: [],
   radarSweep: 0
@@ -791,16 +786,14 @@ function startAmbientBGM() {
   if (!audioCtx) return;
   
   try {
-    // Cinematic background cosmic drone
     bgOsc = audioCtx.createOscillator();
     bgGain = audioCtx.createGain();
     bgOsc.type = 'triangle';
     bgOsc.frequency.setValueAtTime(55, audioCtx.currentTime); // Low G note
 
-    // Slow LFO sweeps to emulate deep space shifts
     const lfo = audioCtx.createOscillator();
     const lfoGain = audioCtx.createGain();
-    lfo.frequency.setValueAtTime(0.15, audioCtx.currentTime); // 0.15Hz (approx 6 sec loop)
+    lfo.frequency.setValueAtTime(0.15, audioCtx.currentTime);
     lfoGain.gain.setValueAtTime(15, audioCtx.currentTime);
 
     lfo.connect(lfoGain);
@@ -813,7 +806,6 @@ function startAmbientBGM() {
     lfo.start();
     bgOsc.start();
 
-    // Procedural Engine Rumble Synthesizer
     engineOsc = audioCtx.createOscillator();
     engineGain = audioCtx.createGain();
     engineOsc.type = 'sawtooth';
@@ -831,7 +823,7 @@ function startAmbientBGM() {
     
     engineOsc.start();
   } catch (e) {
-    console.warn("Audio node generation failed or was blocked by host settings:", e);
+    console.warn("Audio Context init blocked or failed:", e);
   }
 }
 
@@ -918,7 +910,7 @@ function playScanBeeps() {
   initAudio();
   if (!audioCtx) return;
   const now = audioCtx.currentTime;
-  const sequence = [523.25, 659.25, 783.99, 1046.50]; // Cyber sweep beeps
+  const sequence = [523.25, 659.25, 783.99, 1046.50];
   sequence.forEach((freq, idx) => {
     const osc = audioCtx.createOscillator();
     const gain = audioCtx.createGain();
@@ -954,21 +946,36 @@ let empMesh = null;
 let empRadius = 0;
 
 let galaxyPoints1, galaxyPoints2;
+const moons = [];
+const asteroids = [];
 
 function init3D() {
   const canvas = document.getElementById('game-canvas');
   scene = new THREE.Scene();
-  scene.fog = new THREE.FogExp2(0x020208, 0.008);
+  scene.background = new THREE.Color(0x060611); // Dark celestial space
+  scene.fog = new THREE.FogExp2(0x060611, 0.0035);
 
   camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
   
   renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-  // Dynamic Stars & Galaxies background
+  // Attached high-intensity headlight tracking camera
+  const cameraHeadlight = new THREE.DirectionalLight(0xffffff, 0.85);
+  cameraHeadlight.position.set(0, 0, 1);
+  camera.add(cameraHeadlight);
+  scene.add(camera);
+
+  // Background stars, dense milky way, and far galaxies
   createStarfield();
+  createMilkyWayDustLane();
   createFarGalaxies();
+
+  // Asteroid belt orbiting Sun
+  buildAsteroidBelt();
 
   // Create Space-pod Ship
   buildSpaceship();
@@ -979,30 +986,29 @@ function init3D() {
   window.addEventListener('resize', handleResize);
 }
 
-// ============ CELESTIAL & STARS COMPILER ============
+// ============ CELESTIAL BACKGROUND & OBJECT COMPILERS ============
 function createStarfield() {
   const starGeo = new THREE.BufferGeometry();
-  const starsCount = 1800;
+  const starsCount = 2000;
   const positions = new Float32Array(starsCount * 3);
   const colors = new Float32Array(starsCount * 3);
 
   for (let i = 0; i < starsCount * 3; i += 3) {
     const theta = Math.random() * Math.PI * 2;
     const phi = Math.acos((Math.random() * 2) - 1);
-    const dist = 320 + Math.random() * 160;
+    const dist = 350 + Math.random() * 150;
 
     positions[i] = dist * Math.sin(phi) * Math.cos(theta);
     positions[i+1] = dist * Math.sin(phi) * Math.sin(theta);
     positions[i+2] = dist * Math.cos(phi);
 
-    // Give stars realistic thermodynamic colors (warm yellow, bright white, hot blue)
-    const colorSeed = Math.random();
-    if (colorSeed < 0.2) {
-      colors[i] = 1.0; colors[i+1] = 0.85; colors[i+2] = 0.6; // Orange-yellow dwarf
-    } else if (colorSeed < 0.5) {
-      colors[i] = 0.8; colors[i+1] = 0.9; colors[i+2] = 1.0; // Blue giant
+    const seed = Math.random();
+    if (seed < 0.25) {
+      colors[i] = 1.0; colors[i+1] = 0.9; colors[i+2] = 0.7; // Yellow dwarf stars
+    } else if (seed < 0.5) {
+      colors[i] = 0.75; colors[i+1] = 0.85; colors[i+2] = 1.0; // Hot blue giants
     } else {
-      colors[i] = 1.0; colors[i+1] = 1.0; colors[i+2] = 1.0; // White dwarf
+      colors[i] = 1.0; colors[i+1] = 1.0; colors[i+2] = 1.0; // Cool white
     }
   }
 
@@ -1010,82 +1016,132 @@ function createStarfield() {
   starGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
   const starMat = new THREE.PointsMaterial({
-    size: 1.3,
+    size: 1.2,
     vertexColors: true,
     transparent: true,
-    opacity: 0.9
+    opacity: 0.95
   });
 
   const starField = new THREE.Points(starGeo, starMat);
   scene.add(starField);
 }
 
+function createMilkyWayDustLane() {
+  const mwGeo = new THREE.BufferGeometry();
+  const count = 3500;
+  const pos = new Float32Array(count * 3);
+  const cols = new Float32Array(count * 3);
+  
+  // Dense dust lane sweeping diagonally across the background
+  for (let i = 0; i < count; i++) {
+    const progress = (i / count) - 0.5;
+    const dist = progress * 450;
+    
+    const angle = progress * Math.PI * 1.6;
+    const spread = (1 - Math.abs(progress)) * 45 + 12;
+    
+    const x = dist + (Math.random() - 0.5) * spread;
+    const y = Math.sin(angle) * 35 + (Math.random() - 0.5) * 25 + 20;
+    const z = -220 + (Math.random() - 0.5) * 50; // Sweeps behind sun
+    
+    pos[i*3] = x;
+    pos[i*3+1] = y;
+    pos[i*3+2] = z;
+    
+    const distFromCenter = Math.abs(progress);
+    if (distFromCenter < 0.14) {
+      // Warm, radiant solar core glow
+      cols[i*3] = 1.0;
+      cols[i*3+1] = 0.72 + Math.random()*0.28;
+      cols[i*3+2] = 0.35;
+    } else {
+      // Violet and cosmic dust arms matching image
+      cols[i*3] = 0.55 + Math.random()*0.35;
+      cols[i*3+1] = 0.12;
+      cols[i*3+2] = 0.75 + Math.random()*0.25;
+    }
+  }
+  
+  mwGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  mwGeo.setAttribute('color', new THREE.BufferAttribute(cols, 3));
+  
+  const mwMat = new THREE.PointsMaterial({
+    size: 4.2,
+    vertexColors: true,
+    transparent: true,
+    opacity: 0.7,
+    blending: THREE.AdditiveBlending
+  });
+  
+  const mw = new THREE.Points(mwGeo, mwMat);
+  scene.add(mw);
+}
+
 function createFarGalaxies() {
-  // Galaxy 1: Andromeda-style Spiral Galaxy
+  // Galaxy 1: Andromeda Spiral Core
   const galGeo1 = new THREE.BufferGeometry();
-  const starCount1 = 2500;
+  const starCount1 = 2000;
   const pos1 = new Float32Array(starCount1 * 3);
   const col1 = new Float32Array(starCount1 * 3);
-  const center1 = new THREE.Vector3(220, 110, -260);
+  const center1 = new THREE.Vector3(150, 60, -180);
   const arms1 = 2;
 
   for (let i = 0; i < starCount1; i++) {
-    const r = Math.random() * 90;
+    const r = Math.random() * 80;
     const armAngle = (i % arms1) * ((2 * Math.PI) / arms1);
-    const angle = r * 0.08 + armAngle + (Math.random() - 0.5) * 0.25;
+    const angle = r * 0.08 + armAngle + (Math.random() - 0.5) * 0.22;
 
     const x = Math.cos(angle) * r;
     const z = Math.sin(angle) * r;
-    const y = (Math.random() - 0.5) * (12 - r * 0.12);
+    const y = (Math.random() - 0.5) * (10 - r * 0.1);
 
     pos1[i*3] = center1.x + x;
     pos1[i*3+1] = center1.y + y;
     pos1[i*3+2] = center1.z + z;
 
-    // Heat gradients: Gold core, fading out to deep magenta & cyan arms
-    const ratio = r / 90;
-    col1[i*3] = 1.0 - ratio * 0.4;     // Red
-    col1[i*3+1] = 0.8 - ratio * 0.8;   // Green
-    col1[i*3+2] = 1.0;                 // Blue
+    const ratio = r / 80;
+    col1[i*3] = 1.0 - ratio * 0.35;
+    col1[i*3+1] = 0.8 - ratio * 0.7;
+    col1[i*3+2] = 1.0;
   }
   galGeo1.setAttribute('position', new THREE.BufferAttribute(pos1, 3));
   galGeo1.setAttribute('color', new THREE.BufferAttribute(col1, 3));
 
   const galMat1 = new THREE.PointsMaterial({
-    size: 1.6,
+    size: 3.5,
     vertexColors: true,
     transparent: true,
-    opacity: 0.85,
+    opacity: 0.8,
     blending: THREE.AdditiveBlending
   });
   galaxyPoints1 = new THREE.Points(galGeo1, galMat1);
   scene.add(galaxyPoints1);
 
-  // Galaxy 2: Ring/Elliptical Core Nebula
+  // Galaxy 2: Ring Nebula Ellipse
   const galGeo2 = new THREE.BufferGeometry();
-  const starCount2 = 1800;
+  const starCount2 = 1500;
   const pos2 = new Float32Array(starCount2 * 3);
   const col2 = new Float32Array(starCount2 * 3);
-  const center2 = new THREE.Vector3(-240, -90, -220);
+  const center2 = new THREE.Vector3(-150, -40, -150);
 
   for (let i = 0; i < starCount2; i++) {
     const theta = Math.random() * Math.PI * 2;
     const phi = Math.acos((Math.random() * 2) - 1);
-    const r = 30 + Math.random() * 40; // Ring cluster focus
+    const r = 25 + Math.random() * 35;
 
     pos2[i*3] = center2.x + r * Math.sin(phi) * Math.cos(theta);
-    pos2[i*3+1] = center2.y + r * Math.sin(phi) * Math.sin(theta) * 0.3; // Flat disk representation
+    pos2[i*3+1] = center2.y + r * Math.sin(phi) * Math.sin(theta) * 0.35;
     pos2[i*3+2] = center2.z + r * Math.cos(phi);
 
-    col2[i*3] = 0.2;
-    col2[i*3+1] = 0.8 + Math.random() * 0.2; // Cyan and blue tints
+    col2[i*3] = 0.15;
+    col2[i*3+1] = 0.75 + Math.random() * 0.25;
     col2[i*3+2] = 1.0;
   }
   galGeo2.setAttribute('position', new THREE.BufferAttribute(pos2, 3));
   galGeo2.setAttribute('color', new THREE.BufferAttribute(col2, 3));
 
   const galMat2 = new THREE.PointsMaterial({
-    size: 1.4,
+    size: 2.8,
     vertexColors: true,
     transparent: true,
     opacity: 0.75,
@@ -1095,12 +1151,37 @@ function createFarGalaxies() {
   scene.add(galaxyPoints2);
 }
 
+function buildAsteroidBelt() {
+  const asteroidCount = 180;
+  const lowPolyGeo = new THREE.DodecahedronGeometry(0.35, 0);
+  const asteroidMat = new THREE.MeshStandardMaterial({ color: 0x5a544c, roughness: 0.95 });
+  
+  const beltGroup = new THREE.Group();
+  scene.add(beltGroup);
+  
+  for (let i = 0; i < asteroidCount; i++) {
+    const angle = Math.random() * Math.PI * 2;
+    const radius = 95 + Math.random() * 15;
+    const mesh = new THREE.Mesh(lowPolyGeo, asteroidMat);
+    
+    mesh.position.set(Math.cos(angle) * radius, (Math.random() - 0.5) * 3, Math.sin(angle) * radius);
+    mesh.rotation.set(Math.random()*Math.PI, Math.random()*Math.PI, 0);
+    
+    const s = 0.5 + Math.random() * 1.1;
+    mesh.scale.set(s, s, s);
+    mesh.castShadow = true;
+    mesh.receiveShadow = true;
+    
+    beltGroup.add(mesh);
+    asteroids.push({ mesh: mesh, speed: 0.001 + Math.random()*0.002, angle: angle, radius: radius });
+  }
+}
+
 function buildSpaceship() {
   playerGroup = new THREE.Group();
   playerGroup.position.set(0, 0, 50);
   scene.add(playerGroup);
 
-  // Craft Nose
   const noseGeo = new THREE.ConeGeometry(0.5, 1.8, 6);
   noseGeo.rotateX(Math.PI / 2);
   const noseMat = new THREE.MeshStandardMaterial({ color: 0x00f0ff, roughness: 0.2 });
@@ -1108,14 +1189,12 @@ function buildSpaceship() {
   nose.position.z = 0.8;
   playerGroup.add(nose);
 
-  // Structural Wing systems
   const wingsGeo = new THREE.BoxGeometry(2.8, 0.1, 0.8);
   const wingsMat = new THREE.MeshStandardMaterial({ color: 0xff007b });
   const wings = new THREE.Mesh(wingsGeo, wingsMat);
   wings.position.z = -0.2;
   playerGroup.add(wings);
 
-  // Solar Panels
   const leftPanelGeo = new THREE.BoxGeometry(1.2, 0.05, 0.5);
   const leftPanelMat = new THREE.MeshStandardMaterial({ color: 0x000000, roughness: 0.1, metalness: 0.9, wireframe: true });
   const leftPanel = new THREE.Mesh(leftPanelGeo, leftPanelMat);
@@ -1126,7 +1205,6 @@ function buildSpaceship() {
   rightPanel.position.x = 1.8;
   playerGroup.add(rightPanel);
 
-  // Tail thruster core
   const exhaustGeo = new THREE.CylinderGeometry(0.2, 0.2, 0.5, 6);
   exhaustGeo.rotateX(Math.PI / 2);
   const exhaustMat = new THREE.MeshStandardMaterial({ color: 0x333333 });
@@ -1134,7 +1212,6 @@ function buildSpaceship() {
   exhaust.position.z = -0.8;
   playerGroup.add(exhaust);
 
-  // Glowing rocket plume flare
   const flameGeo = new THREE.ConeGeometry(0.3, 1.0, 6);
   flameGeo.rotateX(-Math.PI / 2);
   const flameMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff, transparent: true, opacity: 0.8 });
@@ -1144,99 +1221,132 @@ function buildSpaceship() {
 }
 
 function buildSolarSystem() {
-  // 1. Point Light placed exactly inside Sun core coordinates (0, 0, 0)
-  const sunLight = new THREE.PointLight(0xffecd0, 2.8, 600, 1.0);
+  // Glow point source exactly inside Sun core coordinates (0, 0, 0)
+  const sunLight = new THREE.PointLight(0xfff4e2, 3.2, 600, 1.0);
+  sunLight.castShadow = true;
+  sunLight.shadow.mapSize.width = 1024;
+  sunLight.shadow.mapSize.height = 1024;
+  sunLight.shadow.bias = -0.005;
   scene.add(sunLight);
 
-  // Subtle galactic backfill ambient light so back edges are visible
-  const galacticAmbient = new THREE.AmbientLight(0x0b0c1e, 0.08);
+  // Soft white ambient light to keep shadow sides legible
+  const galacticAmbient = new THREE.AmbientLight(0xdbe7ff, 0.45);
   scene.add(galacticAmbient);
+
+  // Pre-generate runtime procedural canvas textures
+  const textures = {
+    contact: createSunTexture(),
+    edu: createSaturnTexture(),
+    applie: createEarthTexture(),
+    pdha: createMarsTexture(),
+    skills: createJupiterTexture()
+  };
 
   landmarks.forEach(lm => {
     const group = new THREE.Group();
     group.position.set(lm.pos.x, 0, lm.pos.z);
     scene.add(group);
 
-    // Planet/Sun Core Mesh
-    const sphereGeo = new THREE.SphereGeometry(lm.size, 24, 24);
+    const sphereGeo = new THREE.SphereGeometry(lm.size, 32, 32);
     let sphereMat;
 
     if (lm.isSun) {
-      sphereMat = new THREE.MeshBasicMaterial({ color: lm.color });
+      sphereMat = new THREE.MeshBasicMaterial({ map: textures[lm.id] });
 
-      // Sun Coronary Ring
-      const coronaGeo = new THREE.RingGeometry(lm.size + 1.5, lm.size + 1.8, 32);
-      coronaGeo.rotateX(Math.PI / 2);
-      const coronaMat = new THREE.MeshBasicMaterial({ color: 0xff4500, side: THREE.DoubleSide, transparent: true, opacity: 0.3 });
+      // Corona Halo Glow Overlay
+      const coronaGeo = new THREE.SphereGeometry(lm.size + 1.2, 32, 32);
+      const coronaMat = new THREE.MeshBasicMaterial({
+        color: 0xffaa00,
+        transparent: true,
+        opacity: 0.38,
+        blending: THREE.AdditiveBlending,
+        side: THREE.BackSide
+      });
       const corona = new THREE.Mesh(coronaGeo, coronaMat);
       group.add(corona);
     } else {
-      // Standard dynamic shading response material facing (0,0,0)
       sphereMat = new THREE.MeshStandardMaterial({
-        color: lm.color,
-        emissive: lm.emissive || 0x000000,
-        roughness: 0.65,
-        metalness: 0.15
+        map: textures[lm.id],
+        roughness: lm.isEarth ? 0.45 : 0.75, // Earth oceans reflect specular flares
+        metalness: 0.1
       });
 
-      // Orbital Path ring line mapped around Sun center
+      // Orbital trace guides
       const dist = Math.hypot(lm.pos.x, lm.pos.z);
       const ringGeo = new THREE.RingGeometry(dist, dist + 0.3, 64);
       ringGeo.rotateX(Math.PI / 2);
-      const ringMat = new THREE.MeshBasicMaterial({ color: 0x223355, side: THREE.DoubleSide, transparent: true, opacity: 0.35 });
+      const ringMat = new THREE.MeshBasicMaterial({ color: 0x223355, side: THREE.DoubleSide, transparent: true, opacity: 0.3 });
       const pathRing = new THREE.Mesh(ringGeo, ringMat);
       scene.add(pathRing);
     }
 
     const core = new THREE.Mesh(sphereGeo, sphereMat);
+    core.castShadow = !lm.isSun;
+    core.receiveShadow = !lm.isSun;
     group.add(core);
 
-    // Interactive Trigger Ring (Base landing field)
+    // Dynamic moons orbiting major parent planets
+    if (lm.isEarth) {
+      // Luna
+      const moonGeo = new THREE.SphereGeometry(0.35, 16, 16);
+      const moonMat = new THREE.MeshStandardMaterial({ color: 0x888888, roughness: 0.9 });
+      const moonMesh = new THREE.Mesh(moonGeo, moonMat);
+      moonMesh.castShadow = true;
+      moonMesh.receiveShadow = true;
+      group.add(moonMesh);
+      moons.push({ mesh: moonMesh, speed: 0.045, radius: 4.2, angle: 0 });
+    } else if (lm.isJupiter) {
+      // Ganymede / Europa
+      const mGeo = new THREE.SphereGeometry(0.4, 16, 16);
+      const mMat = new THREE.MeshStandardMaterial({ color: 0xbfa480, roughness: 0.85 });
+      const mMesh1 = new THREE.Mesh(mGeo, mMat);
+      mMesh1.castShadow = true;
+      group.add(mMesh1);
+      moons.push({ mesh: mMesh1, speed: 0.03, radius: 8.0, angle: 0 });
+
+      const mMesh2 = mMesh1.clone();
+      mMesh2.scale.set(0.7,0.7,0.7);
+      group.add(mMesh2);
+      moons.push({ mesh: mMesh2, speed: 0.02, radius: 10.5, angle: Math.PI });
+    } else if (lm.isSaturn) {
+      // Titan
+      const mGeo = new THREE.SphereGeometry(0.5, 16, 16);
+      const mMat = new THREE.MeshStandardMaterial({ color: 0xdfb76c, roughness: 0.9 });
+      const mMesh = new THREE.Mesh(mGeo, mMat);
+      group.add(mMesh);
+      moons.push({ mesh: mMesh, speed: 0.025, radius: 9.0, angle: 0 });
+    }
+
+    // Interactive Node Base Ring
     const activeRingGeo = new THREE.RingGeometry(lm.size + 3.0, lm.size + 3.4, 32);
     activeRingGeo.rotateX(Math.PI / 2);
-    const activeRingMat = new THREE.MeshBasicMaterial({ color: lm.color, side: THREE.DoubleSide, transparent: true, opacity: 0.5 });
+    const activeRingMat = new THREE.MeshBasicMaterial({ color: lm.isSun ? 0xffaa00 : sphereMat.color, side: THREE.DoubleSide, transparent: true, opacity: 0.4 });
     const activeRing = new THREE.Mesh(activeRingGeo, activeRingMat);
     group.add(activeRing);
 
-    // Decorative Saturn Rings
+    // Highly realistic physical ring meshes for Saturn
     if (lm.isSaturn) {
-      const ringGeo = new THREE.RingGeometry(lm.size + 2.0, lm.size + 5.0, 32);
-      ringGeo.rotateX(Math.PI / 2.2); // Slightly tilted
-      const ringMat = new THREE.MeshStandardMaterial({ color: 0x9b8559, side: THREE.DoubleSide, transparent: true, opacity: 0.8 });
+      const ringGeo = new THREE.RingGeometry(lm.size + 1.8, lm.size + 5.5, 64);
+      ringGeo.rotateX(Math.PI / 2.2);
+      const ringMat = new THREE.MeshStandardMaterial({ 
+        map: createSaturnRingTexture(), 
+        side: THREE.DoubleSide, 
+        transparent: true, 
+        opacity: 0.9 
+      });
       const saturnRing = new THREE.Mesh(ringGeo, ringMat);
+      saturnRing.castShadow = true;
+      saturnRing.receiveShadow = true;
       group.add(saturnRing);
     }
 
-    // Dynamic Floating spatial billboard tag
-    const tag = createSpatialTag(lm.name, lm.color);
+    const tag = createSpatialTag(lm.name, lm.isSun ? '#ffaa00' : (lm.isEarth ? '#00f0ff' : (lm.isMars ? '#ff007b' : '#00ff55')));
     tag.position.set(0, lm.size + 4, 0);
     group.add(tag);
 
     lm.meshGroup = group;
     lm.coreMesh = core;
   });
-}
-
-function createSpatialTag(text, color) {
-  const canvas = document.createElement('canvas');
-  canvas.width = 300;
-  canvas.height = 70;
-  const ctx = canvas.getContext('2d');
-  ctx.clearRect(0, 0, 300, 70);
-  
-  ctx.font = 'bold 16px Oxanium, sans-serif';
-  ctx.strokeStyle = '#000000';
-  ctx.lineWidth = 3;
-  ctx.fillStyle = color;
-  ctx.textAlign = 'center';
-  ctx.strokeText(text, 150, 40);
-  ctx.fillText(text, 150, 40);
-
-  const texture = new THREE.CanvasTexture(canvas);
-  const material = new THREE.SpriteMaterial({ map: texture, transparent: true });
-  const sprite = new THREE.Sprite(material);
-  sprite.scale.set(8.5, 2.0, 1.0);
-  return sprite;
 }
 
 // ============ SPACE HAZARD & ORB GENERATOR ============
@@ -1248,11 +1358,9 @@ function spawnSpaceVirus() {
   const x = playerGroup.position.x + Math.cos(angle) * radius;
   const z = playerGroup.position.z + Math.sin(angle) * radius;
 
-  // Space coordinate retention
   if (Math.abs(x) > 260 || Math.abs(z) > 260) return;
 
   const virusGeo = new THREE.IcosahedronGeometry(1.0, 0);
-  // MeshStandardMaterial responds correctly to Sun lighting shadows
   const virusMat = new THREE.MeshStandardMaterial({ color: 0xff007b, emissive: 0x3d0015, metalness: 0.9, roughness: 0.1 });
   const mesh = new THREE.Mesh(virusGeo, virusMat);
   mesh.position.set(x, 0, z);
@@ -1280,7 +1388,7 @@ function spawnOrb(pos) {
   });
 }
 
-// ============ LASERS & SHIP SYSTEMS ============
+// ============ SHIP WEAPONS DEPLOYMENT ============
 function firePlasmaLaser() {
   const laserGeo = new THREE.CylinderGeometry(0.06, 0.06, 2.8, 6);
   laserGeo.rotateX(Math.PI / 2);
@@ -1397,7 +1505,7 @@ function setupMobileControls() {
   });
 }
 
-// ============ SIMULATION REVOLUTION LOOP ============
+// ============ SYSTEM SIMULATION MAIN LOOP ============
 let activeTargetNode = null;
 let lastLaserTime = 0;
 let isLooping = false;
@@ -1410,18 +1518,32 @@ function gameLoop() {
   isLooping = true;
   requestAnimationFrame(gameLoop);
 
-  // Rotate planets slightly on axial plane
+  // Slow axial rotation of celestial bodies
   landmarks.forEach(lm => {
     if (lm.coreMesh) {
-      lm.coreMesh.rotation.y += 0.005;
+      lm.coreMesh.rotation.y += 0.0055;
     }
   });
 
-  // Slow rotation of background galaxies
-  if (galaxyPoints1) galaxyPoints1.rotation.y += 0.0003;
-  if (galaxyPoints2) galaxyPoints2.rotation.y -= 0.0001;
+  // Calculate gravitational orbits of tiny moons
+  moons.forEach(m => {
+    m.angle += m.speed;
+    m.mesh.position.set(Math.cos(m.angle) * m.radius, 0, Math.sin(m.angle) * m.radius);
+    m.mesh.rotation.y += 0.015;
+  });
 
-  // Spaceship flight mechanics
+  // Animate asteroid belt particles
+  asteroids.forEach(ast => {
+    ast.angle += ast.speed;
+    ast.mesh.position.set(Math.cos(ast.angle) * ast.radius, ast.mesh.position.y, Math.sin(ast.angle) * ast.radius);
+    ast.mesh.rotation.y += 0.01;
+  });
+
+  // Slow rotation of background galaxies
+  if (galaxyPoints1) galaxyPoints1.rotation.y += 0.00035;
+  if (galaxyPoints2) galaxyPoints2.rotation.y -= 0.00012;
+
+  // Flight kinetics
   if (config.keys.left) playerRotationY += rotationSpeed;
   if (config.keys.right) playerRotationY -= rotationSpeed;
 
@@ -1436,15 +1558,15 @@ function gameLoop() {
     thrusterFlame.scale.set(1, 0.7, 1);
   }
 
-  // Update dynamic engine audio hum
+  // Engine hum scaling
   updateEngineSfx(playerSpeed);
 
-  // Position updates
+  // Translational updates
   playerGroup.position.x += Math.sin(playerRotationY) * playerSpeed;
   playerGroup.position.z += Math.cos(playerRotationY) * playerSpeed;
   playerGroup.rotation.y = playerRotationY;
 
-  // Roll the ship visual during turn vectors
+  // Flight banking curves
   if (config.keys.left) {
     playerGroup.rotation.z += (0.28 - playerGroup.rotation.z) * 0.1;
   } else if (config.keys.right) {
@@ -1453,12 +1575,12 @@ function gameLoop() {
     playerGroup.rotation.z += (0 - playerGroup.rotation.z) * 0.1;
   }
 
-  // Flight boundary limits
+  // Outer bounds
   const bounds = 250;
   playerGroup.position.x = Math.max(-bounds, Math.min(bounds, playerGroup.position.x));
   playerGroup.position.z = Math.max(-bounds, Math.min(bounds, playerGroup.position.z));
 
-  // Laser processing
+  // Lasers logic
   if (config.keys.space) {
     const now = Date.now();
     if (now - lastLaserTime > 200) {
@@ -1467,12 +1589,11 @@ function gameLoop() {
     }
   }
 
-  // EMP deployment
+  // Pulse logic
   if (config.keys.emp && !empActive) {
     triggerEmpPulse();
   }
 
-  // Progressing EMP explosion sphere
   if (empActive && empMesh) {
     empRadius += 1.5;
     empMesh.scale.set(empRadius, empRadius, empRadius);
@@ -1492,7 +1613,7 @@ function gameLoop() {
     }
   }
 
-  // Process deployed lasers
+  // Plasma logic
   config.player.bullets = config.player.bullets.filter(b => {
     b.mesh.position.x += b.vx;
     b.mesh.position.z += b.vz;
@@ -1516,7 +1637,7 @@ function gameLoop() {
     return keep;
   });
 
-  // Spawn threat entities
+  // Threat logic
   if (Math.random() < 0.02) spawnSpaceVirus();
 
   config.enemies = config.enemies.filter(v => {
@@ -1529,7 +1650,6 @@ function gameLoop() {
       return false;
     }
 
-    // Direct tracking system targeting spaceship coordinates
     const dx = playerGroup.position.x - v.mesh.position.x;
     const dz = playerGroup.position.z - v.mesh.position.z;
     const len = Math.hypot(dx, dz);
@@ -1542,7 +1662,6 @@ function gameLoop() {
     v.mesh.rotation.x += v.rotSpeedX;
     v.mesh.rotation.y += v.rotSpeedY;
 
-    // Contact hazard
     if (len < 2.2) {
       playHitSound();
       config.hp -= 0.6;
@@ -1555,7 +1674,7 @@ function gameLoop() {
     return true;
   });
 
-  // Tech orbs magnet pulling
+  // Orbs magnetism
   config.coinsList = config.coinsList.filter(orb => {
     orb.mesh.rotation.y += orb.rotSpeed;
     const dist = playerGroup.position.distanceTo(orb.mesh.position);
@@ -1578,13 +1697,8 @@ function gameLoop() {
     return true;
   });
 
-  // Intercept orbital range checks
   checkLandmarkProximity();
-
-  // Smooth Chase Camera follow
   updateChaseCamera();
-
-  // Draw diagnostic map
   drawMinimapTelemetry();
 
   renderer.render(scene, camera);
@@ -1596,7 +1710,6 @@ function checkLandmarkProximity() {
   
   landmarks.forEach(lm => {
     const dist = Math.hypot(playerGroup.position.x - lm.pos.x, playerGroup.position.z - lm.pos.z);
-    // Dynamic entry boundaries depending on landmark sizes
     if (dist < (lm.size + 4.5)) {
       matchedLandmark = lm;
     }
@@ -1681,12 +1794,10 @@ function updateChaseCamera() {
   const camZ = playerGroup.position.z + Math.cos(angle) * relativeDistance;
   const camY = playerGroup.position.y + cameraHeight;
 
-  // Lerping chase vector positions
   camera.position.x += (camX - camera.position.x) * 0.08;
   camera.position.z += (camZ - camera.position.z) * 0.08;
   camera.position.y += (camY - camera.position.y) * 0.08;
 
-  // Point camera target ahead of craft
   const focusPoint = new THREE.Vector3(
     playerGroup.position.x + Math.sin(angle) * 3.5,
     playerGroup.position.y,
@@ -1712,7 +1823,6 @@ function drawMinimapTelemetry() {
   ctx.strokeStyle = 'rgba(0, 240, 255, 0.2)';
   ctx.stroke();
 
-  // Dial sweep line
   config.radarSweep += 0.04;
   const sx = cx + Math.sin(config.radarSweep) * 48;
   const sy = cy - Math.cos(config.radarSweep) * 48;
@@ -1722,21 +1832,19 @@ function drawMinimapTelemetry() {
   ctx.lineTo(sx, sy);
   ctx.stroke();
 
-  // Draw Planet Positions on minimap
   landmarks.forEach(lm => {
     const rx = (lm.pos.x - playerGroup.position.x) * scale;
     const rz = (lm.pos.z - playerGroup.position.z) * scale;
     const distance = Math.hypot(rx, rz);
 
     if (distance < 45) {
-      ctx.fillStyle = lm.color;
+      ctx.fillStyle = lm.isSun ? '#ffaa00' : (lm.isEarth ? '#00f0ff' : (lm.isMars ? '#ff007b' : '#00ff55'));
       ctx.beginPath();
       ctx.arc(cx + rx, cy + rz, 3, 0, Math.PI * 2);
       ctx.fill();
     }
   });
 
-  // Render threats
   config.enemies.forEach(v => {
     const rx = (v.mesh.position.x - playerGroup.position.x) * scale;
     const rz = (v.mesh.position.z - playerGroup.position.z) * scale;
@@ -1750,7 +1858,6 @@ function drawMinimapTelemetry() {
     }
   });
 
-  // Center vector marker (Ship)
   ctx.fillStyle = '#00ff55';
   ctx.beginPath();
   ctx.arc(cx, cy, 2.5, 0, Math.PI * 2);
@@ -1786,7 +1893,7 @@ function handleResize() {
   renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
-// ============ SPATIAL LIFE CYCLES ============
+// ============ LIFE CYCLES ============
 function startGame() {
   document.getElementById('start-screen').classList.remove('active');
   document.getElementById('gameover-screen').classList.remove('active');
@@ -1795,7 +1902,6 @@ function startGame() {
   stopAmbientBGM();
   startAmbientBGM();
 
-  // Reset metrics
   config.score = 0;
   config.coins = 0;
   config.hp = 100;
@@ -1805,12 +1911,10 @@ function startGame() {
   document.getElementById('coins').textContent = '0';
   updateDamageBar();
 
-  // Reposition player
   playerGroup.position.set(0, 0, 50);
   playerRotationY = 0;
   playerSpeed = 0;
 
-  // Clear scene of residual items
   config.enemies.forEach(v => scene.remove(v.mesh));
   config.coinsList.forEach(o => scene.remove(o.mesh));
   config.player.bullets.forEach(b => scene.remove(b.mesh));
@@ -1827,7 +1931,6 @@ function startGame() {
 function triggerGameOver() {
   config.gameRunning = false;
   
-  // Terminal audio decay descending sweep
   if (audioCtx) {
     try {
       const osc = audioCtx.createOscillator();
@@ -1849,7 +1952,6 @@ function triggerGameOver() {
   document.getElementById('gameover-screen').classList.add('active');
 }
 
-// Initializer triggers
 init3D();
 setupMobileControls();
 </script>
