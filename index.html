@@ -1,1057 +1,1166 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-<title>Sonu Shah — 3D Game Dev Portfolio</title>
-<meta name="description" content="An interactive 3D WebGL portfolio game for Sonu Shah, Flutter & iOS Engineer."/>
-
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet"/>
-
-<!-- Three.js + GSAP Core Engines -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root {
-  --bg-space: #04050a;
-  --bg-card: rgba(10, 12, 22, 0.75);
-  --glass-border: rgba(0, 243, 255, 0.2);
-  --neon-cyan: #00f3ff;
-  --neon-purple: #9d00ff;
-  --neon-green: #00ff87;
-  --neon-amber: #ffaa00;
-  --white: #f5f8fc;
-  --muted: #8090a6;
-  --font-display: 'Space Grotesk', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
-  --font-hud: 'Orbitron', sans-serif;
-  --glow-cyan: 0 0 20px rgba(0, 243, 255, 0.4);
-  --glow-purple: 0 0 20px rgba(157, 0, 255, 0.3);
-}
-
-html, body {
-  width: 100%;
-  height: 100%;
-  background: var(--bg-space);
-  color: var(--white);
-  font-family: var(--font-display);
-  overflow: hidden;
-  position: relative;
-}
-
-/* scanlines CRT overlay */
-body::after {
-  content: " ";
-  display: block;
-  position: fixed;
-  top: 0; left: 0; bottom: 0; right: 0;
-  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
-  background-size: 100% 4px;
-  z-index: 1000;
-  pointer-events: none;
-}
-
-/* ── GAME SYSTEM CONTAINER ── */
-#viewport-shell {
-  display: flex;
-  flex-direction: row;
-  width: 100vw;
-  height: 100vh;
-  position: relative;
-  z-index: 10;
-  transition: opacity 0.5s ease;
-}
-
-#canvas-container {
-  flex: 1;
-  position: relative;
-  height: 100%;
-}
-
-/* ── TOP NAV CONSOLE HUD ── */
-header {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  padding: 16px 24px;
-  background: linear-gradient(180deg, rgba(4,5,10,0.95) 0%, rgba(4,5,10,0) 100%);
-  z-index: 100;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.brand-label {
-  font-family: var(--font-hud);
-  font-size: 14px;
-  font-weight: 900;
-  letter-spacing: 1.5px;
-  color: var(--neon-cyan);
-  text-shadow: var(--glow-cyan);
-}
-.mode-switch-deck {
-  display: flex;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid var(--glass-border);
-  border-radius: 30px;
-  padding: 4px;
-  gap: 4px;
-}
-.mode-tab {
-  border: none;
-  background: transparent;
-  color: var(--muted);
-  font-family: var(--font-hud);
-  font-size: 11px;
-  font-weight: 700;
-  padding: 8px 18px;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.mode-tab.active {
-  background: var(--neon-cyan);
-  color: var(--bg-space);
-  box-shadow: var(--glow-cyan);
-}
-
-/* ── SIDE FLUID CONTROLS & INFO DRAWER ── */
-.desktop-side-drawer {
-  width: 420px;
-  height: 100%;
-  background: rgba(8, 9, 16, 0.95);
-  border-left: 1px solid var(--glass-border);
-  box-shadow: -10px 0 30px rgba(0,0,0,0.5);
-  display: flex;
-  flex-direction: column;
-  z-index: 90;
-  position: relative;
-  transition: transform 0.4s ease;
-}
-.drawer-scroll-area {
-  flex: 1;
-  overflow-y: auto;
-  padding: 100px 24px 24px;
-}
-
-/* Terminal Glass Container */
-.cyber-card {
-  background: var(--bg-card);
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--glow-purple);
-  border-radius: 8px;
-  padding: 24px;
-  margin-bottom: 20px;
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
-}
-.cyber-card-header {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  color: var(--neon-purple);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  margin-bottom: 12px;
-  display: flex;
-  justify-content: space-between;
-}
-.cyber-title {
-  font-size: 24px;
-  font-weight: 700;
-  color: var(--white);
-  line-height: 1.2;
-}
-.cyber-sub {
-  font-family: var(--font-mono);
-  color: var(--neon-cyan);
-  font-size: 13px;
-  margin-top: 4px;
-  margin-bottom: 16px;
-}
-.cyber-body {
-  font-size: 14px;
-  color: var(--muted);
-  line-height: 1.6;
-}
-
-/* Sub-info block systems */
-.details-log {
-  background: rgba(255,255,255,0.02);
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 4px;
-  padding: 14px;
-  margin-top: 16px;
-}
-.details-header {
-  font-family: var(--font-hud);
-  font-size: 11px;
-  color: var(--neon-amber);
-  margin-bottom: 10px;
-}
-.detail-item {
-  border-left: 2px solid var(--neon-cyan);
-  padding-left: 10px;
-  margin-bottom: 12px;
-}
-.detail-item:last-child { margin-bottom: 0; }
-.detail-title {
-  font-size: 13px;
-  font-weight: 700;
-}
-.detail-desc {
-  font-size: 12px;
-  color: var(--muted);
-  margin-top: 2px;
-}
-
-.tags-hull {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 12px;
-}
-.pill-tag {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  background: rgba(0, 243, 255, 0.08);
-  border: 1px solid rgba(0, 243, 255, 0.2);
-  color: var(--neon-cyan);
-  padding: 2px 8px;
-  border-radius: 2px;
-}
-
-/* Monolith Autopilot Switchers */
-.target-teleport-deck {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-top: 16px;
-}
-.teleport-btn {
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.1);
-  color: var(--white);
-  padding: 12px 16px;
-  border-radius: 4px;
-  font-family: var(--font-display);
-  font-size: 13px;
-  cursor: pointer;
-  transition: all 0.2s;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  text-align: left;
-}
-.teleport-btn i {
-  color: var(--neon-cyan);
-  font-size: 11px;
-  transition: transform 0.2s;
-}
-.teleport-btn:hover {
-  border-color: var(--neon-cyan);
-  background: rgba(0, 243, 255, 0.04);
-}
-.teleport-btn:hover i {
-  transform: translateX(4px);
-}
-
-/* ── HUD FOOTER (Joystick Deck) ── */
-.hud-footer-deck {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: calc(100% - 420px);
-  padding: 24px;
-  z-index: 100;
-  pointer-events: none;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-}
-.interactive-element {
-  pointer-events: auto !important;
-}
-
-/* Navigation D-Pad controls styled cleanly */
-.game-pad-console {
-  display: grid;
-  grid-template-columns: repeat(3, 44px);
-  grid-template-rows: repeat(3, 44px);
-  gap: 4px;
-  background: rgba(4,5,10,0.85);
-  border: 1px solid var(--glass-border);
-  padding: 6px;
-  border-radius: 8px;
-  box-shadow: var(--glow-cyan);
-}
-.pad-key {
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 4px;
-  color: var(--neon-cyan);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 12px;
-  user-select: none;
-}
-.pad-key:active {
-  background: var(--neon-cyan);
-  color: var(--bg-space);
-}
-
-/* Dynamic Instruction prompt */
-.interactive-guidance {
-  background: var(--bg-card);
-  border: 1px solid var(--glass-border);
-  padding: 14px 20px;
-  border-radius: 6px;
-  font-size: 12px;
-  max-width: 400px;
-  box-shadow: var(--glow-cyan);
-}
-.guide-header {
-  font-family: var(--font-hud);
-  font-size: 11px;
-  color: var(--neon-green);
-  margin-bottom: 4px;
-}
-.guide-desc {
-  color: var(--muted);
-}
-
-
-/* ── CLASSIC SCROLLABLE RESUME PORTAL ── */
-#classic-resume-vault {
-  display: none;
-  width: 100vw;
-  height: 100vh;
-  overflow-y: auto;
-  position: relative;
-  z-index: 10;
-  padding: 100px 24px 60px;
-}
-.classic-content {
-  max-width: 820px;
-  margin: 0 auto;
-}
-.classic-name-plate {
-  margin-bottom: 48px;
-}
-.classic-title {
-  font-family: var(--font-hud);
-  font-size: 28px;
-  color: var(--neon-cyan);
-  text-shadow: var(--glow-cyan);
-  margin-bottom: 4px;
-}
-.classic-subtitle {
-  font-family: var(--font-mono);
-  font-size: 13px;
-  color: var(--neon-purple);
-  margin-bottom: 16px;
-}
-.classic-about {
-  font-size: 15px;
-  line-height: 1.8;
-  color: var(--muted);
-}
-
-.classic-section {
-  margin-bottom: 48px;
-}
-.classic-section-title {
-  font-family: var(--font-hud);
-  font-size: 16px;
-  color: var(--white);
-  border-bottom: 1px solid var(--glass-border);
-  padding-bottom: 8px;
-  margin-bottom: 24px;
-  letter-spacing: 1px;
-}
-.timeline-card {
-  margin-bottom: 32px;
-  position: relative;
-}
-.timeline-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 12px;
-}
-.timeline-meta-title {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--white);
-}
-.timeline-meta-company {
-  color: var(--neon-cyan);
-  font-size: 14px;
-}
-.timeline-period {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.1);
-  padding: 4px 10px;
-  border-radius: 2px;
-}
-.bullet-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-left: 4px;
-}
-.bullet-list li {
-  font-size: 14px;
-  color: var(--muted);
-  line-height: 1.6;
-  display: flex;
-  gap: 12px;
-}
-.bullet-list li::before {
-  content: "→";
-  color: var(--neon-cyan);
-  font-family: var(--font-mono);
-}
-
-.skills-grid-box {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-
-/* ── MOBILE SYSTEM OVERRIDES ── */
-@media (max-width: 900px) {
-  /* Restructure whole layout vertically */
-  #viewport-shell {
-    flex-direction: column;
-    height: 100vh;
-    overflow: hidden;
-  }
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>CODE RUNNER - Sonu's Game Portfolio</title>
+  <meta name="description" content="Play through Sonu Shah's career as an epic mobile game. Defeat enemies, collect power-ups, unlock skills, and read about a Flutter developer's journey."/>
   
-  /* Top Portion: WebGL 3D Game screen */
-  #canvas-container {
-    flex: none;
-    height: 40vh;
-    width: 100%;
-    border-bottom: 1px solid var(--glass-border);
-  }
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Oxanium:wght@400;700&family=Courier+Prime:wght@700&display=swap" rel="stylesheet"/>
 
-  /* Bottom Portion: Tactile Handheld Console Deck */
-  .desktop-side-drawer {
-    flex: 1;
-    width: 100%;
-    height: 60vh;
-    border-left: none;
-  }
-  
-  .drawer-scroll-area {
-    padding: 16px;
-  }
-  
-  .hud-footer-deck {
-    display: none; /* Hide floating overlays on mobile */
-  }
-  
-  /* Header navigation adaptation */
-  header {
-    background: var(--bg-space);
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-    padding: 12px 16px;
-  }
-  .brand-label {
-    font-size: 11px;
-  }
-  .mode-tab {
-    padding: 6px 12px;
-    font-size: 9px;
-  }
-}
-</style>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-primary: #0a0f1e;
+      --bg-secondary: #1a1f2e;
+      --accent-cyan: #00d4ff;
+      --accent-magenta: #ff006b;
+      --accent-lime: #00ff41;
+      --accent-gold: #ffa500;
+      --text-white: #ffffff;
+      --text-muted: #8899aa;
+      --success: #00ff41;
+      --danger: #ff006b;
+      --warning: #ffa500;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      background: var(--bg-primary);
+      color: var(--text-white);
+      font-family: 'Oxanium', sans-serif;
+      overflow: hidden;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* SCANLINE EFFECT */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.3) 0%,
+        transparent 50%,
+        rgba(0, 0, 0, 0.3) 100%
+      );
+      background-size: 100% 4px;
+      pointer-events: none;
+      z-index: 9999;
+      animation: scanlines 8s linear infinite;
+    }
+
+    @keyframes scanlines {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(10px); }
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.3) 100%);
+      pointer-events: none;
+      z-index: 9998;
+    }
+
+    /* MAIN CONTAINER */
+    #game-container {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: linear-gradient(135deg, #0a0f1e 0%, #1a1f2e 100%);
+    }
+
+    /* HEADER HUD */
+    .game-hud {
+      background: linear-gradient(90deg, rgba(10,15,30,0.9) 0%, rgba(26,31,46,0.9) 100%);
+      border-bottom: 2px solid var(--accent-cyan);
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      z-index: 100;
+    }
+
+    .hud-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      color: var(--accent-magenta);
+      text-shadow: 0 0 10px var(--accent-magenta);
+    }
+
+    .hud-stats {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+    }
+
+    .stat-label {
+      color: var(--text-muted);
+    }
+
+    .stat-value {
+      color: var(--accent-cyan);
+      font-weight: 700;
+      min-width: 40px;
+    }
+
+    .stat.health .stat-value {
+      color: var(--danger);
+    }
+
+    .stat.coins .stat-value {
+      color: var(--warning);
+    }
+
+    .stat.score .stat-value {
+      color: var(--success);
+    }
+
+    .health-bar {
+      width: 120px;
+      height: 8px;
+      background: rgba(255, 0, 107, 0.2);
+      border: 1px solid var(--danger);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .health-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #ff006b, #ff00ff);
+      width: 100%;
+      transition: width 0.3s ease;
+    }
+
+    /* GAME CANVAS */
+    #game-canvas {
+      flex: 1;
+      width: 100%;
+      display: block;
+      background: linear-gradient(180deg, #0a0f1e 0%, #1a1f2e 100%);
+      image-rendering: pixelated;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: crisp-edges;
+    }
+
+    /* CONTROLS */
+    .control-section {
+      background: linear-gradient(90deg, rgba(10,15,30,0.95) 0%, rgba(26,31,46,0.95) 100%);
+      border-top: 2px solid var(--accent-cyan);
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      gap: 16px;
+      z-index: 100;
+    }
+
+    .dpad-container {
+      display: grid;
+      grid-template-columns: repeat(3, 50px);
+      grid-template-rows: repeat(3, 50px);
+      gap: 4px;
+    }
+
+    .dpad-btn {
+      background: rgba(0, 212, 255, 0.1);
+      border: 2px solid var(--accent-cyan);
+      border-radius: 4px;
+      color: var(--accent-cyan);
+      font-size: 20px;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.1s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .dpad-btn:active, .dpad-btn.pressed {
+      background: var(--accent-cyan);
+      color: var(--bg-primary);
+      transform: scale(0.95);
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 8px;
+    }
+
+    .action-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 2px solid var(--accent-magenta);
+      background: rgba(255, 0, 107, 0.1);
+      color: var(--accent-magenta);
+      font-size: 18px;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.1s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .action-btn:active, .action-btn.pressed {
+      background: var(--accent-magenta);
+      color: var(--bg-primary);
+      transform: scale(0.9);
+    }
+
+    /* MODALS & SCREENS */
+    .screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--bg-primary);
+      z-index: 200;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .screen.active {
+      display: flex;
+    }
+
+    .screen-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 36px;
+      font-weight: 900;
+      letter-spacing: 3px;
+      margin-bottom: 20px;
+      text-align: center;
+      background: linear-gradient(90deg, var(--accent-cyan), var(--accent-magenta));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .screen-content {
+      max-width: 600px;
+      width: 100%;
+      text-align: center;
+      overflow-y: auto;
+      max-height: 70vh;
+    }
+
+    .screen-content::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .screen-content::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .screen-content::-webkit-scrollbar-thumb {
+      background: var(--accent-cyan);
+      border-radius: 4px;
+    }
+
+    .screen-text {
+      font-size: 16px;
+      line-height: 1.8;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    .screen-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      border: 2px solid var(--accent-cyan);
+      background: transparent;
+      color: var(--accent-cyan);
+      font-family: 'Orbitron', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.3s;
+      border-radius: 4px;
+    }
+
+    .btn:hover {
+      background: var(--accent-cyan);
+      color: var(--bg-primary);
+      box-shadow: 0 0 20px var(--accent-cyan);
+    }
+
+    .btn.danger {
+      border-color: var(--accent-magenta);
+      color: var(--accent-magenta);
+    }
+
+    .btn.danger:hover {
+      background: var(--accent-magenta);
+      color: var(--text-white);
+      box-shadow: 0 0 20px var(--accent-magenta);
+    }
+
+    /* LEVEL INFO */
+    .level-info {
+      position: fixed;
+      top: 60px;
+      right: 16px;
+      background: rgba(26, 31, 46, 0.9);
+      border: 2px solid var(--accent-lime);
+      border-radius: 4px;
+      padding: 12px 16px;
+      font-size: 13px;
+      z-index: 50;
+    }
+
+    .level-info-title {
+      color: var(--accent-lime);
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .level-info-text {
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .game-hud {
+        padding: 10px 12px;
+        font-size: 12px;
+        gap: 12px;
+      }
+
+      .hud-title {
+        font-size: 14px;
+      }
+
+      .hud-stats {
+        gap: 12px;
+      }
+
+      .stat {
+        font-size: 11px;
+      }
+
+      .control-section {
+        padding: 10px 12px;
+        gap: 12px;
+      }
+
+      .dpad-container {
+        grid-template-columns: repeat(3, 40px);
+        grid-template-rows: repeat(3, 40px);
+        gap: 3px;
+      }
+
+      .dpad-btn {
+        font-size: 16px;
+      }
+
+      .action-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 14px;
+      }
+
+      .level-info {
+        font-size: 11px;
+        padding: 8px 12px;
+        top: 50px;
+        right: 12px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .game-hud {
+        padding: 8px 10px;
+        font-size: 10px;
+      }
+
+      .hud-title {
+        font-size: 12px;
+        letter-spacing: 1px;
+      }
+
+      .hud-stats {
+        gap: 8px;
+        font-size: 9px;
+      }
+
+      .health-bar {
+        width: 80px;
+        height: 6px;
+      }
+
+      .dpad-container {
+        grid-template-columns: repeat(3, 35px);
+        grid-template-rows: repeat(3, 35px);
+        gap: 2px;
+      }
+
+      .action-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 12px;
+      }
+
+      .screen-title {
+        font-size: 24px;
+      }
+
+      .screen-text {
+        font-size: 14px;
+      }
+    }
+  </style>
 </head>
 <body>
 
-<!-- CORE HEADER SWITCHER -->
-<header>
-  <div class="brand-label">CONSOLE_SYSTEM: SONU_SHAH</div>
-  <div class="mode-switch-deck">
-    <button class="mode-tab active" id="tab-play" onclick="switchMode('play')">
-      <i class="fa-solid fa-gamepad"></i> PLAY SYSTEM
-    </button>
-    <button class="mode-tab" id="tab-classic" onclick="switchMode('classic')">
-      <i class="fa-solid fa-file-invoice"></i> CLASSIC ARCHIVE
-    </button>
-  </div>
-</header>
-
-<!-- ── INTERACTIVE 3D PLATFORM SHELL ── -->
-<div id="viewport-shell">
+<div id="game-container">
   
-  <!-- WebGL Render Screen -->
-  <div id="canvas-container"></div>
-
-  <!-- Mobile Console Deck / Desktop Slide Drawer -->
-  <div class="desktop-side-drawer">
-    <div class="drawer-scroll-area">
-      
-      <!-- Current Landmark Screen HUD -->
-      <div class="cyber-card" id="terminal-card">
-        <div class="cyber-card-header">
-          <span id="term-node-id">SYSTEM_INIT_OK</span>
-          <span style="color:var(--neon-green)">● DIRECT CONNECTED</span>
-        </div>
-        <h2 class="cyber-title" id="term-title">Target Quest Core</h2>
-        <div class="cyber-sub" id="term-sub">Approach nodes on grid to unlock payload...</div>
-        <div class="cyber-body" id="term-body">
-          Use the 3D grid navigation systems to interface with Sonu's professional history, production artifacts, and career specs.
-        </div>
-        <div id="term-extras"></div>
-        <div id="term-actions" style="margin-top:20px;"></div>
+  <!-- HUD -->
+  <div class="game-hud">
+    <div class="hud-title">CODE RUNNER</div>
+    <div class="hud-stats">
+      <div class="stat score">
+        <span class="stat-label">SCORE:</span>
+        <span class="stat-value" id="score">0</span>
       </div>
-
-      <!-- Navigation Panel Autopilots -->
-      <div class="cyber-card">
-        <div class="cyber-card-header">
-          <span>NAVIGATION_AUTOPILOT</span>
-          <span>READY</span>
-        </div>
-        <div class="cyber-body" style="font-size:12px; margin-bottom:12px;">
-          Tap any coordinate vector below to auto-navigate your ship directly to the core landmark:
-        </div>
-        <div class="target-teleport-deck">
-          <button class="teleport-btn" onclick="engageAutopilot(-15, -20, 'applie')">
-            <span>🍎 Node Vector: Applie Info Solution</span> <i class="fa-solid fa-chevron-right"></i>
-          </button>
-          <button class="teleport-btn" onclick="engageAutopilot(15, -15, 'pdha')">
-            <span>📱 Node Vector: Pdhamecha Sector</span> <i class="fa-solid fa-chevron-right"></i>
-          </button>
-          <button class="teleport-btn" onclick="engageAutopilot(-20, 15, 'skills')">
-            <span>🎯 Node Vector: System Specs</span> <i class="fa-solid fa-chevron-right"></i>
-          </button>
-          <button class="teleport-btn" onclick="engageAutopilot(20, 10, 'edu')">
-            <span>🎓 Node Vector: Academy Node</span> <i class="fa-solid fa-chevron-right"></i>
-          </button>
-          <button class="teleport-btn" onclick="engageAutopilot(0, -45, 'arena')">
-            <span>✈️ Node Vector: Relocation Arena</span> <i class="fa-solid fa-chevron-right"></i>
-          </button>
+      <div class="stat health">
+        <span class="stat-label">HP:</span>
+        <div class="health-bar">
+          <div class="health-fill" id="health-fill"></div>
         </div>
       </div>
-
+      <div class="stat level">
+        <span class="stat-label">LEVEL:</span>
+        <span class="stat-value" id="level">1</span>
+      </div>
+      <div class="stat coins">
+        <span class="stat-label">COINS:</span>
+        <span class="stat-value" id="coins">0</span>
+      </div>
     </div>
   </div>
 
-  <!-- HUD Floating Controls Panel (Overlaying Desktop) -->
-  <div class="hud-footer-deck">
+  <!-- CANVAS -->
+  <canvas id="game-canvas"></canvas>
+
+  <!-- CONTROLS -->
+  <div class="control-section">
+    <div class="dpad-container">
+      <div></div>
+      <button class="dpad-btn" id="btn-up" data-key="up"><i class="fas fa-chevron-up"></i></button>
+      <div></div>
+      <button class="dpad-btn" id="btn-left" data-key="left"><i class="fas fa-chevron-left"></i></button>
+      <button class="dpad-btn" id="btn-center" style="opacity: 0; cursor: default; border: none; background: none;"></button>
+      <button class="dpad-btn" id="btn-right" data-key="right"><i class="fas fa-chevron-right"></i></button>
+      <div></div>
+      <button class="dpad-btn" id="btn-down" data-key="down"><i class="fas fa-chevron-down"></i></button>
+      <div></div>
+    </div>
     
-    <div class="interactive-guidance">
-      <div class="guide-header">🛸 ENGINE COMMAND MATRIX</div>
-      <div class="guide-desc">Drive your ship using <strong>WASD / Arrow Keys</strong> or the screen pad. Cruise near neon columns to unlock payload streams.</div>
+    <div class="action-buttons">
+      <button class="action-btn" id="btn-shoot" title="Shoot"><i class="fas fa-bolt"></i></button>
+      <button class="action-btn" id="btn-skill" title="Special Skill"><i class="fas fa-fire"></i></button>
     </div>
-
-    <!-- Responsive Desktop controller dpad -->
-    <div class="game-pad-console interactive-element" id="desktop-pad">
-      <div></div>
-      <div class="pad-key" id="pad-up"><i class="fa-solid fa-caret-up"></i></div>
-      <div></div>
-      <div class="pad-key" id="pad-left"><i class="fa-solid fa-caret-left"></i></div>
-      <div style="background:rgba(255,255,255,0.02)"></div>
-      <div class="pad-key" id="pad-right"><i class="fa-solid fa-caret-right"></i></div>
-      <div></div>
-      <div class="pad-key" id="pad-down"><i class="fa-solid fa-caret-down"></i></div>
-      <div></div>
-    </div>
-
   </div>
 
 </div>
 
-
-<!-- ── CLASSIC RESUME ARCHIVE VAULT ── -->
-<div id="classic-resume-vault">
-  <div class="classic-content">
-    
-    <div class="classic-name-plate">
-      <h1 class="classic-title">Sonu Shah</h1>
-      <div class="classic-subtitle">🎯 Senior Flutter Developer | iOS & macOS Engineer</div>
-      <p class="classic-about">
-        Engineering clean, maintainable single-codebase architectures across iOS, macOS, iPad, and Android. Specializing in WebRTC integration, Twilio Voice SDK systems, customized canvas engines, and localized caching.
-      </p>
+<!-- SCREENS -->
+<!-- Start Screen -->
+<div id="start-screen" class="screen active">
+  <div class="screen-title">CODE RUNNER</div>
+  <div class="screen-content">
+    <div class="screen-text">
+      <p>🎮 Play through Sonu's Developer Journey!</p>
+      <p style="margin: 20px 0; color: var(--accent-lime);">Navigate the digital realm, defeat coding bugs, and unlock skills to become a legendary Flutter developer.</p>
+      <p style="font-size: 14px;">⭐ Collect coins to unlock portfolio sections</p>
+      <p style="font-size: 14px;">⚡ Use special skills strategically</p>
+      <p style="font-size: 14px;">🏆 Reach the end to see the full resume</p>
     </div>
-
-    <!-- Experience Section -->
-    <section class="classic-section">
-      <h2 class="classic-section-title">💼 PROFESSIONAL WORK ARCHIVES</h2>
-      
-      <div class="timeline-card">
-        <div class="timeline-header">
-          <div>
-            <h3 class="timeline-meta-title">Flutter Developer</h3>
-            <span class="timeline-meta-company">Applie Info Solution Pvt. Ltd. · Ahmedabad</span>
-          </div>
-          <span class="timeline-period">Jan 2025 – Present</span>
-        </div>
-        <ul class="bullet-list">
-          <li>Architected and shipped a production <strong>WiFi Calling application</strong> on iOS/iPadOS featuring direct Twilio Voice SDK integrations, CallKit, native AudioSession routing and Method Channels.</li>
-          <li>Designed and built a complex <strong>custom vector graphics engine</strong> to power Logo Maker, Invitation Maker, and Graphic Design apps on the Apple Store.</li>
-          <li>Built <strong>eSign & PDF Maker</strong> platforms providing template rendering, signature coordinates placement, and macOS system print engine links.</li>
-          <li>Delivered <strong>Voice Memo</strong> (waveform visuals + local Hive database storage) and <strong>BG Remover</strong> powered by background Dart multi-threading processes.</li>
-        </ul>
-      </div>
-
-      <div class="timeline-card">
-        <div class="timeline-header">
-          <div>
-            <h3 class="timeline-meta-title">Flutter Developer</h3>
-            <span class="timeline-meta-company">Pdhamecha LLP · Ahmedabad</span>
-          </div>
-          <span class="timeline-period">Jun 2024 – Dec 2024</span>
-        </div>
-        <ul class="bullet-list">
-          <li>Created the <strong>Cloud Vidhya EdTech Platform</strong> for Android, writing streaming engines powered by peer WebRTC signals and FCM push messaging structures.</li>
-          <li>Engineered a fully customized **HRMS Enterprise Utility**, connecting Google Maps APIs and real-time geofenced punch tracking. Improved tracking precision to 90%.</li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- Skills Section -->
-    <section class="classic-section">
-      <h2 class="classic-section-title">🛠️ ATTRIBUTE MATRIX</h2>
-      <div class="skills-grid-box">
-        <span class="pill-tag">Flutter</span>
-        <span class="pill-tag">Dart</span>
-        <span class="pill-tag">iOS Native APIs</span>
-        <span class="pill-tag">macOS Desktop</span>
-        <span class="pill-tag">Twilio Voice SDK</span>
-        <span class="pill-tag">WebRTC</span>
-        <span class="pill-tag">GetX</span>
-        <span class="pill-tag">Bloc</span>
-        <span class="pill-tag">Firebase Systems</span>
-        <span class="pill-tag">Google Maps API</span>
-        <span class="pill-tag">StoreKit (In-App Purchases)</span>
-        <span class="pill-tag">Hive Local Storage</span>
-        <span class="pill-tag">Dart Isolates</span>
-      </div>
-    </section>
-
-    <!-- Education Section -->
-    <section class="classic-section">
-      <h2 class="classic-section-title">🎓 SCHOLASTIC HISTORY</h2>
-      <div class="timeline-card">
-        <div class="timeline-header">
-          <div>
-            <h3 class="timeline-meta-title">Master of Computer Applications (MCA)</h3>
-            <span class="timeline-meta-company">LJ Institute of Computer Applications</span>
-          </div>
-          <span class="timeline-period">2022 – 2024</span>
-        </div>
-        <p style="font-size:14px; color:var(--muted)">
-          Graduated inside the **top 10%** of the student cohort batch. Coursework focused on advanced data structures, relational database management systems, and network protocols.
-        </p>
-      </div>
-    </section>
-
-    <!-- Contact Portal -->
-    <section class="classic-section" style="margin-bottom:0;">
-      <h2 class="classic-section-title">📬 DIRECT COMMUNICATIONS</h2>
-      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
-        <a href="mailto:sonu.shah99098@gmail.com" class="teleport-btn">
-          <span>📧 Email Address</span> <i>sonu.shah99098@gmail.com</i>
-        </a>
-        <a href="tel:+919909843221" class="teleport-btn">
-          <span>📞 Mobile Number</span> <i>+91 9909843221</i>
-        </a>
-        <a href="https://www.linkedin.com/in/shah-sonu/" target="_blank" class="teleport-btn">
-          <span>💼 LinkedIn Port</span> <i>Connect</i>
-        </a>
-        <a href="https://github.com/sonushah12" target="_blank" class="teleport-btn">
-          <span>🐙 GitHub Depot</span> <i>View</i>
-        </a>
-      </div>
-    </section>
-
+    <div class="screen-buttons">
+      <button class="btn" onclick="startGame()">START GAME</button>
+    </div>
   </div>
 </div>
 
+<!-- Game Over Screen -->
+<div id="gameover-screen" class="screen">
+  <div class="screen-title">GAME OVER</div>
+  <div class="screen-content">
+    <div class="screen-text">
+      <p id="gameover-msg">You were defeated...</p>
+      <p id="gameover-stats" style="margin: 20px 0;"></p>
+    </div>
+    <div class="screen-buttons">
+      <button class="btn" onclick="startGame()">RETRY</button>
+      <button class="btn danger" onclick="showPortfolio()">VIEW PORTFOLIO</button>
+    </div>
+  </div>
+</div>
 
-<!-- ── JAVASCRIPT GAMEPLAY ENGINE ── -->
+<!-- Level Complete Screen -->
+<div id="levelcomplete-screen" class="screen">
+  <div class="screen-title">LEVEL COMPLETE!</div>
+  <div class="screen-content">
+    <div class="screen-text" id="levelcomplete-content"></div>
+    <div class="screen-buttons">
+      <button class="btn" onclick="nextLevel()">CONTINUE</button>
+    </div>
+  </div>
+</div>
+
+<!-- Unlock Screen -->
+<div id="unlock-screen" class="screen">
+  <div class="screen-title">SKILL UNLOCKED!</div>
+  <div class="screen-content">
+    <div class="screen-text" id="unlock-content"></div>
+    <div class="screen-buttons">
+      <button class="btn" onclick="document.getElementById('unlock-screen').classList.remove('active')">CLOSE</button>
+    </div>
+  </div>
+</div>
+
+<!-- Portfolio Screen -->
+<div id="portfolio-screen" class="screen">
+  <div class="screen-title">SONU SHAH</div>
+  <div class="screen-content" id="portfolio-content"></div>
+  <div class="screen-buttons">
+    <button class="btn" onclick="closePortfolio()">CLOSE</button>
+  </div>
+</div>
+
+<!-- GAME ENGINE -->
 <script>
-/* ── RESUME LOG Payload DATABASE ────────────────────────────── */
-const nodePayloads = {
+// ============ GAME CONFIG ============
+const config = {
+  canvas: null,
+  ctx: null,
+  width: 0,
+  height: 0,
+  
+  // Game state
+  score: 0,
+  coins: 0,
+  level: 1,
+  gameRunning: false,
+  gameOverFlag: false,
+  
+  // Player
+  player: {
+    x: 0,
+    y: 0,
+    width: 30,
+    height: 40,
+    speed: 5,
+    hp: 100,
+    maxHp: 100,
+    bullets: [],
+    invulnerable: false,
+    invulnerableTime: 0
+  },
+  
+  // Game objects
+  enemies: [],
+  coins: [],
+  particles: [],
+  
+  // Level config
+  levels: [
+    {
+      name: 'Flutter Fundamentals',
+      enemies: 5,
+      bosses: 0,
+      coins: 10,
+      skillUnlock: { name: 'Dart Shield', desc: 'Protect yourself from Dart language bugs!' }
+    },
+    {
+      name: 'iOS Integration',
+      enemies: 8,
+      bosses: 1,
+      coins: 15,
+      skillUnlock: { name: 'Native API Mastery', desc: 'Command the power of native iOS APIs!' }
+    },
+    {
+      name: 'Twilio Voice Quest',
+      enemies: 10,
+      bosses: 1,
+      coins: 20,
+      skillUnlock: { name: 'Voice SDK Control', desc: 'Master the Twilio Voice SDK!' }
+    },
+    {
+      name: 'WebRTC War',
+      enemies: 12,
+      bosses: 2,
+      coins: 25,
+      skillUnlock: { name: 'WebRTC Domination', desc: 'Real-time communication mastered!' }
+    },
+    {
+      name: 'Firebase Elite',
+      enemies: 15,
+      bosses: 2,
+      coins: 30,
+      skillUnlock: { name: 'Cloud Architecture Pro', desc: 'Build scalable systems!' }
+    }
+  ]
+};
+
+// Portfolio data
+const portfolioData = {
   applie: {
-    nodeId: 'NODE_STAGE_APPLIE_SYS',
-    title: 'Applie Info Solution',
-    sub: 'Flutter Developer · iOS & macOS',
-    body: 'Developing high-performance Apple ecosystem frameworks and custom interfaces using method channels, audio stream managers, and core graphic layers.',
-    extras: `
-      <div class="details-log">
-        <div class="details-header">🎁 ARCHIVE METRICS (PRODUCTION SHIPPED)</div>
-        <div class="detail-item">
-          <div class="detail-title">Twilio VoIP Engine</div>
-          <div class="detail-desc">Twilio Voice SDK connected via native Method Channels. Configured CallKit triggers, AudioSession setups, and custom earpiece outputs.</div>
-        </div>
-        <div class="detail-item">
-          <div class="detail-title">Custom Graphic Vector Canvas</div>
-          <div class="detail-desc">Built a multi-layer gesture editor engine from scratch. Powers three production creative apps on the iOS & macOS App Stores.</div>
-        </div>
-        <div class="detail-item">
-          <div class="detail-title">eSign & PDF Maker</div>
-          <div class="detail-desc">Form field tracking overlay and multi-page custom signature coordinates engine. Integrates native macOS system print.</div>
-        </div>
-      </div>
-      <div class="tags-hull">
-        <span class="pill-tag">Twilio Voice</span><span class="pill-tag">Custom Canvas</span>
-        <span class="pill-tag">Method Channels</span><span class="pill-tag">GetX</span>
-      </div>
-    `,
-    actions: `<a href="mailto:sonu.shah99098@gmail.com" class="teleport-btn" style="border-color:var(--neon-cyan)"><span>📧 Direct Connection Stream</span> <i class="fa-solid fa-chevron-right"></i></a>`
+    title: '🍎 APPLIE INFO SOLUTION',
+    role: 'Senior Flutter Developer',
+    period: 'Jan 2025 – Present',
+    desc: 'Architecting production applications with Twilio Voice SDK, custom graphics engines, eSign platforms, and voice memo systems.'
   },
   pdha: {
-    nodeId: 'NODE_STAGE_PDHAMECHA',
-    title: 'Pdhamecha LLP',
-    sub: 'Flutter Developer · Android Services',
-    body: 'Constructed custom video broadcasting classes, maps API connections, and automated administrative operations systems.',
-    extras: `
-      <div class="details-log">
-        <div class="details-header">🎁 ARCHIVE METRICS (PRODUCTION SHIPPED)</div>
-        <div class="detail-item">
-          <div class="detail-title">Cloud Vidhya (Live EdTech)</div>
-          <div class="detail-desc">Low-latency online class streaming running WebRTC broadcast nodes and automated signalling logic.</div>
-        </div>
-        <div class="detail-item">
-          <div class="detail-title">Enterprise HRMS Geofencing</div>
-          <div class="detail-desc">Google Maps APIs automated tracking with spatial geofenced coordinate verification. Upgraded tracking preciseness to 90%.</div>
-        </div>
-      </div>
-      <div class="tags-hull">
-        <span class="pill-tag">WebRTC</span><span class="pill-tag">Google Maps API</span>
-        <span class="pill-tag">Bloc</span><span class="pill-tag">Geofencing</span>
-      </div>
-    `,
-    actions: `<a href="mailto:sonu.shah99098@gmail.com" class="teleport-btn" style="border-color:var(--neon-cyan)"><span>📧 Secure Transmission Channel</span> <i class="fa-solid fa-chevron-right"></i></a>`
+    title: '📱 PDHAMECHA LLP',
+    role: 'Flutter Developer',
+    period: 'Jun 2024 – Dec 2024',
+    desc: 'Built Cloud Vidhya EdTech platform with WebRTC streaming and Enterprise HRMS with geofencing (90% accuracy).'
   },
   skills: {
-    nodeId: 'NODE_STAGE_CORE_SPECS',
-    title: 'System Skill Trees',
-    sub: 'Architecture & Framework Attributes',
-    body: 'Core capabilities hardened across multiple scale software products over 2+ years.',
-    extras: `
-      <div class="details-log">
-        <div class="details-header">📈 CHARACTER ATTRIBUTES</div>
-        <div style="font-size:12px; line-height:1.8; color: var(--muted);">
-          <div>🎯 <strong>Flutter / Dart Engineering:</strong> Level 95 [Master]</div>
-          <div>🍎 <strong>iOS & macOS Native Spells:</strong> Level 84 [Advanced]</div>
-          <div>📞 <strong>Twilio Voice & VoIP Pipelines:</strong> Level 82 [Specialist]</div>
-          <div>⚡ <strong>State Engines (GetX / Bloc):</strong> Level 90 [Expert]</div>
-          <div>🔥 <strong>Cloud/Firebase Networks:</strong> Level 88 [Expert]</div>
-        </div>
-      </div>
-    `,
-    actions: `<a href="https://github.com/sonushah12" target="_blank" class="teleport-btn"><span>🐙 View Github Repositories</span> <i class="fa-solid fa-chevron-right"></i></a>`
+    title: '🛠️ CORE SKILLS',
+    skills: ['Flutter/Dart', 'iOS Native', 'macOS', 'Twilio Voice', 'WebRTC', 'Firebase', 'GetX', 'Google Maps', 'Hive', 'Dart Isolates']
   },
   edu: {
-    nodeId: 'NODE_STAGE_EDUCATION',
-    title: 'Academic Initiation',
-    sub: 'Master of Computer Applications',
-    body: 'Academic credentialing focusing on object-oriented structures, network designs, data structures, and database management engines.',
-    extras: `
-      <div class="details-log">
-        <div class="details-header">🎓 ACADEMIC LOGS</div>
-        <div style="font-size:13px; color: var(--white)">
-          <strong>LJ Institute of Computer Applications</strong><br>
-          <span style="color:var(--neon-green)">Graduated within top 10% of cohort batch.</span><br>
-          <span style="font-size:11px; color: var(--muted)">Duration: 2022 - 2024</span>
-        </div>
-      </div>
-    `,
-    actions: ``
+    title: '🎓 EDUCATION',
+    degree: 'Master of Computer Applications (MCA)',
+    school: 'LJ Institute of Computer Applications',
+    period: '2022 – 2024',
+    desc: 'Top 10% graduate. Advanced data structures, RDBMS, network protocols.'
   },
-  arena: {
-    nodeId: 'NODE_STAGE_DEPLOY_TARGETS',
-    title: 'Global Relocation',
-    sub: 'Targeting Germany & Dubai Guilds',
-    body: 'Actively searching for senior Flutter or mobile roles. Equipped with visa-ready documentation for global deployment.',
-    extras: `
-      <div class="details-log">
-        <div class="details-header">📬 DIRECT CHANNELS</div>
-        <div style="font-size:13px; display:flex; flex-direction:column; gap:8px;">
-          <div>📧 <a href="mailto:sonu.shah99098@gmail.com" style="color:var(--neon-cyan)">sonu.shah99098@gmail.com</a></div>
-          <div>📞 <a href="tel:+919909843221" style="color:var(--neon-cyan)">+91 9909843221</a></div>
-        </div>
-      </div>
-    `,
-    actions: `<a href="mailto:sonu.shah99098@gmail.com" class="teleport-btn" style="border-color:var(--neon-magenta)"><span>💼 Deploy Offer Transmission</span> <i class="fa-solid fa-chevron-right"></i></a>`
+  contact: {
+    title: '✉️ CONTACT',
+    email: 'sonu.shah99098@gmail.com',
+    phone: '+91 9909843221',
+    linkedin: 'linkedin.com/in/shah-sonu',
+    github: 'github.com/sonushah12'
   }
 };
 
-/* ── 3D THREE.JS WORLD SIMULATION ────────────────────────────── */
-const canvasContainer = document.getElementById('canvas-container');
-const scene = new THREE.Scene();
-scene.fog = new THREE.FogExp2(0x04050a, 0.035);
-
-const camera = new THREE.PerspectiveCamera(60, canvasContainer.clientWidth / canvasContainer.clientHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-canvasContainer.appendChild(renderer.domElement);
-
-// Environment Lighting
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-scene.add(ambientLight);
-
-const pointLight = new THREE.PointLight(0x00f3ff, 1.2, 100);
-pointLight.position.set(0, 15, 0);
-scene.add(pointLight);
-
-// Neon Landscape Grid
-const gridHelper = new THREE.GridHelper(200, 80, 0x9d00ff, 0x111322);
-gridHelper.position.y = 0;
-scene.add(gridHelper);
-
-// Monolith Config
-const monolithCoords = [
-  { key: 'applie', x: -15, z: -20, color: 0x00f3ff },
-  { key: 'pdha',   x: 15,  z: -15, color: 0xff007f },
-  { key: 'skills', x: -20, z: 15,  color: 0x00ff87 },
-  { key: 'edu',    x: 20,  z: 10,  color: 0xffaa00 },
-  { key: 'arena',  x: 0,   z: -45, color: 0xff007f }
-];
-
-const monolithMeshes = [];
-
-monolithCoords.forEach(c => {
-  // Column Mesh
-  const colGeom = new THREE.BoxGeometry(4, 14, 4);
-  const colMat = new THREE.MeshPhongMaterial({
-    color: c.color,
-    emissive: c.color,
-    emissiveIntensity: 0.12,
-    flatShading: true,
-    transparent: true,
-    opacity: 0.85
-  });
-  const mesh = new THREE.Mesh(colGeom, colMat);
-  mesh.position.set(c.x, 7, c.z);
-  scene.add(mesh);
-
-  // Rotating Floating Ring Above
-  const ringGeom = new THREE.RingGeometry(2.8, 3.2, 16);
-  const ringMat = new THREE.MeshBasicMaterial({ color: c.color, side: THREE.DoubleSide });
-  const ring = new THREE.Mesh(ringGeom, ringMat);
-  ring.rotation.x = Math.PI / 2;
-  ring.position.set(c.x, 14.5, c.z);
-  scene.add(ring);
-
-  mesh.userData = { key: c.key, ring: ring };
-  monolithMeshes.push(mesh);
-});
-
-// Player Ship Avatar Group
-const playerGroup = new THREE.Group();
-const shipBodyGeom = new THREE.ConeGeometry(1, 2.5, 4);
-shipBodyGeom.rotateX(Math.PI / 2); // align forward
-const shipMat = new THREE.MeshPhongMaterial({
-  color: 0x00f3ff,
-  emissive: 0x00f3ff,
-  emissiveIntensity: 0.4,
-  flatShading: true
-});
-const shipBody = new THREE.Mesh(shipBodyGeom, shipMat);
-playerGroup.add(shipBody);
-
-const wingGeom = new THREE.BoxGeometry(2.2, 0.1, 0.8);
-const wings = new THREE.Mesh(wingGeom, shipMat);
-wings.position.set(0, 0, 0.3);
-playerGroup.add(wings);
-
-playerGroup.position.set(0, 0.8, 5);
-scene.add(playerGroup);
-
-// Game Control State Engine
-const movement = {
-  forward: false, backward: false, left: false, right: false,
-  speed: 0.5, rotationSpeed: 0.05, autopilotActive: false
-};
-
-// Physics Control Triggers (Keyboard)
-window.addEventListener('keydown', e => {
-  if (movement.autopilotActive) return; // ignore standard inputs during autopilot
-  if (e.key === 'w' || e.key === 'ArrowUp') movement.forward = true;
-  if (e.key === 's' || e.key === 'ArrowDown') movement.backward = true;
-  if (e.key === 'a' || e.key === 'ArrowLeft') movement.left = true;
-  if (e.key === 'd' || e.key === 'ArrowRight') movement.right = true;
-});
-window.addEventListener('keyup', e => {
-  if (e.key === 'w' || e.key === 'ArrowUp') movement.forward = false;
-  if (e.key === 's' || e.key === 'ArrowDown') movement.backward = false;
-  if (e.key === 'a' || e.key === 'ArrowLeft') movement.left = false;
-  if (e.key === 'd' || e.key === 'ArrowRight') movement.right = false;
-});
-
-// Pad controller bindings for touch inputs
-const bindControlKey = (elementId, stateKey) => {
-  const el = document.getElementById(elementId);
-  if (!el) return;
-  el.addEventListener('touchstart', e => { e.preventDefault(); if(!movement.autopilotActive) movement[stateKey] = true; });
-  el.addEventListener('touchend', () => movement[stateKey] = false);
-  el.addEventListener('mousedown', () => { if(!movement.autopilotActive) movement[stateKey] = true; });
-  el.addEventListener('mouseup', () => movement[stateKey] = false);
-  el.addEventListener('mouseleave', () => movement[stateKey] = false);
-};
-
-bindControlKey('pad-up', 'forward');
-bindControlKey('pad-down', 'backward');
-bindControlKey('pad-left', 'left');
-bindControlKey('pad-right', 'right');
-
-// Auto pilot dynamic path calculations
-function engageAutopilot(targetX, targetZ, key) {
-  movement.autopilotActive = true;
+// ============ INITIALIZATION ============
+function init() {
+  config.canvas = document.getElementById('game-canvas');
+  config.ctx = config.canvas.getContext('2d');
   
-  // Neutralize basic physics velocities
-  movement.forward = movement.backward = movement.left = movement.right = false;
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+  
+  // Keyboard input
+  window.addEventListener('keydown', handleKeyDown);
+  window.addEventListener('keyup', handleKeyUp);
+  
+  // Touch/Click buttons
+  setupControls();
+}
 
-  // Animate flight path smoothly to targets
-  gsap.to(playerGroup.position, {
-    x: targetX,
-    z: targetZ + 7, // Rest player ship slightly in front of columns
-    duration: 1.5,
-    ease: 'power2.out',
-    onUpdate: () => {
-      // Orient rotation during flight path updates
-      const targetRotation = Math.atan2(playerGroup.position.x - targetX, playerGroup.position.z - (targetZ + 7)) + Math.PI;
-      playerGroup.rotation.y = targetRotation;
-    },
-    onComplete: () => {
-      movement.autopilotActive = false;
-      showTerminalDisplay(key);
-    }
+function resizeCanvas() {
+  const container = document.getElementById('game-container');
+  config.width = container.clientWidth;
+  config.height = config.canvas.parentElement.clientHeight;
+  
+  config.canvas.width = config.width;
+  config.canvas.height = config.height;
+}
+
+function setupControls() {
+  const dpadButtons = document.querySelectorAll('[data-key]');
+  dpadButtons.forEach(btn => {
+    btn.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      btn.classList.add('pressed');
+      config.keys[btn.dataset.key] = true;
+    });
+    btn.addEventListener('touchend', () => {
+      btn.classList.remove('pressed');
+      config.keys[btn.dataset.key] = false;
+    });
+    btn.addEventListener('mousedown', () => {
+      btn.classList.add('pressed');
+      config.keys[btn.dataset.key] = true;
+    });
+    btn.addEventListener('mouseup', () => {
+      btn.classList.remove('pressed');
+      config.keys[btn.dataset.key] = false;
+    });
+    btn.addEventListener('mouseleave', () => {
+      btn.classList.remove('pressed');
+      config.keys[btn.dataset.key] = false;
+    });
+  });
+  
+  const shootBtn = document.getElementById('btn-shoot');
+  shootBtn.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    shootBtn.classList.add('pressed');
+    config.keys.space = true;
+  });
+  shootBtn.addEventListener('touchend', () => {
+    shootBtn.classList.remove('pressed');
+    config.keys.space = false;
+  });
+  shootBtn.addEventListener('mousedown', () => {
+    shootBtn.classList.add('pressed');
+    config.keys.space = true;
+  });
+  shootBtn.addEventListener('mouseup', () => {
+    shootBtn.classList.remove('pressed');
+    config.keys.space = false;
   });
 }
 
-// Active Terminal Info Drawer Control Logic
-let currentActiveKey = null;
-const termCard = document.getElementById('terminal-card');
+config.keys = {
+  up: false,
+  down: false,
+  left: false,
+  right: false,
+  space: false
+};
 
-function showTerminalDisplay(key) {
-  if (currentActiveKey === key) return;
-  currentActiveKey = key;
-
-  const data = nodePayloads[key];
-  if (!data) return;
-
-  document.getElementById('term-node-id').textContent = data.nodeId;
-  document.getElementById('term-title').textContent = data.title;
-  document.getElementById('term-sub').textContent = data.sub;
-  document.getElementById('term-body').textContent = data.body;
-  document.getElementById('term-extras').innerHTML = data.extras;
-  document.getElementById('term-actions').innerHTML = data.actions;
-
-  // Animate visual glitch effect
-  gsap.fromTo(termCard, { opacity: 0.3, scale: 0.98 }, { opacity: 1, scale: 1, duration: 0.3 });
+function handleKeyDown(e) {
+  if (e.key === 'ArrowUp' || e.key === 'w') config.keys.up = true;
+  if (e.key === 'ArrowDown' || e.key === 's') config.keys.down = true;
+  if (e.key === 'ArrowLeft' || e.key === 'a') config.keys.left = true;
+  if (e.key === 'ArrowRight' || e.key === 'd') config.keys.right = true;
+  if (e.key === ' ') { e.preventDefault(); config.keys.space = true; }
 }
 
-/* ── MAIN RENDER ENGINE FRAME LOOP ────────────────────────────── */
-const clock = new THREE.Clock();
+function handleKeyUp(e) {
+  if (e.key === 'ArrowUp' || e.key === 'w') config.keys.up = false;
+  if (e.key === 'ArrowDown' || e.key === 's') config.keys.down = false;
+  if (e.key === 'ArrowLeft' || e.key === 'a') config.keys.left = false;
+  if (e.key === 'ArrowRight' || e.key === 'd') config.keys.right = false;
+  if (e.key === ' ') config.keys.space = false;
+}
 
-function tick() {
-  requestAnimationFrame(tick);
-  
-  const delta = clock.getDelta();
-
-  // Basic flight control state calculations
-  if (!movement.autopilotActive) {
-    if (movement.forward) playerGroup.translateZ(-movement.speed);
-    if (movement.backward) playerGroup.translateZ(movement.speed * 0.6);
-    if (movement.left) playerGroup.rotation.y += movement.rotationSpeed;
-    if (movement.right) playerGroup.rotation.y -= movement.rotationSpeed;
+// ============ GAME LOOP ============
+function gameLoop() {
+  if (!config.gameRunning) {
+    requestAnimationFrame(gameLoop);
+    return;
   }
+  
+  update();
+  render();
+  requestAnimationFrame(gameLoop);
+}
 
-  // Constrain boundary dimensions
-  const lim = 85;
-  if (playerGroup.position.x > lim) playerGroup.position.x = lim;
-  if (playerGroup.position.x < -lim) playerGroup.position.x = -lim;
-  if (playerGroup.position.z > lim) playerGroup.position.z = lim;
-  if (playerGroup.position.z < -lim) playerGroup.position.z = -lim;
-
-  // Rotate Monolith Elements
-  const timer = Date.now() * 0.003;
-  monolithMeshes.forEach(mesh => {
-    mesh.userData.ring.position.y = 14.5 + Math.sin(timer + mesh.position.x) * 0.25;
-    mesh.userData.ring.rotation.z += 0.01;
-  });
-
-  // Dynamic Camera tracking updates
-  const cameraRelativeOffset = new THREE.Vector3(0, 6.5, 14.5);
-  const cameraOffset = cameraRelativeOffset.applyMatrix4(playerGroup.matrixWorld);
-  camera.position.lerp(cameraOffset, 0.08);
-  camera.lookAt(playerGroup.position);
-
-  // Monitor closeness coordinates to the monolith nodes
-  let nearAnyNode = false;
-  for (let i = 0; i < monolithMeshes.length; i++) {
-    const mesh = monolithMeshes[i];
-    const dist = playerGroup.position.distanceTo(mesh.position);
-    if (dist < 9) { // Approach detection threshold
-      showTerminalDisplay(mesh.userData.key);
-      nearAnyNode = true;
-      break;
+function update() {
+  // Player movement
+  if (config.keys.left && config.player.x > 0) {
+    config.player.x -= config.player.speed;
+  }
+  if (config.keys.right && config.player.x + config.player.width < config.width) {
+    config.player.x += config.player.speed;
+  }
+  if (config.keys.up && config.player.y > 0) {
+    config.player.y -= config.player.speed;
+  }
+  if (config.keys.down && config.player.y + config.player.height < config.height) {
+    config.player.y += config.player.speed;
+  }
+  
+  // Shooting
+  if (config.keys.space) {
+    createBullet();
+  }
+  
+  // Update invulnerability
+  if (config.player.invulnerable) {
+    config.player.invulnerableTime--;
+    if (config.player.invulnerableTime <= 0) {
+      config.player.invulnerable = false;
     }
   }
-
-  renderer.render(scene, camera);
+  
+  // Update bullets
+  config.player.bullets = config.player.bullets.filter(bullet => {
+    bullet.y -= 8;
+    return bullet.y > 0;
+  });
+  
+  // Update enemies
+  config.enemies = config.enemies.filter(enemy => {
+    enemy.y += enemy.speed;
+    
+    // Shooting at player
+    if (Math.random() < 0.01) {
+      enemy.bullets = enemy.bullets || [];
+      enemy.bullets.push({ x: enemy.x + 15, y: enemy.y + 30, speed: 3 });
+    }
+    
+    // Update enemy bullets
+    if (enemy.bullets) {
+      enemy.bullets = enemy.bullets.filter(bullet => {
+        bullet.y += bullet.speed;
+        
+        // Check collision with player
+        if (checkCollision(config.player, bullet)) {
+          if (!config.player.invulnerable) {
+            config.player.hp -= 10;
+            config.player.invulnerable = true;
+            config.player.invulnerableTime = 120;
+            updateHealthBar();
+            
+            if (config.player.hp <= 0) {
+              endGame();
+            }
+          }
+          return false;
+        }
+        
+        return bullet.y < config.height;
+      });
+    }
+    
+    // Check collision with bullets
+    config.player.bullets.forEach(bullet => {
+      if (checkCollision(enemy, bullet)) {
+        enemy.hp -= 25;
+        config.score += 10;
+        updateScore();
+        
+        if (Math.random() < 0.3) {
+          config.coins.push({
+            x: enemy.x + 15,
+            y: enemy.y + 15,
+            size: 8,
+            vx: (Math.random() - 0.5) * 4,
+            vy: -5
+          });
+          config.coins[config.coins.length - 1].life = 60;
+        }
+      }
+    });
+    
+    config.player.bullets = config.player.bullets.filter(bullet => {
+      return !config.enemies.some(e => checkCollision(e, bullet) && e.hp <= 0);
+    });
+    
+    // Check if enemy reached bottom
+    if (enemy.y > config.height) {
+      config.player.hp -= 20;
+      updateHealthBar();
+      if (config.player.hp <= 0) {
+        endGame();
+      }
+      return false;
+    }
+    
+    return enemy.hp > 0;
+  });
+  
+  // Update coins
+  config.coins = config.coins.filter(coin => {
+    coin.y += coin.vy;
+    coin.vy += 0.2;
+    coin.life--;
+    
+    if (checkCollision(config.player, coin)) {
+      config.coins[config.coins.indexOf(coin)] = null;
+      config.coins += 1;
+      document.getElementById('coins').textContent = config.coins;
+      return false;
+    }
+    
+    return coin.life > 0;
+  }).filter(c => c !== null);
+  
+  // Check level complete
+  if (config.enemies.length === 0 && config.level > config.levels.length - 1) {
+    endGame(true);
+  }
 }
 
-tick();
-
-// Handle responsive window resizes
-window.addEventListener('resize', () => {
-  camera.aspect = canvasContainer.clientWidth / canvasContainer.clientHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
-});
-
-
-/* ── INTERACTIVE CORE DOCK MODE SWITCHER ───────────────────────── */
-const gameShell = document.getElementById('viewport-shell');
-const classicVault = document.getElementById('classic-resume-vault');
-
-const tabPlay = document.getElementById('tab-play');
-const tabClassic = document.getElementById('tab-classic');
-
-function switchMode(targetMode) {
-  if (targetMode === 'play') {
-    tabPlay.classList.add('active');
-    tabClassic.classList.remove('active');
+function render() {
+  // Clear canvas
+  config.ctx.fillStyle = 'rgba(10, 15, 30, 0.1)';
+  config.ctx.fillRect(0, 0, config.width, config.height);
+  
+  // Draw grid
+  config.ctx.strokeStyle = 'rgba(0, 212, 255, 0.1)';
+  config.ctx.lineWidth = 1;
+  for (let i = 0; i < config.width; i += 40) {
+    config.ctx.beginPath();
+    config.ctx.moveTo(i, 0);
+    config.ctx.lineTo(i, config.height);
+    config.ctx.stroke();
+  }
+  for (let i = 0; i < config.height; i += 40) {
+    config.ctx.beginPath();
+    config.ctx.moveTo(0, i);
+    config.ctx.lineTo(config.width, i);
+    config.ctx.stroke();
+  }
+  
+  // Draw player
+  if (config.player.invulnerable && Math.floor(Date.now() / 100) % 2 === 0) {
+    config.ctx.globalAlpha = 0.5;
+  }
+  config.ctx.fillStyle = '#00d4ff';
+  config.ctx.shadowBlur = 10;
+  config.ctx.shadowColor = '#00d4ff';
+  config.ctx.fillRect(config.player.x, config.player.y, config.player.width, config.player.height);
+  config.ctx.shadowBlur = 0;
+  config.ctx.globalAlpha = 1;
+  
+  // Draw player bullets
+  config.ctx.fillStyle = '#00ff41';
+  config.ctx.shadowBlur = 8;
+  config.ctx.shadowColor = '#00ff41';
+  config.player.bullets.forEach(bullet => {
+    config.ctx.fillRect(bullet.x, bullet.y, 4, 12);
+  });
+  config.ctx.shadowBlur = 0;
+  
+  // Draw enemies
+  config.enemies.forEach(enemy => {
+    config.ctx.fillStyle = '#ff006b';
+    config.ctx.shadowBlur = 8;
+    config.ctx.shadowColor = '#ff006b';
+    config.ctx.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
     
-    classicVault.style.display = 'none';
-    gameShell.style.display = 'flex';
+    // Health bar
+    config.ctx.fillStyle = 'rgba(255, 0, 107, 0.3)';
+    config.ctx.fillRect(enemy.x, enemy.y - 10, enemy.width, 4);
+    config.ctx.fillStyle = '#ff006b';
+    config.ctx.fillRect(enemy.x, enemy.y - 10, (enemy.hp / 100) * enemy.width, 4);
+    config.ctx.shadowBlur = 0;
     
-    // Force immediate size computations
-    camera.aspect = canvasContainer.clientWidth / canvasContainer.clientHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
+    // Enemy bullets
+    if (enemy.bullets) {
+      config.ctx.fillStyle = '#ffa500';
+      config.ctx.shadowBlur = 6;
+      config.ctx.shadowColor = '#ffa500';
+      enemy.bullets.forEach(bullet => {
+        config.ctx.fillRect(bullet.x, bullet.y, 3, 8);
+      });
+      config.ctx.shadowBlur = 0;
+    }
+  });
+  
+  // Draw coins
+  config.coins.forEach(coin => {
+    config.ctx.fillStyle = '#ffa500';
+    config.ctx.shadowBlur = 8;
+    config.ctx.shadowColor = '#ffa500';
+    config.ctx.beginPath();
+    config.ctx.arc(coin.x, coin.y, coin.size, 0, Math.PI * 2);
+    config.ctx.fill();
+    config.ctx.shadowBlur = 0;
+  });
+}
+
+function createBullet() {
+  config.player.bullets.push({
+    x: config.player.x + config.player.width / 2,
+    y: config.player.y
+  });
+}
+
+function checkCollision(rect1, rect2) {
+  return rect1.x < rect2.x + (rect2.width || 8) &&
+         rect1.x + rect1.width > rect2.x &&
+         rect1.y < rect2.y + (rect2.height || 8) &&
+         rect1.y + rect1.height > rect2.y;
+}
+
+// ============ GAME CONTROL ============
+function startGame() {
+  document.getElementById('start-screen').classList.remove('active');
+  
+  config.score = 0;
+  config.coins = 0;
+  config.level = 1;
+  config.gameRunning = true;
+  config.gameOverFlag = false;
+  
+  config.player.x = config.width / 2 - config.player.width / 2;
+  config.player.y = config.height - 80;
+  config.player.hp = config.player.maxHp;
+  config.player.bullets = [];
+  
+  config.enemies = [];
+  config.coins = [];
+  
+  updateScore();
+  updateHealthBar();
+  updateLevel();
+  
+  spawnEnemies();
+  gameLoop();
+}
+
+function spawnEnemies() {
+  const levelConfig = config.levels[config.level - 1];
+  if (!levelConfig) return;
+  
+  config.enemies = [];
+  
+  for (let i = 0; i < levelConfig.enemies; i++) {
+    config.enemies.push({
+      x: Math.random() * (config.width - 30),
+      y: -50 - i * 80,
+      width: 30,
+      height: 30,
+      speed: 2 + (config.level * 0.5),
+      hp: 100,
+      bullets: []
+    });
+  }
+}
+
+function nextLevel() {
+  document.getElementById('levelcomplete-screen').classList.remove('active');
+  
+  config.level++;
+  
+  if (config.level > config.levels.length) {
+    showFinalPortfolio();
+    return;
+  }
+  
+  config.player.hp = config.player.maxHp;
+  config.player.bullets = [];
+  config.coins = [];
+  
+  updateHealthBar();
+  updateLevel();
+  
+  spawnEnemies();
+}
+
+function endGame(won = false) {
+  config.gameRunning = false;
+  
+  if (won) {
+    document.getElementById('levelcomplete-content').innerHTML = `
+      <p style="color: var(--success); font-size: 18px;">🎉 LEVEL ${config.level} COMPLETE!</p>
+      <p>${config.levels[config.level - 1].skillUnlock.desc}</p>
+      <p style="margin-top: 20px; color: var(--warning);">Coins Collected: ${config.coins}</p>
+    `;
+    document.getElementById('levelcomplete-screen').classList.add('active');
   } else {
-    tabClassic.classList.add('active');
-    tabPlay.classList.remove('active');
-    
-    gameShell.style.display = 'none';
-    classicVault.style.display = 'block';
+    document.getElementById('gameover-msg').textContent = config.player.hp <= 0 ? 'YOU WERE DEFEATED!' : 'MISSION FAILED!';
+    document.getElementById('gameover-stats').textContent = `
+      Score: ${config.score} | Level: ${config.level} | Coins: ${config.coins}
+    `;
+    document.getElementById('gameover-screen').classList.add('active');
   }
 }
+
+function updateScore() {
+  document.getElementById('score').textContent = config.score;
+}
+
+function updateHealthBar() {
+  const percent = (config.player.hp / config.player.maxHp) * 100;
+  document.getElementById('health-fill').style.width = percent + '%';
+}
+
+function updateLevel() {
+  document.getElementById('level').textContent = config.level;
+}
+
+function showPortfolio() {
+  document.getElementById('gameover-screen').classList.remove('active');
+  renderPortfolio();
+  document.getElementById('portfolio-screen').classList.add('active');
+}
+
+function showFinalPortfolio() {
+  document.getElementById('levelcomplete-screen').classList.remove('active');
+  renderPortfolio();
+  document.getElementById('portfolio-screen').classList.add('active');
+}
+
+function closePortfolio() {
+  document.getElementById('portfolio-screen').classList.remove('active');
+  document.getElementById('start-screen').classList.add('active');
+}
+
+function renderPortfolio() {
+  const content = `
+    <h3 style="color: var(--accent-lime); font-size: 18px; margin: 20px 0;">Senior Flutter Developer | iOS & macOS Engineer</h3>
+    
+    <div style="background: rgba(0, 212, 255, 0.1); border: 2px solid var(--accent-cyan); padding: 16px; margin: 16px 0; text-align: left; border-radius: 4px;">
+      <h4 style="color: var(--accent-cyan); margin-bottom: 8px;">🍎 APPLIE INFO SOLUTION</h4>
+      <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px;">Senior Flutter Developer | Jan 2025 – Present</p>
+      <p style="font-size: 12px; color: var(--text-muted);">Architected production WiFi Calling app with Twilio Voice SDK, custom graphics engine, eSign platforms, and voice memo systems.</p>
+    </div>
+    
+    <div style="background: rgba(255, 0, 107, 0.1); border: 2px solid var(--accent-magenta); padding: 16px; margin: 16px 0; text-align: left; border-radius: 4px;">
+      <h4 style="color: var(--accent-magenta); margin-bottom: 8px;">📱 PDHAMECHA LLP</h4>
+      <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px;">Flutter Developer | Jun 2024 – Dec 2024</p>
+      <p style="font-size: 12px; color: var(--text-muted);">Built Cloud Vidhya EdTech platform with WebRTC streaming and Enterprise HRMS with 90% geofencing accuracy.</p>
+    </div>
+    
+    <div style="background: rgba(0, 255, 65, 0.1); border: 2px solid var(--accent-lime); padding: 16px; margin: 16px 0; text-align: left; border-radius: 4px;">
+      <h4 style="color: var(--accent-lime); margin-bottom: 8px;">🎯 CORE SKILLS</h4>
+      <p style="font-size: 12px; color: var(--text-muted); line-height: 1.8;">
+        Flutter • Dart • iOS Native APIs • macOS • Twilio Voice • WebRTC • GetX • Firebase • Google Maps • Hive • Dart Isolates
+      </p>
+    </div>
+    
+    <div style="background: rgba(255, 165, 0, 0.1); border: 2px solid var(--warning); padding: 16px; margin: 16px 0; text-align: left; border-radius: 4px;">
+      <h4 style="color: var(--warning); margin-bottom: 8px;">🎓 EDUCATION</h4>
+      <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 4px;">Master of Computer Applications (MCA)</p>
+      <p style="font-size: 12px; color: var(--text-muted);">LJ Institute of Computer Applications | 2022 – 2024 | Top 10% Graduate</p>
+    </div>
+    
+    <div style="background: rgba(255, 0, 107, 0.1); border: 2px solid var(--accent-magenta); padding: 16px; margin: 16px 0; text-align: left; border-radius: 4px;">
+      <h4 style="color: var(--accent-magenta); margin-bottom: 8px;">✉️ CONTACT</h4>
+      <p style="font-size: 12px; color: var(--text-muted); margin: 6px 0;">📧 sonu.shah99098@gmail.com</p>
+      <p style="font-size: 12px; color: var(--text-muted); margin: 6px 0;">📞 +91 9909843221</p>
+      <p style="font-size: 12px; color: var(--text-muted); margin: 6px 0;">💼 linkedin.com/in/shah-sonu</p>
+      <p style="font-size: 12px; color: var(--text-muted); margin: 6px 0;">🐙 github.com/sonushah12</p>
+    </div>
+  `;
+  
+  document.getElementById('portfolio-content').innerHTML = content;
+}
+
+// Start
+init();
+gameLoop();
 </script>
+
 </body>
 </html>
