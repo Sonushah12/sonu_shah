@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-  <title>COSMIC RUNNER - Sonu's Space Portfolio</title>
+  <title>COSMIC RUNNER - Sonu Shah's Space Portfolio</title>
   <meta name="description" content="Navigate the solar system to explore Sonu Shah's professional developer journey as an immersive 3D space flight simulator."/>
   
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Oxanium:wght@400;700&family=Courier+Prime:wght@700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Oxanium:wght@400;600;700&family=Courier+Prime:wght@700&display=swap" rel="stylesheet"/>
 
   <!-- THREE.JS CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -18,17 +18,17 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg-primary: #020205;
-      --bg-glass: rgba(12, 14, 22, 0.9);
-      --accent-cyan: #e2e8f0; /* Desaturated Slate-White */
-      --accent-magenta: #c5a880; /* Elegant Space Gold/Bronze */
-      --accent-lime: #475569; /* Matte Slate Gray */
-      --accent-gold: #c5a880; /* Aerospace Amber */
-      --text-white: #f8fafc;
-      --text-muted: #94a3b8;
-      --success: #10b981; /* Soft Emerald */
-      --danger: #ef4444; /* Soft Crimson */
-      --warning: #f59e0b; /* Soft Gold */
+      --bg-primary: #030712;
+      --bg-glass: rgba(11, 19, 38, 0.85);
+      --accent-cyan: #06b6d4;      /* High-Tech Cyber Cyan */
+      --accent-blue: #3b82f6;      /* Deep Space Indigo Blue */
+      --accent-gold: #f59e0b;      /* System Amber Warning/Alert */
+      --text-white: #f9fafb;
+      --text-muted: #94a3b8;       /* Clean Steel Slate */
+      --text-blue-muted: #93c5fd;  /* Soft Ice Blue */
+      --border-glow: rgba(6, 182, 212, 0.25);
+      --success: #10b981;          /* Tactical Green */
+      --danger: #ef4444;           /* Critical Crimson */
     }
 
     html, body {
@@ -42,7 +42,7 @@
       -webkit-user-select: none;
     }
 
-    /* SCANLINE HUD EFFECT */
+    /* TELEMETRY SCANLINE HUD EFFECT */
     body::before {
       content: "";
       position: fixed;
@@ -50,9 +50,9 @@
       width: 100%; height: 100%;
       background: linear-gradient(
         0deg,
-        rgba(255, 255, 255, 0.03) 0%,
+        rgba(6, 182, 212, 0.02) 0%,
         transparent 50%,
-        rgba(255, 255, 255, 0.03) 100%
+        rgba(6, 182, 212, 0.02) 100%
       );
       background-size: 100% 4px;
       pointer-events: none;
@@ -72,12 +72,12 @@
       touch-action: none;
     }
 
-    /* UPPER HEADS-UP DISPLAY */
+    /* REFINED HEADS-UP DISPLAY */
     .hud-header {
       position: absolute;
-      top: 16px;
-      left: 16px;
-      right: 16px;
+      top: 20px;
+      left: 20px;
+      right: 20px;
       display: flex;
       justify-content: center;
       pointer-events: none;
@@ -86,76 +86,83 @@
 
     .hud-panel {
       background: var(--bg-glass);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 4px;
-      padding: 10px 18px;
-      backdrop-filter: blur(12px);
+      border: 1px solid rgba(6, 182, 212, 0.3);
+      border-radius: 6px;
+      padding: 12px 24px;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 0 20px rgba(6, 182, 212, 0.1);
       pointer-events: auto;
     }
 
     .hud-stats {
       display: flex;
-      gap: 24px;
+      gap: 32px;
       align-items: center;
     }
 
     .stat-box {
       display: flex;
       flex-direction: column;
-      gap: 2px;
+      gap: 4px;
     }
 
     .stat-label {
-      font-size: 9px;
-      color: var(--text-muted);
-      letter-spacing: 1px;
+      font-size: 10px;
+      color: var(--text-blue-muted);
+      letter-spacing: 1.5px;
+      font-weight: 600;
+      text-transform: uppercase;
     }
 
     .stat-val {
       font-family: 'Orbitron', sans-serif;
-      font-size: 15px;
+      font-size: 16px;
       font-weight: 700;
-      color: var(--accent-gold);
+      color: var(--accent-cyan);
+      text-shadow: 0 0 8px rgba(6, 182, 212, 0.5);
     }
 
     .health-bar-container {
-      width: 100px;
-      height: 5px;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.4);
+      width: 120px;
+      height: 6px;
+      background: rgba(6, 182, 212, 0.1);
+      border: 1px solid rgba(6, 182, 212, 0.4);
       border-radius: 3px;
       overflow: hidden;
+      box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.5);
     }
 
     .health-bar-fill {
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, var(--accent-magenta), #ff55aa);
+      background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan));
       transition: width 0.2s ease;
+      box-shadow: 0 0 8px var(--accent-cyan);
     }
 
-    /* RADAR TELEMETRY */
+    /* TELEMETRY MODULE & RADAR */
     .telemetry-panel {
       position: absolute;
-      top: 16px;
-      right: 16px;
+      top: 20px;
+      right: 20px;
       display: flex;
       flex-direction: column;
       align-items: flex-end;
-      gap: 10px;
+      gap: 12px;
       pointer-events: none;
       z-index: 10;
     }
 
     .radar-container {
       background: var(--bg-glass);
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(6, 182, 212, 0.3);
       border-radius: 50%;
-      width: 90px;
-      height: 90px;
+      width: 100px;
+      height: 100px;
       position: relative;
       overflow: hidden;
-      backdrop-filter: blur(12px);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 0 15px rgba(6, 182, 212, 0.15);
       pointer-events: auto;
     }
 
@@ -167,50 +174,62 @@
 
     .system-log-box {
       background: var(--bg-glass);
-      border-left: 3px solid var(--accent-gold);
-      padding: 6px 10px;
-      border-radius: 2px;
-      max-width: 220px;
-      backdrop-filter: blur(10px);
+      border-left: 3px solid var(--accent-cyan);
+      border-right: 1px solid rgba(6, 182, 212, 0.1);
+      border-top: 1px solid rgba(6, 182, 212, 0.1);
+      border-bottom: 1px solid rgba(6, 182, 212, 0.1);
+      padding: 8px 12px;
+      border-radius: 4px;
+      max-width: 250px;
+      backdrop-filter: blur(16px);
+      transition: opacity 0.3s ease;
       pointer-events: auto;
     }
 
     .system-log-text {
       font-family: 'Courier Prime', monospace;
-      font-size: 10px;
-      color: var(--text-white);
+      font-size: 11px;
+      color: var(--text-blue-muted);
+      line-height: 1.4;
     }
 
-    /* DYNAMIC ALERT PROMPT */
+    /* DYNAMIC ALERT DECK */
     .scan-prompt {
       position: absolute;
       bottom: 160px;
       left: 50%;
       transform: translateX(-50%);
-      background: rgba(197, 168, 128, 0.1);
-      border: 1px solid var(--accent-gold);
-      padding: 8px 16px;
-      border-radius: 2px;
-      backdrop-filter: blur(12px);
+      background: rgba(6, 182, 212, 0.1);
+      border: 1px solid var(--accent-cyan);
+      padding: 10px 20px;
+      border-radius: 4px;
+      backdrop-filter: blur(16px);
       display: none;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       z-index: 15;
+      box-shadow: 0 0 20px rgba(6, 182, 212, 0.2);
+      animation: alertGlow 1.5s infinite alternate;
+    }
+
+    @keyframes alertGlow {
+      from { box-shadow: 0 0 10px rgba(6, 182, 212, 0.15); }
+      to { box-shadow: 0 0 25px rgba(6, 182, 212, 0.4); }
     }
 
     .scan-prompt-text {
-      font-size: 11px;
-      color: var(--accent-gold);
-      font-weight: bold;
-      letter-spacing: 1px;
+      font-size: 12px;
+      color: var(--text-white);
+      font-weight: 700;
+      letter-spacing: 1.5px;
     }
 
-    /* MOBILE FLIGHT CONTROLS */
+    /* TACTILE FLIGHT CONTROLS */
     .ctrl-hud {
       position: absolute;
       bottom: 30px;
-      left: 16px;
-      right: 16px;
+      left: 20px;
+      right: 20px;
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
@@ -220,82 +239,85 @@
 
     .control-group {
       display: flex;
-      gap: 8px;
+      gap: 10px;
       pointer-events: auto !important;
     }
 
     .joy-btn {
-      width: 54px;
-      height: 54px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 4px;
-      color: #e2e8f0;
+      width: 56px;
+      height: 56px;
+      background: rgba(6, 182, 212, 0.05);
+      border: 1px solid rgba(6, 182, 212, 0.3);
+      border-radius: 6px;
+      color: var(--text-blue-muted);
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      font-size: 18px;
-      transition: all 0.1s;
+      font-size: 20px;
+      transition: all 0.15s ease;
       touch-action: none;
       pointer-events: auto !important;
     }
 
     .joy-btn:active, .joy-btn.pressed {
-      background: rgba(197, 168, 128, 0.25);
-      border-color: var(--accent-gold);
-      color: var(--accent-gold);
+      background: rgba(6, 182, 212, 0.2);
+      border-color: var(--accent-cyan);
+      color: var(--text-white);
+      box-shadow: 0 0 12px rgba(6, 182, 212, 0.4);
     }
 
     .action-group {
       display: flex;
-      gap: 10px;
+      gap: 12px;
       pointer-events: auto !important;
     }
 
     .action-circle-btn {
-      width: 58px;
-      height: 58px;
+      width: 60px;
+      height: 60px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.05);
-      color: #e2e8f0;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(6, 182, 212, 0.05);
+      color: var(--text-blue-muted);
+      border: 1px solid rgba(6, 182, 212, 0.3);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      font-size: 15px;
-      gap: 1px;
-      transition: all 0.1s;
+      font-size: 16px;
+      gap: 2px;
+      transition: all 0.15s ease;
       touch-action: none;
       pointer-events: auto !important;
     }
 
     .action-circle-btn span {
-      font-size: 7px;
-      font-weight: bold;
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
     }
 
     .action-circle-btn:active, .action-circle-btn.pressed {
-      background: rgba(197, 168, 128, 0.25);
-      border-color: var(--accent-gold);
-      color: var(--accent-gold);
+      background: rgba(6, 182, 212, 0.2);
+      border-color: var(--accent-cyan);
+      color: var(--text-white);
+      box-shadow: 0 0 15px rgba(6, 182, 212, 0.45);
     }
 
-    /* FULL OVERLAYS */
+    /* FULL OVERLAYS (GLASSMORPHISM) */
     .screen-overlay {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: rgba(4, 6, 15, 0.96);
+      background: rgba(3, 7, 18, 0.94);
       z-index: 1000;
       display: none;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: 16px;
-      backdrop-filter: blur(16px);
+      padding: 24px;
+      backdrop-filter: blur(20px);
       pointer-events: auto;
       touch-action: auto;
     }
@@ -305,13 +327,13 @@
     }
 
     .terminal-card {
-      max-width: 750px;
+      max-width: 800px;
       width: 100%;
-      background: rgba(9, 10, 15, 0.95);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      box-shadow: 0 10px 40px rgba(0,0,0,0.8);
-      border-radius: 4px;
-      padding: 30px;
+      background: rgba(10, 20, 38, 0.95);
+      border: 1px solid rgba(6, 182, 212, 0.25);
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.9), 0 0 30px rgba(6, 182, 212, 0.1);
+      border-radius: 8px;
+      padding: 40px;
       text-align: center;
       overflow-y: auto;
       max-height: 90vh;
@@ -320,57 +342,62 @@
 
     .terminal-title {
       font-family: 'Orbitron', sans-serif;
-      font-size: 26px;
-      font-weight: 700;
-      letter-spacing: 3px;
-      margin-bottom: 16px;
-      color: var(--accent-gold);
+      font-size: 30px;
+      font-weight: 900;
+      letter-spacing: 4px;
+      margin-bottom: 20px;
+      color: var(--text-white);
+      text-shadow: 0 0 12px rgba(6, 182, 212, 0.4);
     }
 
     .terminal-text {
-      font-size: 14px;
-      line-height: 1.7;
+      font-size: 14.5px;
+      line-height: 1.8;
       color: var(--text-muted);
-      margin-bottom: 20px;
+      margin-bottom: 24px;
       text-align: left;
     }
 
     .terminal-btn-row {
       display: flex;
-      gap: 12px;
+      gap: 16px;
       justify-content: center;
-      margin-top: 16px;
+      margin-top: 24px;
       flex-wrap: wrap;
     }
 
     .tech-btn {
-      padding: 10px 24px;
-      border: 1px solid var(--accent-gold);
-      background: rgba(197, 168, 128, 0.05);
-      color: var(--accent-gold);
+      padding: 12px 28px;
+      border: 1px solid var(--accent-cyan);
+      background: rgba(6, 182, 212, 0.08);
+      color: var(--accent-cyan);
       font-family: 'Orbitron', sans-serif;
-      font-size: 11px;
-      font-weight: bold;
-      letter-spacing: 1.5px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
       cursor: pointer;
-      border-radius: 2px;
-      transition: all 0.25s;
+      border-radius: 4px;
+      transition: all 0.3s ease;
       pointer-events: auto !important;
+      box-shadow: 0 0 8px rgba(6, 182, 212, 0.1);
     }
 
     .tech-btn:hover {
-      background: var(--accent-gold);
+      background: var(--accent-cyan);
       color: var(--bg-primary);
+      box-shadow: 0 0 15px var(--accent-cyan);
     }
 
     .tech-btn.secondary {
-      border-color: rgba(255, 255, 255, 0.25);
+      border-color: rgba(255, 255, 255, 0.2);
       color: var(--text-white);
       background: transparent;
+      box-shadow: none;
     }
 
     .tech-btn.secondary:hover {
-      background: rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.4);
     }
 
     /* COMPLETE RESUME VIEW DESIGN */
@@ -380,93 +407,109 @@
     }
 
     .resume-header {
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-      padding-bottom: 12px;
-      margin-bottom: 16px;
+      border-bottom: 1px solid rgba(6, 182, 212, 0.2);
+      padding-bottom: 16px;
+      margin-bottom: 20px;
     }
 
     .resume-header h2 {
       font-family: 'Orbitron', sans-serif;
-      color: #fff;
-      font-size: 24px;
-      letter-spacing: 1.5px;
+      color: var(--text-white);
+      font-size: 28px;
+      letter-spacing: 2px;
+      font-weight: 700;
     }
 
     .resume-contacts {
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 6px;
-      font-size: 12px;
+      gap: 16px;
+      margin-top: 8px;
+      font-size: 13px;
     }
 
     .resume-contacts a {
-      color: var(--accent-gold);
+      color: var(--accent-cyan);
       text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .resume-contacts a:hover {
+      color: var(--text-white);
+      text-shadow: 0 0 6px var(--accent-cyan);
     }
 
     .resume-section-title {
       font-family: 'Orbitron', sans-serif;
-      color: #fff;
-      font-size: 13px;
-      letter-spacing: 1.5px;
-      margin: 18px 0 8px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-      padding-bottom: 4px;
+      color: var(--text-blue-muted);
+      font-size: 14px;
+      letter-spacing: 2px;
+      font-weight: 700;
+      margin: 24px 0 12px 0;
+      border-bottom: 1px solid rgba(6, 182, 212, 0.2);
+      padding-bottom: 6px;
     }
 
     .job-block {
-      margin-bottom: 14px;
+      margin-bottom: 18px;
     }
 
     .job-title {
-      font-weight: bold;
-      color: #fff;
+      font-weight: 700;
+      color: var(--text-white);
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap;
-      font-size: 13px;
+      font-size: 14px;
     }
 
     .job-sub {
-      font-size: 11px;
-      color: var(--accent-gold);
-      margin: 2px 0 6px 0;
+      font-size: 12px;
+      color: var(--accent-cyan);
+      margin: 4px 0 8px 0;
+      font-weight: 600;
     }
 
     .resume-bullets {
-      padding-left: 18px;
-      font-size: 12px;
-      line-height: 1.6;
+      padding-left: 20px;
+      font-size: 13px;
+      line-height: 1.7;
     }
 
     .resume-bullets li {
-      margin-bottom: 4px;
+      margin-bottom: 6px;
     }
 
     .skills-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-      gap: 8px;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 10px;
     }
 
     .skill-pill {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 2px;
-      padding: 6px;
-      font-size: 11px;
+      background: rgba(6, 182, 212, 0.05);
+      border: 1px solid rgba(6, 182, 212, 0.15);
+      border-radius: 4px;
+      padding: 8px;
+      font-size: 12px;
       text-align: center;
       color: var(--text-white);
+      transition: all 0.2s ease;
+    }
+
+    .skill-pill:hover {
+      background: rgba(6, 182, 212, 0.15);
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 8px rgba(6, 182, 212, 0.2);
     }
 
     /* RESPONSIVE LAYOUT OPTIMIZATION */
     @media (max-width: 768px) {
-      .hud-stats { gap: 10px; }
-      .stat-val { font-size: 12px; }
-      .health-bar-container { width: 70px; }
-      .terminal-card { padding: 16px; }
-      .terminal-title { font-size: 22px; }
+      .hud-stats { gap: 16px; }
+      .stat-val { font-size: 13px; }
+      .health-bar-container { width: 80px; }
+      .terminal-card { padding: 24px; }
+      .terminal-title { font-size: 24px; }
     }
   </style>
 </head>
@@ -499,16 +542,16 @@
   <!-- RADAR DIAGNOSTIC TELEMETRY -->
   <div class="telemetry-panel">
     <div class="radar-container">
-      <canvas id="minimap" width="90" height="90"></canvas>
+      <canvas id="minimap" width="100" height="100"></canvas>
     </div>
     <div class="system-log-box" id="system-log-panel">
-      <div class="system-log-text" id="system-log">> Telescope tracking verified...</div>
+      <div class="system-log-text" id="system-log">> Telemetry tracking initialized...</div>
     </div>
   </div>
 
   <!-- SECTOR LINK UP PROMPT -->
   <div class="scan-prompt" id="scan-prompt">
-    <i class="fas fa-satellite-dish" style="color: var(--accent-gold);"></i>
+    <i class="fas fa-satellite-dish" style="color: var(--accent-cyan);"></i>
     <span class="scan-prompt-text" id="scan-prompt-text">ORBITAL TARGET ACQUIRED. INITIATE INTERFACE [F]</span>
   </div>
 
@@ -516,7 +559,7 @@
   <div class="ctrl-hud">
     <div class="control-group">
       <button class="joy-btn" id="btn-left" data-key="left"><i class="fas fa-chevron-left"></i></button>
-      <div style="display: flex; flex-direction: column; gap: 6px;">
+      <div style="display: flex; flex-direction: column; gap: 8px;">
         <button class="joy-btn" id="btn-up" data-key="up"><i class="fas fa-chevron-up"></i></button>
         <button class="joy-btn" id="btn-down" data-key="down"><i class="fas fa-chevron-down"></i></button>
       </div>
@@ -532,7 +575,7 @@
         <i class="fas fa-circle-notch"></i>
         <span>BOLT [Spc]</span>
       </button>
-      <button class="action-circle-btn" style="color: var(--accent-gold); border-color: rgba(197,168,128,0.4);" id="btn-scan" title="Establish Local Interface">
+      <button class="action-circle-btn" style="color: var(--accent-cyan); border-color: rgba(6,182,212,0.4);" id="btn-scan" title="Establish Local Interface">
         <i class="fas fa-broadcast-tower"></i>
         <span>DATA [F]</span>
       </button>
@@ -545,20 +588,20 @@
   <div class="terminal-card">
     <div class="terminal-title">COSMIC EXPLORER</div>
     <div class="terminal-text">
-      <p style="text-align: center; color: var(--accent-gold); margin-bottom: 20px; font-weight: bold; letter-spacing: 1px;">
-        Astronomical Simulation & Career Archive of Sonu Shah
+      <p style="text-align: center; color: var(--accent-cyan); margin-bottom: 24px; font-weight: bold; letter-spacing: 1.5px; font-family: 'Orbitron', sans-serif;">
+        Sonu Shah — Professional Developer Architecture
       </p>
-      <p style="margin-bottom: 12px; text-align: center;">Pilot a deep-space science probe Cassini-style across a 4K simulated miniature Solar System to recover telemetric archives.</p>
-      <p style="margin-bottom: 10px; font-weight: bold; color: #fff;">🌌 RADIAL SYSTEM TARGETS:</p>
-      <ul style="padding-left: 20px; font-size:12px; display:flex; flex-direction:column; gap:6px;">
-        <li><span style="color:#ffaa00;">● Central Sun</span>: Contact & Communication Network Nodes</li>
-        <li><span style="color:#00f0ff;">● Earth</span>: Applie Info Solution (Senior Flutter Operations)</li>
-        <li><span style="color:#ff007b;">● Mars</span>: PDHamecha LLP (WebRTC Real-time and HRMS Core)</li>
-        <li><span style="color:#00ff55;">● Jupiter</span>: Core Technology Skills & Languages Stack</li>
-        <li><span style="color:#ead196;">● Saturn</span>: Masters of Computer Applications (LJ Institute)</li>
+      <p style="margin-bottom: 16px; text-align: center;">Pilot an interactive deep-space probe across a simulated miniature system to retrieve digital experience telemetry archives.</p>
+      <p style="margin-bottom: 12px; font-weight: bold; color: var(--text-white); font-family: 'Orbitron', sans-serif;">🌌 TELEMETRY CORES AVAILABLE:</p>
+      <ul style="padding-left: 20px; font-size:13px; display:flex; flex-direction:column; gap:8px; margin-bottom: 20px;">
+        <li><span style="color:#f59e0b;">● Central Sun Star</span>: Professional Communication Network Nodes</li>
+        <li><span style="color:#3b82f6;">● Earth Core</span>: Applie Info Solution (Senior Flutter Development)</li>
+        <li><span style="color:#ef4444;">● Mars Sector</span>: PDHamecha LLP (WebRTC Architectures & HRMS)</li>
+        <li><span style="color:#10b981;">● Jupiter Sector</span>: Engineering Core Skills & Technology Stack</li>
+        <li><span style="color:#fbbf24;">● Saturn Rings</span>: Masters of Computer Applications Curriculum</li>
       </ul>
-      <p style="margin-top: 18px; font-size: 12px; text-align: center; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
-        Flight Vectors: [W,S,A,D] / [Arrows] to steer | [Space] to release kinetic bolts | [E] to discharge stabilizer pulse | [F] to capture local planetary database.
+      <p style="margin-top: 24px; font-size: 12px; text-align: center; color: var(--text-muted); border-top: 1px solid rgba(6,182,212,0.2); padding-top: 14px;">
+        Navigational Vectors: [W,S,A,D] / [Arrows] to steer | [Space] for kinetic bolts | [E] for energy pulse | [F] to capture local planetary datalinks.
       </p>
     </div>
     <div class="terminal-btn-row">
@@ -577,14 +620,14 @@
 
 <!-- GAME OVER OVERLAY -->
 <div id="gameover-screen" class="screen-overlay">
-  <div class="terminal-card" style="border-color: var(--accent-gold);">
-    <div class="terminal-title" style="color: var(--accent-gold);">SYSTEM POWER CRITICAL</div>
+  <div class="terminal-card" style="border-color: var(--accent-cyan);">
+    <div class="terminal-title" style="color: var(--accent-cyan);">PROPULSION TERMINATED</div>
     <div class="terminal-text" style="text-align: center;">
-      <p>The space probe suffered structural damage from meteoritic debris fields.</p>
-      <p id="gameover-stats" style="margin-top: 12px; color: var(--accent-gold); font-weight: bold;"></p>
+      <p>The science probe encountered critical structural impact inside a hostile alien sector.</p>
+      <p id="gameover-stats" style="margin-top: 16px; color: var(--accent-cyan); font-weight: bold; font-family: 'Orbitron', sans-serif;"></p>
     </div>
     <div class="terminal-btn-row">
-      <button class="tech-btn" onclick="startGame()">REBOOT COLD SYSTEMS</button>
+      <button class="tech-btn" onclick="startGame()">REBOOT CORE SYSTEMS</button>
       <button class="tech-btn secondary" onclick="openCompleteResumeDeck()">VIEW DATA DECK RESUME</button>
     </div>
   </div>
@@ -618,12 +661,12 @@ let audioCtx = null;
 let bgOsc = null, bgGain = null;
 let engineOsc = null, engineGain = null;
 
-// ============ RE-COMPACTED PORTFOLIO STRUCTURES ============
+// ============ PORTFOLIO STRUCTURAL LAYOUT ============
 const resumeDetailsHTML = `
   <div class="resume-deck">
     <div class="resume-header">
       <h2>SONU SHAH</h2>
-      <p style="color: var(--accent-cyan); font-weight:bold; font-size:14px; margin-top:2px;">Senior Flutter Developer | iOS & macOS Systems Specialist</p>
+      <p style="color: var(--accent-cyan); font-weight:bold; font-size:14px; margin-top:4px; letter-spacing:1px; font-family:'Orbitron', sans-serif;">Senior Flutter Developer | iOS & macOS Specialist</p>
       <div class="resume-contacts">
         <span>📧 <a href="mailto:sonu.shah99098@gmail.com">sonu.shah99098@gmail.com</a></span>
         <span>📞 <a href="tel:+919909843221">+91 9909843221</a></span>
@@ -637,20 +680,20 @@ const resumeDetailsHTML = `
     <div class="job-block">
       <div class="job-title">
         <span>APPLIE INFO SOLUTION</span>
-        <span>Jan 2025 – Present</span>
+        <span style="color: var(--accent-cyan);">Jan 2025 – Present</span>
       </div>
       <div class="job-sub">Senior Flutter Developer</div>
       <ul class="resume-bullets">
         <li>Architected and released production VoIP utility calling systems utilizing the Twilio Voice SDK with stable background execution pathways.</li>
         <li>Engineered low-level canvas drawing pipelines in Flutter to render crisp vector graphics paths dynamically.</li>
-        <li>Implemented structural iOS native native-channel bridges for electronic signature tools and optimized background voice memo utilities.</li>
+        <li>Implemented structural iOS native-channel bridges for electronic signature tools and optimized background voice memo utilities.</li>
       </ul>
     </div>
 
     <div class="job-block">
       <div class="job-title">
         <span>PDHAMECHA LLP</span>
-        <span>Jun 2024 – Dec 2024</span>
+        <span style="color: var(--accent-cyan);">Jun 2024 – Dec 2024</span>
       </div>
       <div class="job-sub">Flutter Developer</div>
       <ul class="resume-bullets">
@@ -665,12 +708,12 @@ const resumeDetailsHTML = `
       <div class="skill-pill">Flutter & Dart</div>
       <div class="skill-pill">iOS / Cocoa Touch</div>
       <div class="skill-pill">macOS Platform SDK</div>
-      <div class="skill-pill">Twilio Voice integration</div>
+      <div class="skill-pill">Twilio Voice SDK</div>
       <div class="skill-pill">WebRTC Pipelines</div>
       <div class="skill-pill">GetX Architecture</div>
       <div class="skill-pill">Firebase Suite</div>
       <div class="skill-pill">Local Hive SQL</div>
-      <div class="skill-pill">Dart Multithreading Isolates</div>
+      <div class="skill-pill">Dart Multithreading</div>
       <div class="skill-pill">Custom Engine Graphics</div>
     </div>
 
@@ -678,7 +721,7 @@ const resumeDetailsHTML = `
     <div class="job-block" style="margin-bottom:0;">
       <div class="job-title">
         <span>LJ Institute of Computer Applications</span>
-        <span>2022 – 2024</span>
+        <span style="color: var(--accent-cyan);">2022 – 2024</span>
       </div>
       <div class="job-sub">Master of Computer Applications (MCA) — Graduated Top 10%</div>
       <ul class="resume-bullets" style="margin-bottom:0;">
@@ -691,7 +734,7 @@ const resumeDetailsHTML = `
 const sectorMapping = {
   applie: {
     title: 'APPLIE INFO SOLUTION NODE',
-    tags: 'SENIOR WORK / TWILIO VOICE SDK / VECTOR GRAPHICS',
+    tags: 'SENIOR FLUTTER DEVELOPER / TWILIO VOICE SDK',
     desc: `
       <ul class="resume-bullets">
         <li>Built robust background calling features via Twilio Voice SDK inside an active production mobile ecosystem.</li>
@@ -702,7 +745,7 @@ const sectorMapping = {
   },
   pdha: {
     title: 'PDHAMECHA LLP WORKSPACE',
-    tags: 'WEBRTC STREAMING / GEOLOCATION ALGORITHMS / MEMORY',
+    tags: 'WEBRTC STREAMING / REAL-TIME GEOLOCATION',
     desc: `
       <ul class="resume-bullets">
         <li>Configured WebRTC interfaces for the "Cloud Vidhya" educational live stream systems.</li>
@@ -713,7 +756,7 @@ const sectorMapping = {
   },
   skills: {
     title: 'CORE TECH SKILLS REPOS',
-    tags: 'OPERATIONAL LANGUAGES, FRAMEWORKS & RUNTIMES',
+    tags: 'DEVELOPER SPECIFICATION ARCHITECTURE',
     desc: `
       <div class="skills-grid">
         <div class="skill-pill">Flutter & Dart</div>
@@ -721,7 +764,7 @@ const sectorMapping = {
         <div class="skill-pill">macOS SDK</div>
         <div class="skill-pill">WebRTC Engine</div>
         <div class="skill-pill">Twilio Voice</div>
-        <div class="skill-pill">Firebase Integrations</div>
+        <div class="skill-pill">Firebase Integration</div>
         <div class="skill-pill">Hive Database</div>
         <div class="skill-pill">Dart Isolates</div>
       </div>
@@ -732,7 +775,7 @@ const sectorMapping = {
     tags: 'MASTER OF COMPUTER APPLICATIONS / CLASS OF 2024',
     desc: `
       <ul class="resume-bullets">
-        <li>Acquired complete Master of Computer Applications (MCA) degrees, emerging in the top 10% ranks.</li>
+        <li>Acquired Complete Master of Computer Applications (MCA) degree, emerging in the top 10% ranks.</li>
         <li>Completed structural projects based on relational databases, networking topologies, and complex algorithmic processes.</li>
       </ul>
     `
@@ -741,16 +784,16 @@ const sectorMapping = {
     title: 'SOLAR COMMS NODE',
     tags: 'ESTABLISH CONNECT CHANNELS',
     desc: `
-      <p style="margin-bottom: 8px;">📧 <strong>E-Mail:</strong> sonu.shah99098@gmail.com</p>
-      <p style="margin-bottom: 8px;">📞 <strong>Mobile:</strong> +91 9909843221</p>
-      <p style="margin-bottom: 8px;">💼 <strong>LinkedIn:</strong> linkedin.com/in/shah-sonu</p>
-      <p style="margin-bottom: 8px;">🐙 <strong>GitHub:</strong> github.com/sonushah12</p>
+      <p style="margin-bottom: 12px; font-size:15px;">📧 <strong>E-Mail:</strong> <a href="mailto:sonu.shah99098@gmail.com" style="color:var(--accent-cyan); text-decoration:none;">sonu.shah99098@gmail.com</a></p>
+      <p style="margin-bottom: 12px; font-size:15px;">📞 <strong>Mobile:</strong> <a href="tel:+919909843221" style="color:var(--accent-cyan); text-decoration:none;">+91 9909843221</a></p>
+      <p style="margin-bottom: 12px; font-size:15px;">💼 <strong>LinkedIn:</strong> <a href="https://linkedin.com/in/shah-sonu" target="_blank" style="color:var(--accent-cyan); text-decoration:none;">linkedin.com/in/shah-sonu</a></p>
+      <p style="margin-bottom: 12px; font-size:15px;">🐙 <strong>GitHub:</strong> <a href="https://github.com/sonushah12" target="_blank" style="color:var(--accent-cyan); text-decoration:none;">github.com/sonushah12</a></p>
     `
   }
 };
 
 const landmarks = [
-  { id: 'contact', name: 'SUN: CENTRAL NODE', pos: { x: 0, z: 0 }, size: 8, isSun: true },
+  { id: 'contact', name: 'SUN: COMMS CENTRAL', pos: { x: 0, z: 0 }, size: 8, isSun: true },
   { id: 'edu', name: 'SATURN: ACADEMIA', pos: { x: 125, z: -85 }, size: 3.5, isSaturn: true },
   { id: 'applie', name: 'EARTH: APPLIE SEC', pos: { x: -60, z: -55 }, size: 2.2, isEarth: true },
   { id: 'pdha', name: 'MARS: PDHAMECHA SEC', pos: { x: 50, z: 80 }, size: 1.8, isMars: true },
@@ -770,24 +813,75 @@ const config = {
   radarSweep: 0
 };
 
-// ============ PROCEDURAL PLANETARY TEXTURE ENGINE ============
+// ============ HIGH-FIDELITY REALISTIC ALIEN STARSHIP GENERATOR ============
+function createAlienShipMesh(scale = 1.0) {
+  const group = new THREE.Group();
+
+  // Menacing, sleek dark-titanium alien hull alloy
+  const metalMat = new THREE.MeshStandardMaterial({
+    color: 0x1e293b, 
+    metalness: 0.95,
+    roughness: 0.15
+  });
+
+  // Active bio-cyan plasma reactor cockpit core
+  const reactorMat = new THREE.MeshBasicMaterial({
+    color: 0x06b6d4, 
+    transparent: true,
+    opacity: 0.9
+  });
+
+  // Hostile hyper-velocity crimson thruster ring
+  const engineGlowMat = new THREE.MeshBasicMaterial({
+    color: 0xef4444
+  });
+
+  // Sleek flattened saucer main hull
+  const saucerGeo = new THREE.CylinderGeometry(1.2 * scale, 1.5 * scale, 0.25 * scale, 12);
+  const saucer = new THREE.Mesh(saucerGeo, metalMat);
+  saucer.castShadow = true;
+  saucer.receiveShadow = true;
+  group.add(saucer);
+
+  // Upper biodome cabin
+  const biodomeGeo = new THREE.SphereGeometry(0.55 * scale, 16, 12, 0, Math.PI * 2, 0, Math.PI / 2);
+  const biodome = new THREE.Mesh(biodomeGeo, reactorMat);
+  biodome.position.y = 0.1 * scale;
+  group.add(biodome);
+
+  // Bottom central engine exhaust ring
+  const exhaustRingGeo = new THREE.TorusGeometry(0.6 * scale, 0.1 * scale, 6, 16);
+  exhaustRingGeo.rotateX(Math.PI / 2);
+  const exhaustRing = new THREE.Mesh(exhaustRingGeo, engineGlowMat);
+  exhaustRing.position.y = -0.15 * scale;
+  group.add(exhaustRing);
+
+  return group;
+}
+
+// ============ PROCEDURAL PLANETARY REAL COLOR TEXTURE ENGINE ============
 function createSunTexture() {
   const size = 512;
   const canvas = document.createElement('canvas');
   canvas.width = size; canvas.height = size;
   const ctx = canvas.getContext('2d');
+  
+  // Realistic Yellow-White Main Sequence solar gradient
   const grad = ctx.createRadialGradient(size/2, size/2, 0, size/2, size/2, size/2);
   grad.addColorStop(0, '#ffffff');
-  grad.addColorStop(0.2, '#fffae6');
-  grad.addColorStop(0.55, '#f59e0b');
-  grad.addColorStop(0.85, '#d97706');
-  grad.addColorStop(1.0, '#3f1a00');
+  grad.addColorStop(0.2, '#fffbeb');
+  grad.addColorStop(0.55, '#fef08a');
+  grad.addColorStop(0.85, '#f59e0b');
+  grad.addColorStop(1.0, '#b45309');
+  
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, size, size);
-  ctx.fillStyle = 'rgba(217, 119, 6, 0.15)';
-  for (let i = 0; i < 50; i++) {
+  
+  // Dynamic Solar Flares/Granules pattern
+  ctx.fillStyle = 'rgba(245, 158, 11, 0.15)';
+  for (let i = 0; i < 60; i++) {
     ctx.beginPath();
-    ctx.arc(Math.random()*size, Math.random()*size, Math.random()*35 + 10, 0, Math.PI*2);
+    ctx.arc(Math.random()*size, Math.random()*size, Math.random()*40 + 10, 0, Math.PI*2);
     ctx.fill();
   }
   return new THREE.CanvasTexture(canvas);
@@ -798,25 +892,35 @@ function createEarthTexture() {
   const canvas = document.createElement('canvas');
   canvas.width = size; canvas.height = size;
   const ctx = canvas.getContext('2d');
-  ctx.fillStyle = '#0f2042';
+  
+  // Deep Blue Oceans base
+  ctx.fillStyle = '#1d4ed8';
   ctx.fillRect(0, 0, size, size);
-  ctx.fillStyle = '#1c4521';
-  for (let i = 0; i < 30; i++) {
+  
+  // Swirling Realistic Continents (Forest Green, Desert Sandy Browns)
+  for (let i = 0; i < 35; i++) {
     const rx = Math.random()*size;
     const ry = Math.random()*size;
-    const rad = Math.random()*60 + 25;
+    const rad = Math.random()*70 + 30;
+    
+    // Core green landmass
+    ctx.fillStyle = '#166534';
     ctx.beginPath();
     ctx.arc(rx, ry, rad, 0, Math.PI*2);
     ctx.fill();
-    ctx.fillStyle = '#3c5a2c';
+    
+    // Sandy Arid centers
+    ctx.fillStyle = '#a16207';
     ctx.beginPath();
-    ctx.arc(rx + (Math.random()-0.5)*15, ry + (Math.random()-0.5)*15, rad * 0.7, 0, Math.PI*2);
+    ctx.arc(rx + (Math.random()-0.5)*20, ry + (Math.random()-0.5)*20, rad * 0.5, 0, Math.PI*2);
     ctx.fill();
   }
-  ctx.fillStyle = 'rgba(255,255,255,0.35)';
-  for (let i = 0; i < 40; i++) {
+  
+  // Swirling atmospheric white clouds
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.45)';
+  for (let i = 0; i < 45; i++) {
     ctx.beginPath();
-    ctx.arc(Math.random()*size, Math.random()*size, Math.random()*80 + 15, 0, Math.PI*2);
+    ctx.arc(Math.random()*size, Math.random()*size, Math.random()*90 + 20, 0, Math.PI*2);
     ctx.fill();
   }
   return new THREE.CanvasTexture(canvas);
@@ -827,17 +931,23 @@ function createMarsTexture() {
   const canvas = document.createElement('canvas');
   canvas.width = size; canvas.height = size;
   const ctx = canvas.getContext('2d');
-  ctx.fillStyle = '#9e4624';
+  
+  // Rust Orange Iron Oxide base
+  ctx.fillStyle = '#c2410c';
   ctx.fillRect(0, 0, size, size);
-  ctx.fillStyle = '#511b05';
-  for (let i = 0; i < 20; i++) {
+  
+  // Darker volcanic basalt spots
+  ctx.fillStyle = '#7c2d12';
+  for (let i = 0; i < 25; i++) {
     ctx.beginPath();
-    ctx.arc(Math.random()*size, Math.random()*size, Math.random()*30 + 10, 0, Math.PI*2);
+    ctx.arc(Math.random()*size, Math.random()*size, Math.random()*45 + 10, 0, Math.PI*2);
     ctx.fill();
   }
+  
+  // Frozen Carbon Dioxide Polar Ice Caps
   ctx.fillStyle = '#f8fafc';
-  ctx.fillRect(0, 0, size, 10);
-  ctx.fillRect(0, size-10, size, 10);
+  ctx.fillRect(0, 0, size, 12);
+  ctx.fillRect(0, size-12, size, 12);
   return new THREE.CanvasTexture(canvas);
 }
 
@@ -846,27 +956,31 @@ function createJupiterTexture() {
   const canvas = document.createElement('canvas');
   canvas.width = size; canvas.height = size;
   const ctx = canvas.getContext('2d');
-  ctx.fillStyle = '#bfa580';
+  
+  // Sandy Cream Base Color
+  ctx.fillStyle = '#eab308';
   ctx.fillRect(0, 0, size, size);
+  
+  // Atmospheric Banding (Ammonia & Ammonium Hydrosulfide layers)
   for (let y = 0; y < size; y++) {
-    const val = Math.sin(y * 0.06) * Math.cos(y * 0.02) * 0.5 + 0.5;
-    const noise = Math.sin(y * 0.3) * 0.08;
-    if (val > 0.55) {
-      ctx.fillStyle = `rgba(115, 74, 46, ${0.4 + noise})`;
+    const val = Math.sin(y * 0.05) * Math.cos(y * 0.015) * 0.5 + 0.5;
+    const noise = Math.sin(y * 0.25) * 0.06;
+    if (val > 0.52) {
+      ctx.fillStyle = `rgba(154, 52, 18, ${0.5 + noise})`; // Red-Brown Belts
       ctx.fillRect(0, y, size, 1);
-    } else if (val < 0.28) {
-      ctx.fillStyle = `rgba(235, 225, 204, ${0.5 + noise})`;
+    } else if (val < 0.3) {
+      ctx.fillStyle = `rgba(254, 243, 199, ${0.45 + noise})`; // White-Cream Zones
       ctx.fillRect(0, y, size, 1);
     }
   }
   
-  // High-compatibility scaling ellipse generator
-  ctx.fillStyle = '#943825';
+  // Great Red Spot (Anticyclonic Storm)
+  ctx.fillStyle = '#991b1b';
   ctx.save();
-  ctx.translate(size * 0.7, size * 0.65);
-  ctx.scale(1.8, 1.0);
+  ctx.translate(size * 0.68, size * 0.62);
+  ctx.scale(1.7, 1.0);
   ctx.beginPath();
-  ctx.arc(0, 0, 18, 0, Math.PI*2);
+  ctx.arc(0, 0, 20, 0, Math.PI*2);
   ctx.fill();
   ctx.restore();
   
@@ -878,12 +992,16 @@ function createSaturnTexture() {
   const canvas = document.createElement('canvas');
   canvas.width = size; canvas.height = size;
   const ctx = canvas.getContext('2d');
-  ctx.fillStyle = '#ead196';
+  
+  // Pale Butterscotch yellow base
+  ctx.fillStyle = '#fef08a';
   ctx.fillRect(0, 0, size, size);
+  
+  // Hazy light brown/tan banding
   for (let y = 0; y < size; y++) {
-    const val = Math.sin(y * 0.04);
-    if (val > 0.35) {
-      ctx.fillStyle = `rgba(150, 130, 95, ${0.12 + val * 0.08})`;
+    const val = Math.sin(y * 0.035);
+    if (val > 0.2) {
+      ctx.fillStyle = `rgba(161, 98, 7, ${0.15 + val * 0.06})`;
       ctx.fillRect(0, y, size, 1);
     }
   }
@@ -896,19 +1014,21 @@ function createSaturnRingTexture() {
   canvas.width = size; canvas.height = size;
   const ctx = canvas.getContext('2d');
   ctx.clearRect(0,0,size,size);
+  
+  // Translucent Pale Yellow-Gray Icy rings
   for (let i = 0; i < size; i++) {
     const ratio = i / size;
     let alpha = 0.85;
     if (ratio > 0.61 && ratio < 0.66) {
-      alpha = 0.02;
+      alpha = 0.02; // Cassini Division
     } else if (ratio > 0.38 && ratio < 0.43) {
-      alpha = 0.15;
+      alpha = 0.15; // Encke Gap
     } else if (ratio > 0.8) {
       alpha = 0.85 - (ratio - 0.8)*4;
     } else {
-      alpha = 0.35 + Math.sin(ratio * 140)*0.25;
+      alpha = 0.35 + Math.sin(ratio * 120)*0.25;
     }
-    ctx.fillStyle = `rgba(217, 198, 154, ${alpha * 0.65})`;
+    ctx.fillStyle = `rgba(254, 240, 138, ${alpha * 0.7})`;
     ctx.fillRect(i, 0, 1, size);
   }
   return new THREE.CanvasTexture(canvas);
@@ -984,6 +1104,7 @@ function playLaserSound() {
   osc.stop(audioCtx.currentTime + 0.12);
 }
 
+// ============ RE-COMPACTED PORTFOLIO STRUCTURES ============
 function playCollectSound() {
   initAudio();
   if (!audioCtx) return;
@@ -1068,8 +1189,8 @@ function stopAmbientBGM() {
 function init3D() {
   const canvas = document.getElementById('game-canvas');
   scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x020204);
-  scene.fog = new THREE.FogExp2(0x020204, 0.0015);
+  scene.background = new THREE.Color(0x020205);
+  scene.fog = new THREE.FogExp2(0x020205, 0.0015);
 
   const w = window.innerWidth || 800;
   const h = window.innerHeight || 600;
@@ -1114,9 +1235,9 @@ function createStarfield() {
 
     const seed = Math.random();
     if (seed < 0.25) {
-      colors[i] = 1.0; colors[i+1] = 0.9; colors[i+2] = 0.7;
+      colors[i] = 0.5; colors[i+1] = 0.8; colors[i+2] = 1.0;
     } else if (seed < 0.5) {
-      colors[i] = 0.75; colors[i+1] = 0.85; colors[i+2] = 1.0;
+      colors[i] = 0.7; colors[i+1] = 0.9; colors[i+2] = 1.0;
     } else {
       colors[i] = 1.0; colors[i+1] = 1.0; colors[i+2] = 1.0;
     }
@@ -1159,13 +1280,13 @@ function createMilkyWayDustLane() {
     
     const distFromCenter = Math.abs(progress);
     if (distFromCenter < 0.14) {
-      cols[i*3] = 1.0;
-      cols[i*3+1] = 0.72 + Math.random()*0.28;
-      cols[i*3+2] = 0.35;
+      cols[i*3] = 0.02;
+      cols[i*3+1] = 0.7 + Math.random()*0.3;
+      cols[i*3+2] = 1.0;
     } else {
-      cols[i*3] = 0.45 + Math.random()*0.25;
-      cols[i*3+1] = 0.25;
-      cols[i*3+2] = 0.65 + Math.random()*0.15;
+      cols[i*3] = 0.11;
+      cols[i*3+1] = 0.3;
+      cols[i*3+2] = 0.8 + Math.random()*0.2;
     }
   }
   
@@ -1206,8 +1327,8 @@ function createFarGalaxies() {
     pos1[i*3+2] = center1.z + z;
 
     const ratio = r / 80;
-    col1[i*3] = 1.0 - ratio * 0.35;
-    col1[i*3+1] = 0.8 - ratio * 0.7;
+    col1[i*3] = 0.1;
+    col1[i*3+1] = 0.8 - ratio * 0.5;
     col1[i*3+2] = 1.0;
   }
   galGeo1.setAttribute('position', new THREE.BufferAttribute(pos1, 3));
@@ -1238,7 +1359,7 @@ function createFarGalaxies() {
     pos2[i*3+1] = center2.y + r * Math.sin(phi) * Math.sin(theta) * 0.35;
     pos2[i*3+2] = center2.z + r * Math.cos(phi);
 
-    col2[i*3] = 0.15;
+    col2[i*3] = 0.1;
     col2[i*3+1] = 0.75 + Math.random() * 0.25;
     col2[i*3+2] = 1.0;
   }
@@ -1256,24 +1377,37 @@ function createFarGalaxies() {
   scene.add(galaxyPoints2);
 }
 
+// ============ HIGH-FIDELITY REALISTIC ASTEROID BELT ============
 function buildAsteroidBelt() {
   const asteroidCount = 180;
-  const lowPolyGeo = new THREE.IcosahedronGeometry(0.35, 0); // Replaced for extreme legacy compatibility
-  const asteroidMat = new THREE.MeshStandardMaterial({ color: 0x5a544c, roughness: 0.95 });
-  
   const beltGroup = new THREE.Group();
   scene.add(beltGroup);
+
+  // Rugged faceted dodecahedrons mimicking real organic space rocks
+  const asteroidGeo = new THREE.DodecahedronGeometry(0.35, 1);
+  const asteroidMat = new THREE.MeshStandardMaterial({ 
+    color: 0x475569, // Carbonaceous dark rock color
+    roughness: 0.9, 
+    metalness: 0.1 
+  });
   
   for (let i = 0; i < asteroidCount; i++) {
     const angle = Math.random() * Math.PI * 2;
     const radius = 95 + Math.random() * 15;
-    const mesh = new THREE.Mesh(lowPolyGeo, asteroidMat);
+    
+    const mesh = new THREE.Mesh(asteroidGeo, asteroidMat);
     
     mesh.position.set(Math.cos(angle) * radius, (Math.random() - 0.5) * 3, Math.sin(angle) * radius);
     mesh.rotation.set(Math.random()*Math.PI, Math.random()*Math.PI, 0);
     
+    // Vary geometry scale dynamically to create high organic variance
     const s = 0.5 + Math.random() * 1.1;
-    mesh.scale.set(s, s, s);
+    mesh.scale.set(
+      s * (0.8 + Math.random() * 0.4), 
+      s * (0.8 + Math.random() * 0.4), 
+      s * (0.8 + Math.random() * 0.4)
+    );
+
     mesh.castShadow = true;
     mesh.receiveShadow = true;
     
@@ -1290,7 +1424,7 @@ function buildSpaceship() {
   const cylinderGeo = new THREE.CylinderGeometry(0.5, 0.5, 2.0, 8);
   cylinderGeo.rotateX(Math.PI/2);
   const cylinderMat = new THREE.MeshStandardMaterial({
-    color: 0xdfb05a,
+    color: 0x06b6d4,
     roughness: 0.1,
     metalness: 0.95
   });
@@ -1312,7 +1446,7 @@ function buildSpaceship() {
   playerGroup.add(dish);
 
   const boomGeo = new THREE.BoxGeometry(0.1, 0.1, 1.8);
-  const boomMat = new THREE.MeshStandardMaterial({ color: 0x334155, roughness: 0.5 });
+  const boomMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.5 });
   
   const boomLeft = new THREE.Mesh(boomGeo, boomMat);
   boomLeft.position.set(-1.1, 0, -0.4);
@@ -1326,7 +1460,7 @@ function buildSpaceship() {
 
   const panelGeo = new THREE.BoxGeometry(1.4, 0.05, 0.8);
   const panelMat = new THREE.MeshStandardMaterial({
-    color: 0x1e293b,
+    color: 0x0f172a,
     roughness: 0.2,
     metalness: 0.8
   });
@@ -1341,7 +1475,7 @@ function buildSpaceship() {
 
   const bellGeo = new THREE.CylinderGeometry(0.15, 0.25, 0.4, 8);
   bellGeo.rotateX(Math.PI/2);
-  const bellMat = new THREE.MeshStandardMaterial({ color: 0x334155, roughness: 0.4 });
+  const bellMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.4 });
   const bell = new THREE.Mesh(bellGeo, bellMat);
   bell.position.z = -1.2;
   playerGroup.add(bell);
@@ -1349,7 +1483,7 @@ function buildSpaceship() {
   const flameGeo = new THREE.ConeGeometry(0.2, 0.6, 8);
   flameGeo.rotateX(-Math.PI/2);
   const flameMat = new THREE.MeshBasicMaterial({
-    color: 0xfff3d1,
+    color: 0x22d3ee,
     transparent: true,
     opacity: 0.4
   });
@@ -1359,7 +1493,7 @@ function buildSpaceship() {
 }
 
 function buildSolarSystem() {
-  const sunLight = new THREE.PointLight(0xfff4e2, 3.2, 600, 1.0);
+  const sunLight = new THREE.PointLight(0xfffbeb, 3.2, 600, 1.0); // Warm solar light spectrum
   sunLight.castShadow = true;
   sunLight.shadow.mapSize.width = 1024;
   sunLight.shadow.mapSize.height = 1024;
@@ -1390,7 +1524,7 @@ function buildSolarSystem() {
 
       const coronaGeo = new THREE.SphereGeometry(lm.size + 1.2, 32, 32);
       const coronaMat = new THREE.MeshBasicMaterial({
-        color: 0xffaa00,
+        color: 0xf59e0b, // Realistic yellow-orange corona glow
         transparent: true,
         opacity: 0.38,
         blending: THREE.AdditiveBlending,
@@ -1408,7 +1542,7 @@ function buildSolarSystem() {
       const dist = Math.hypot(lm.pos.x, lm.pos.z);
       const ringGeo = new THREE.RingGeometry(dist, dist + 0.3, 64);
       ringGeo.rotateX(Math.PI / 2);
-      const ringMat = new THREE.MeshBasicMaterial({ color: 0x223355, side: THREE.DoubleSide, transparent: true, opacity: 0.3 });
+      const ringMat = new THREE.MeshBasicMaterial({ color: 0x1e3a8a, side: THREE.DoubleSide, transparent: true, opacity: 0.35 });
       const pathRing = new THREE.Mesh(ringGeo, ringMat);
       scene.add(pathRing);
     }
@@ -1420,7 +1554,7 @@ function buildSolarSystem() {
 
     if (lm.isEarth) {
       const moonGeo = new THREE.SphereGeometry(0.35, 16, 16);
-      const moonMat = new THREE.MeshStandardMaterial({ color: 0x888888, roughness: 0.9 });
+      const moonMat = new THREE.MeshStandardMaterial({ color: 0x94a3b8, roughness: 0.9 });
       const moonMesh = new THREE.Mesh(moonGeo, moonMat);
       moonMesh.castShadow = true;
       moonMesh.receiveShadow = true;
@@ -1431,19 +1565,25 @@ function buildSolarSystem() {
     if (lm.isSaturn) {
       const ringGeo = new THREE.RingGeometry(lm.size + 2.0, lm.size + 5.0, 32);
       ringGeo.rotateX(Math.PI / 2.2);
-      const ringMat = new THREE.MeshStandardMaterial({ color: 0x9b8559, side: THREE.DoubleSide, transparent: true, opacity: 0.8 });
+      const ringMat = new THREE.MeshStandardMaterial({ 
+        map: createSaturnRingTexture(), 
+        side: THREE.DoubleSide, 
+        transparent: true, 
+        opacity: 0.85 
+      });
       const saturnRing = new THREE.Mesh(ringGeo, ringMat);
       group.add(saturnRing);
     }
 
-    const ringColorHex = lm.isSun ? 0xffaa00 : (lm.isEarth ? 0x00f0ff : (lm.isMars ? 0xff007b : (lm.isJupiter ? 0x00ff55 : 0xdfb86c)));
+    // Interactive indicators colored to map real solar features
+    const ringColorHex = lm.isSun ? 0xf59e0b : (lm.isEarth ? 0x3b82f6 : (lm.isMars ? 0xef4444 : (lm.isJupiter ? 0x10b981 : 0xfbbf24)));
     const activeRingGeo = new THREE.RingGeometry(lm.size + 3.0, lm.size + 3.4, 32);
     activeRingGeo.rotateX(Math.PI / 2);
     const activeRingMat = new THREE.MeshBasicMaterial({ color: ringColorHex, side: THREE.DoubleSide, transparent: true, opacity: 0.4 });
     const activeRing = new THREE.Mesh(activeRingGeo, activeRingMat);
     group.add(activeRing);
 
-    const tagColor = lm.isSun ? '#ffaa00' : (lm.isEarth ? '#00f0ff' : (lm.isMars ? '#ff007b' : '#00ff55'));
+    const tagColor = lm.isSun ? '#f59e0b' : (lm.isEarth ? '#3b82f6' : (lm.isMars ? '#ef4444' : '#10b981'));
     const tag = createSpatialTag(lm.name, tagColor);
     tag.position.set(0, lm.size + 4, 0);
     group.add(tag);
@@ -1477,33 +1617,39 @@ function createSpatialTag(text, color) {
 
 // ============ HAZARDS & ORBS ============
 function spawnSpaceVirus() {
-  if (config.enemies.length >= 12) return;
+  if (config.enemies.length >= 15) return;
 
-  const radius = 60 + Math.random() * 70;
+  // Generate spawn paths outside direct viewport, drifting inward
   const angle = Math.random() * Math.PI * 2;
-  const x = playerGroup.position.x + Math.cos(angle) * radius;
-  const z = playerGroup.position.z + Math.sin(angle) * radius;
+  const spawnDist = 60 + Math.random() * 40;
+  const x = playerGroup.position.x + Math.cos(angle) * spawnDist;
+  const z = playerGroup.position.z + Math.sin(angle) * spawnDist;
 
   if (Math.abs(x) > 260 || Math.abs(z) > 260) return;
 
-  const virusGeo = new THREE.IcosahedronGeometry(1.0, 0);
-  const virusMat = new THREE.MeshStandardMaterial({ color: 0x5a544c, roughness: 0.95 });
-  const mesh = new THREE.Mesh(virusGeo, virusMat);
-  mesh.position.set(x, 0, z);
-  scene.add(mesh);
+  // Render the hazard as a highly realistic Alien Starship (no Lego blocks)
+  const ufoGroup = createAlienShipMesh(1.2);
+  ufoGroup.position.set(x, 0, z);
+  scene.add(ufoGroup);
+
+  // Velocity values set for random trajectory (no homing-in tracking logic)
+  const driftAngle = Math.random() * Math.PI * 2;
+  const driftSpeed = 0.25 + Math.random() * 0.35;
 
   config.enemies.push({
-    mesh: mesh,
+    mesh: ufoGroup,
     hp: 100,
-    speed: 0.15 + Math.random() * 0.15,
+    vx: Math.cos(driftAngle) * driftSpeed,
+    vz: Math.sin(driftAngle) * driftSpeed,
     rotSpeedX: 0.02 * (Math.random() - 0.5),
-    rotSpeedY: 0.02 * (Math.random() - 0.5)
+    rotSpeedY: 0.02 * (Math.random() - 0.5),
+    rotSpeedZ: 0.02 * (Math.random() - 0.5)
   });
 }
 
 function spawnOrb(pos) {
   const orbGeo = new THREE.DodecahedronGeometry(0.35, 0);
-  const orbMat = new THREE.MeshStandardMaterial({ color: 0xc5a880, emissive: 0x221a08, roughness: 0.1 });
+  const orbMat = new THREE.MeshStandardMaterial({ color: 0x06b6d4, emissive: 0x082f49, roughness: 0.1 });
   const mesh = new THREE.Mesh(orbGeo, orbMat);
   mesh.position.set(pos.x, 0, pos.z);
   scene.add(mesh);
@@ -1518,7 +1664,7 @@ function spawnOrb(pos) {
 function firePlasmaLaser() {
   const laserGeo = new THREE.CylinderGeometry(0.04, 0.04, 2.5, 6);
   laserGeo.rotateX(Math.PI / 2);
-  const laserMat = new THREE.MeshBasicMaterial({ color: 0xfffdf0 });
+  const laserMat = new THREE.MeshBasicMaterial({ color: 0xe2e8f0 });
   const mesh = new THREE.Mesh(laserGeo, laserMat);
 
   mesh.position.copy(playerGroup.position);
@@ -1538,14 +1684,14 @@ function firePlasmaLaser() {
 
 function triggerEmpPulse() {
   if (config.coins < 5) {
-    postTelemetryLog("ENERGY DEPLETED. Connect with 5 stabilizer orbs for wave discharge.");
+    postTelemetryLog("ENERGY DEPLETED. Harvest 5 stabilizer orbs for wave discharge.");
     return;
   }
   config.coins -= 5;
   document.getElementById('coins').textContent = config.coins;
 
   const empGeo = new THREE.SphereGeometry(1, 24, 24);
-  const empMat = new THREE.MeshBasicMaterial({ color: 0xfffdf0, transparent: true, opacity: 0.4, wireframe: true });
+  const empMat = new THREE.MeshBasicMaterial({ color: 0x06b6d4, transparent: true, opacity: 0.4, wireframe: true });
   empMesh = new THREE.Mesh(empGeo, empMat);
   empMesh.position.copy(playerGroup.position);
   scene.add(empMesh);
@@ -1554,10 +1700,49 @@ function triggerEmpPulse() {
   empRadius = 1;
 
   playExplosionSound();
-  postTelemetryLog("THERMAL STABILIZER WAVE DEPLOYED - DEBRIS CLEAR");
+  postTelemetryLog("STABILIZER WAVE DEPLOYED - CLEARING DEBRIS");
 }
 
-// ============ CONTROL LISTENERS ============
+// ============ TACTILE KEYBOARD & MOBILE CONTROLS ============
+function setupKeyboardControls() {
+  window.addEventListener('keydown', (e) => {
+    handleKeyEvent(e.key, true);
+  });
+  window.addEventListener('keyup', (e) => {
+    handleKeyEvent(e.key, false);
+  });
+}
+
+function handleKeyEvent(key, isPressed) {
+  switch (key.toLowerCase()) {
+    case 'w':
+    case 'arrowup':
+      config.keys.up = isPressed;
+      break;
+    case 's':
+    case 'arrowdown':
+      config.keys.down = isPressed;
+      break;
+    case 'a':
+    case 'arrowleft':
+      config.keys.left = isPressed;
+      break;
+    case 'd':
+    case 'arrowright':
+      config.keys.right = isPressed;
+      break;
+    case ' ':
+      config.keys.space = isPressed;
+      break;
+    case 'e':
+      config.keys.emp = isPressed;
+      break;
+    case 'f':
+      config.keys.scan = isPressed;
+      break;
+  }
+}
+
 function setupMobileControls() {
   const mapIds = {
     'btn-left': 'left',
@@ -1702,7 +1887,7 @@ function gameLoop() {
     config.enemies.forEach(v => {
       if (v.hp > 0) {
         const d = b.mesh.position.distanceTo(v.mesh.position);
-        if (d < 2.0) {
+        if (d < 2.2) {
           v.hp -= 34;
           keep = false;
         }
@@ -1727,21 +1912,27 @@ function gameLoop() {
       return false;
     }
 
+    // Move in straight pre-calculated vectors (random physics direction, no attraction)
+    v.mesh.position.x += v.vx;
+    v.mesh.position.z += v.vz;
+
+    v.mesh.rotation.x += v.rotSpeedX;
+    v.mesh.rotation.y += v.rotSpeedY;
+    v.mesh.rotation.z += v.rotSpeedZ;
+
     const dx = playerGroup.position.x - v.mesh.position.x;
     const dz = playerGroup.position.z - v.mesh.position.z;
     const len = Math.hypot(dx, dz);
 
-    if (len > 1.0) {
-      v.mesh.position.x += (dx / len) * v.speed;
-      v.mesh.position.z += (dz / len) * v.speed;
+    // Despawn linear blocks if they drift completely out of range
+    if (len > 150) {
+      scene.remove(v.mesh);
+      return false;
     }
 
-    v.mesh.rotation.x += v.rotSpeedX;
-    v.mesh.rotation.y += v.rotSpeedY;
-
-    if (len < 2.2) {
+    if (len < 2.4) {
       playHitSound();
-      config.hp -= 0.6;
+      config.hp -= 0.8;
       updateDamageBar();
       if (config.hp <= 0) {
         triggerGameOver();
@@ -1820,8 +2011,8 @@ function openSectorScanner(sectorId) {
   
   const layout = `
     <div class="resume-deck">
-      <div class="resume-header" style="border-bottom-color: var(--accent-gold);">
-        <p style="color:var(--accent-gold); font-size:11px; font-weight:bold; letter-spacing:2px;">${details.tags}</p>
+      <div class="resume-header" style="border-bottom-color: var(--accent-cyan);">
+        <p style="color:var(--accent-cyan); font-size:11px; font-weight:bold; letter-spacing:2px; font-family:'Orbitron', sans-serif;">${details.tags}</p>
         <h2 style="font-family:'Orbitron', sans-serif; font-size:22px; color:#fff; margin-top:4px;">${details.title}</h2>
       </div>
       <div class="terminal-text">
@@ -1886,23 +2077,23 @@ function updateChaseCamera() {
 function drawMinimapTelemetry() {
   const canvas = document.getElementById('minimap');
   const ctx = canvas.getContext('2d');
-  ctx.clearRect(0, 0, 90, 90);
+  ctx.clearRect(0, 0, 100, 100);
 
-  const cx = 45;
-  const cy = 45;
+  const cx = 50;
+  const cy = 50;
   const scale = 0.28;
 
-  ctx.fillStyle = 'rgba(6, 8, 20, 0.9)';
+  ctx.fillStyle = 'rgba(6, 10, 20, 0.95)';
   ctx.beginPath();
-  ctx.arc(cx, cy, 43, 0, Math.PI * 2);
+  ctx.arc(cx, cy, 47, 0, Math.PI * 2);
   ctx.fill();
-  ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
+  ctx.strokeStyle = 'rgba(6, 182, 212, 0.25)';
   ctx.stroke();
 
   config.radarSweep += 0.04;
-  const sx = cx + Math.sin(config.radarSweep) * 43;
-  const sy = cy - Math.cos(config.radarSweep) * 43;
-  ctx.strokeStyle = 'rgba(197, 168, 128, 0.12)';
+  const sx = cx + Math.sin(config.radarSweep) * 47;
+  const sy = cy - Math.cos(config.radarSweep) * 47;
+  ctx.strokeStyle = 'rgba(6, 182, 212, 0.15)';
   ctx.beginPath();
   ctx.moveTo(cx, cy);
   ctx.lineTo(sx, sy);
@@ -1913,8 +2104,8 @@ function drawMinimapTelemetry() {
     const rz = (lm.pos.z - playerGroup.position.z) * scale;
     const distance = Math.hypot(rx, rz);
 
-    if (distance < 40) {
-      ctx.fillStyle = lm.isSun ? '#ffaa00' : (lm.isEarth ? '#7ea1b5' : (lm.isMars ? '#be6c5c' : '#c5a880'));
+    if (distance < 44) {
+      ctx.fillStyle = lm.isSun ? '#f59e0b' : (lm.isEarth ? '#3b82f6' : (lm.isMars ? '#ef4444' : '#10b981'));
       ctx.beginPath();
       ctx.arc(cx + rx, cy + rz, 2.5, 0, Math.PI * 2);
       ctx.fill();
@@ -1926,20 +2117,20 @@ function drawMinimapTelemetry() {
     const rz = (v.mesh.position.z - playerGroup.position.z) * scale;
     const distance = Math.hypot(rx, rz);
 
-    if (distance < 40) {
-      ctx.fillStyle = '#be6c5c';
+    if (distance < 44) {
+      ctx.fillStyle = '#ef4444';
       ctx.beginPath();
       ctx.arc(cx + rx, cy + rz, 1.5, 0, Math.PI * 2);
       ctx.fill();
     }
   });
 
-  ctx.fillStyle = '#e2e8f0';
+  ctx.fillStyle = '#f9fafb';
   ctx.beginPath();
   ctx.arc(cx, cy, 2, 0, Math.PI * 2);
   ctx.fill();
 
-  ctx.strokeStyle = '#e2e8f0';
+  ctx.strokeStyle = '#f9fafb';
   ctx.lineWidth = 1.0;
   ctx.beginPath();
   ctx.moveTo(cx, cy);
@@ -2035,7 +2226,7 @@ function triggerGameOver() {
   }
   
   stopAmbientBGM();
-  document.getElementById('gameover-stats').textContent = `Metric Points Secured: ${config.score} | stabilizer Orbs gathered: ${config.coins}`;
+  document.getElementById('gameover-stats').textContent = `Metric Points Secured: ${config.score} | Stabilizer Orbs Gathered: ${config.coins}`;
   document.getElementById('gameover-screen').classList.add('active');
 }
 
@@ -2047,6 +2238,7 @@ window.addEventListener('DOMContentLoaded', () => {
   }
   init3D();
   setupMobileControls();
+  setupKeyboardControls();
 });
 </script>
 
