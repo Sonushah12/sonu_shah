@@ -29,6 +29,10 @@ The guide changes poses as each section enters the viewport using IntersectionOb
 
 ## Delivery
 
+`npm run build` also creates a clean `public/` directory containing the HTML pages, styles, application script, compiled avatar, local font, and licenses. Deploy this generated directory. It is ignored by Git and rebuilt from source during deployment.
+
+For Vercel, the included `vercel.json` selects the static framework, runs `npm run build`, and uses `public` as the Output Directory. Keep the project Root Directory at the repository root. To check the same output locally, run `python3 -m http.server 8000 --bind 127.0.0.1 --directory public` after building.
+
 Serve these static files over HTTPS. Enable Brotli or gzip for HTML, CSS, JavaScript, and SVG. The avatar bundle is approximately 132 KB with gzip (about 520 KB uncompressed); static hosts without compression transfer the full file. Assets are versioned in Git but not content-hashed, so use revalidation rather than a year-long immutable cache. Never cache `index.html` indefinitely.
 
 The 3D renderer caps device pixel ratio, avoids texture downloads and shadow maps, and stops its loop while hidden or paused. Self-hosted Manrope includes only the Latin variable font. Library and font licenses are in `assets/vendor` and `assets/fonts`.
