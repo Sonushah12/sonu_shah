@@ -1,43 +1,39 @@
-# Design research — scroll-responsive portfolio
+# Clean portfolio redesign — sources and decisions
 
-## Direction
+The owner requested a fresh UI and cleaner animation informed by [Aceternity UI](https://ui.aceternity.com/) and [AnimMaster](https://animmasterlib.dev/). Both live hosts returned HTTP CONNECT policy denials in this environment. Public GitHub material was used through the supported proxy.
 
-The UI uses deep ink (`#171a17`), citrus (`#d6f58b`), warm paper (`#eceee4`), and a restrained coral accent. Large Space Grotesk typography, offset headings, sharp frames, an asymmetric case-study layout, and a light approach chapter replace the previous lavender card grid. Manrope remains the local body font. Project narratives and their development-status distinctions remain intact.
+## Verified reference material
 
-## Sources inspected online
+[AnimMaster's public documentation](https://github.com/Animmaster/docs) explicitly links its template to animmasterlib.dev. The Watcher, SplitType, ScrollTo, parallax, mouse-parallax, and styles pages were inspected. The useful ideas were repeated visibility states, small word groups, natural section navigation, active-section feedback, and configurable image movement. The proprietary template was not downloaded or redistributed.
 
-The official GitHub source and README were retrieved and read for these Codrops experiments:
+The [Aceternity creator's AnimatedTooltip example](https://github.com/manuarora700/ui.aceternity/blob/main/src/uiAceternity/Tooltip.tsx) was inspected for compact contextual feedback and transform/opacity presence animation. The portfolio adapts this into an accessible hint on its existing greeting button, with hover and keyboard-focus support. Large pointer-following rotations and bouncy springs were excluded.
 
-- [ScrollTextMotion](https://github.com/codrops/ScrollTextMotion): typography that changes arrangement as the scroll playhead moves through a composition. The inspected source uses paired scrubbed timelines. This portfolio uses its own split-heading arrangement and native View Timelines.
-- [RotatingOnScrollAnimations](https://github.com/codrops/RotatingOnScrollAnimations): alternating image-plane orientations with rotation synchronized to scroll progress. This portfolio applies smaller deterministic rotations, transform-based shutters, and a simpler mobile translation.
-- [OneElementScroll](https://github.com/codrops/OneElementScroll): visual continuity across waypoints, with a single element joining different chapters. This supports the existing 3D guide's continuing role and its reversible chapter poses.
+A [community component catalogue](https://github.com/rudra016/aceternityui-mcp/blob/main/src/utils/components-data.ts) verified the Text Generate Effect description and its official registry URL. This catalogue is a secondary reference, not a license for vendor component source. The portfolio's short word introduction is an original implementation of that documented behavior. Its soft spotlight, directional project overlay, and timeline trace are also original adaptations; a direct vendor-component installation is not claimed.
 
-Repository discovery also identified [ConnectedGrid](https://github.com/codrops/ConnectedGrid), [3DCarousel](https://github.com/codrops/3DCarousel), and [ElasticGridScroll](https://github.com/codrops/ElasticGridScroll). These were discovery results, not fully inspected live implementations. No claim is made that any reference is the world's most unique or that this site has won an award. No demo code, images, or character models were copied.
+No installable Aceternity skill was returned by the skill search. A reusable project-authored [portfolio-clean-motion skill](../.agents/skills/portfolio-clean-motion/SKILL.md) was created instead. Its [source notes](../.agents/skills/portfolio-clean-motion/references/source-notes.md) distinguish verified sources from adaptation and explain what is bundled.
 
-## Installed skills applied
+## A quieter visual direction
 
-- [UI UX Pro Max](../.agents/skills/ui-ux-pro-max/SKILL.md): a refined `portfolio personal scroll storytelling` design-system query matched Scroll-Triggered Storytelling. Applied complete DOM reading order, distinct chapters, a progress indicator, simpler mobile motion, and static reduced-motion states. The first query incorrectly returned a documentation pattern and was rejected. Generic brutalist style recommendations were also rejected where they conflicted with readable, fluid product presentation.
-- [HyperFrames Animation](../.agents/skills/hyperframes-animation/SKILL.md): deterministic, seekable compositions; explicit motion endpoints; measured SVG geometry; transform-based choreography. Its video runtime is not required for the interactive website.
-- [Fixing Motion Performance](../.agents/skills/fixing-motion-performance/SKILL.md): native View Timelines, no custom scroll-position polling, transform and opacity as the main animated properties, a bounded pointer interaction, and static final states for reduced motion and pause.
+Instrument Serif supplies expressive regular and italic headings. Manrope keeps body copy and project details easy to read. The palette combines warm white, neutral gray, a restrained blue accent, a pale sage about section, and a soft blue contact panel. A single featured project leads into a simpler two-column grid. The archive, experience timeline, and contact details use a clear hierarchy rather than large decorative effects.
 
-## Motion map
+The guide keeps its neutral clothing and friendly gestures, with cooler gray and blue accents to match the new palette. It remains optional, can be hidden, and never gates access to content.
 
-All effects below follow scroll position in both directions on browsers with native View Timeline support:
+## Motion rules actually applied
 
-| Area | Motion |
-| --- | --- |
-| Hero | Headline lines move apart; orbital frames turn in opposite directions |
-| Platform band | Large type moves horizontally as the band crosses the viewport |
-| Work introduction | Offset headline lines approach from opposing sides |
-| Five featured studies | Image planes unfold; two shutters open; headings rise into view |
-| Archive | The title moves into place and individual rows glide into position |
-| Approach | Words brighten in sequence; architecture rings turn and measured connection paths draw |
-| Capabilities | Each heading rises as its item enters the viewport |
-| Experience | Heading lines converge; the timeline spine draws; individual roles unfold |
-| Contact | Two type lines converge and the circular email link turns into position |
+- Four hero words receive a finite 500 ms introduction with a small, bounded stagger.
+- Section content rises by at most 16 px. Text keeps full contrast throughout the scroll.
+- Artwork moves by only 7 px each way, with reserved dimensions and slight overscan.
+- Direction-aware action overlays respond to pointer entry and exit. The action is also available through the native button and keyboard focus.
+- A greeting tooltip uses a small presence transition on an existing focusable control.
+- A thin timeline trace connects the experience entries and rewinds on backward scroll.
+- The contact button receives a quiet border emphasis on hover and focus.
 
-Native scroll remains in control. There is no scroll hijacking, page pinning, video background, autoplay audio, or JavaScript scroll-position loop. A magnetic contact button caches its geometry on pointer entry and performs transform writes while the pointer moves. The existing Three.js guide retains capped rendering and visibility stop conditions.
+Native CSS View Timelines provide reversible scroll effects. Repeating IntersectionObserver state changes cover older browsers. Native anchors and scroll-padding handle navigation; the active chapter uses `aria-current`. There is no scroll hijacking, page pinning, heavy blur, continuously moving border, pointer-following magnet, or JavaScript scroll-position loop.
 
-Older browsers receive repeating IntersectionObserver arrivals and departures instead of continuous native scrubbing. The fallback is explicitly tested; it is not described as an equivalent scrub implementation. Both variants honor reduced motion and manual pause, while all copy remains readable without motion or JavaScript.
+System reduced motion and manual pause leave final, readable states. Transient animations are canceled when paused and suspended in hidden tabs. Hover effects are limited to fine pointers. Content remains available without JavaScript or WebGL.
 
-The previous GSAP runtime import is no longer required by the browser motion module. The local development dependency remains available for future work; the deployed motion bundle contains the small native-timeline controller rather than GSAP. The original three compressed project images remain unchanged and labeled conceptual.
+## Content and dependencies
+
+All 13 project narratives, verified contact information, employment history, and development-status distinctions are retained. Artwork remains explicitly conceptual. No metrics, release claims, or product links were invented.
+
+Instrument Serif is self-hosted under its included OFL license. Unused GSAP and Space Grotesk dependencies and runtime assets were removed. The application remains a static site with a small motion controller and an optional locally bundled Three.js renderer. The build publishes only an explicit runtime allowlist.

@@ -3,22 +3,25 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#171a17" />
+    <meta name="theme-color" content="#fafbf8" />
     <meta
       name="description"
-      content="Sonu Shah — Flutter Developer & Cross-Platform App Engineer. Native integrations, creative tools, audio engineering, and thoughtful product experiences."
+      content="Sonu Shah, Flutter Developer and Cross-Platform App Engineer. Thoughtful applications, native integrations, creative tools, and reliable product experiences."
     />
-    <meta property="og:title" content="Sonu Shah — Engineering with feeling." />
+    <meta
+      property="og:title"
+      content="Sonu Shah — Thoughtful apps. Lasting impressions."
+    />
     <meta
       property="og:description"
-      content="Flutter, native platforms, and ideas brought to life. Explore the work and the thinking behind it."
+      content="Flutter engineering with care. Explore audio, creative, native platform, and subscription work."
     />
     <meta property="og:type" content="website" />
     <title>Sonu Shah — Flutter Developer & Cross-Platform App Engineer</title>
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
     <link
       rel="preload"
-      href="assets/fonts/space-grotesk-latin.woff2"
+      href="assets/fonts/instrument-serif-latin.woff2"
       as="font"
       type="font/woff2"
       crossorigin
@@ -26,6 +29,13 @@
     <link
       rel="preload"
       href="assets/fonts/manrope-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="assets/fonts/instrument-serif-italic-latin.woff2"
       as="font"
       type="font/woff2"
       crossorigin
@@ -40,15 +50,15 @@
     <div class="reading-progress" aria-hidden="true"></div>
     <header class="site-header shell">
       <a class="wordmark" href="#home" aria-label="Sonu Shah, home"
-        ><span class="brand-symbol" aria-hidden="true"
-          >s<svg viewBox="0 0 24 24">
-            <path d="M5 19 19 5M5 5h14v14" /></svg></span
-        ><span>Sonu Shah<small>Flutter Developer</small></span></a
+        ><span class="brand-symbol" aria-hidden="true">s.</span
+        ><span
+          >Sonu Shah<span class="brand-caption">Flutter Developer</span></span
+        ></a
       ><button
         class="menu-toggle"
         type="button"
-        aria-expanded="false"
         aria-controls="site-nav"
+        aria-expanded="false"
       >
         Menu
         <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -56,9 +66,8 @@
         </svg>
       </button>
       <nav id="site-nav" aria-label="Main navigation">
-        <a href="#work">Work <span>01</span></a
-        ><a href="#about">Approach <span>02</span></a
-        ><a href="#journey">Experience <span>03</span></a
+        <a href="#work">Work</a><a href="#about">About</a
+        ><a href="#journey">Experience</a
         ><a href="#contact"
           >Let’s talk
           <svg class="icon" aria-hidden="true"><use href="#arrow-up" /></svg
@@ -68,572 +77,454 @@
     <main id="main">
       <section
         id="home"
-        class="hero chapter"
+        class="hero shell chapter"
         data-chapter="0"
         aria-labelledby="hero-title"
       >
-        <div class="hero-inner shell">
-          <div class="hero-eyebrow">
-            <span>SONU SHAH / CROSS-PLATFORM APP ENGINEER</span
-            ><span>FLUTTER · DART · NATIVE</span>
-          </div>
-          <div class="hero-layout">
-            <div class="hero-copy">
-              <h1 id="hero-title">
-                <span class="hero-title-line line-one">Engineering</span
-                ><span class="hero-title-line line-two"
-                  >with <em>feeling.</em></span
-                >
-              </h1>
-              <div class="hero-intro">
-                <span class="intro-arrow" aria-hidden="true"
-                  ><svg class="icon" aria-hidden="true">
-                    <use href="#arrow-up" /></svg
-                ></span>
-                <p>
-                  I turn complex ideas into apps that feel right.<br />Thoughtfully
-                  built for mobile and desktop.
-                </p>
-              </div>
-              <div class="hero-actions">
-                <a class="button button-acid" href="#work"
-                  >Discover the work
-                  <svg class="icon" aria-hidden="true">
-                    <use href="#arrow-up" /></svg></a
-                ><a class="quiet-link" href="resume.html"
-                  >View résumé
-                  <svg class="icon" aria-hidden="true">
-                    <use href="#arrow-up" /></svg
-                ></a>
-              </div>
-            </div>
-            <div class="hero-stage" id="guide-home">
-              <div class="stage-orbit orbit-one" aria-hidden="true"></div>
-              <div class="stage-orbit orbit-two" aria-hidden="true"></div>
-              <div class="stage-cross cross-one" aria-hidden="true">+</div>
-              <div class="stage-cross cross-two" aria-hidden="true">+</div>
-              <span class="stage-coordinate coordinate-top" aria-hidden="true"
-                >[ HUMAN AT THE CORE ]</span
-              >
-              <div
-                id="avatar-guide"
-                class="avatar-guide"
-                role="img"
-                aria-label="A stylized 3D developer in neutral clothing, waving hello"
-              >
-                <canvas id="avatar-canvas" aria-hidden="true"></canvas>
-                <svg
-                  class="avatar-fallback"
-                  viewBox="0 0 480 500"
-                  aria-hidden="true"
-                >
-                  <ellipse
-                    cx="240"
-                    cy="448"
-                    rx="108"
-                    ry="17"
-                    fill="#172e2320"
-                  />
-                  <path
-                    d="M213 337l-9 96h35l9-89m12-7 4 96h35l-13-107"
-                    fill="#28372e"
-                  />
-                  <path
-                    d="M202 427q-20 9-12 22h50v-21m20 0v21h51q2-19-24-21"
-                    fill="#fefefe"
-                    stroke="#cad0c4"
-                    stroke-width="3"
-                  />
-                  <rect
-                    x="177"
-                    y="215"
-                    width="123"
-                    height="138"
-                    rx="40"
-                    fill="#f3f0e5"
-                  />
-                  <path d="M222 215v126h35V215" fill="#334039" />
-                  <path
-                    d="M182 237l-29 44-34-73m173 24 28 70"
-                    fill="none"
-                    stroke="#f3f0e5"
-                    stroke-width="29"
-                    stroke-linecap="round"
-                  />
-                  <path
-                    d="M117 210l-9-26m-2 10-12-14m225 124 3 16"
-                    stroke="#b97d55"
-                    stroke-width="18"
-                    stroke-linecap="round"
-                  />
-                  <rect
-                    x="219"
-                    y="194"
-                    width="38"
-                    height="35"
-                    rx="14"
-                    fill="#ae754e"
-                  />
-                  <ellipse cx="239" cy="149" rx="61" ry="67" fill="#c38a61" />
-                  <path
-                    d="M180 152q-23-88 49-91 77-13 72 76l-20-24q-25 15-62-10l-30 53"
-                    fill="#25312b"
-                  />
-                  <path
-                    d="M205 177q31 34 66-1-9 48-35 38-28-3-31-37"
-                    fill="#344035"
-                  />
-                  <path
-                    d="M224 179q13 8 26 0"
-                    fill="none"
-                    stroke="#fffaf0"
-                    stroke-width="5"
-                    stroke-linecap="round"
-                  />
-                  <g stroke="#28362b" stroke-width="5" fill="none">
-                    <circle cx="212" cy="148" r="19" />
-                    <circle cx="267" cy="148" r="19" />
-                    <path d="M231 147h17" />
-                  </g>
-                  <circle cx="214" cy="149" r="4" fill="#28362b" />
-                  <circle cx="265" cy="149" r="4" fill="#28362b" />
-                </svg>
-              </div>
-              <div class="stage-bottom">
-                <button id="wave-button" class="wave-button" type="button">
-                  Say hello
-                  <svg class="icon" aria-hidden="true">
-                    <use href="#wave-icon" />
-                  </svg></button
-                ><span>Your guide through the details.</span>
-              </div>
-              <span class="stage-coordinate coordinate-right" aria-hidden="true"
-                >NATIVE MINDSET / OPEN POSSIBILITIES</span
-              >
-            </div>
-          </div>
-          <div class="hero-bottom">
-            <span>Useful by design. Reliable by engineering.</span
-            ><a href="#work" class="scroll-cue"
-              ><span class="scroll-line" aria-hidden="true"></span> SCROLL TO
-              EXPLORE
+        <div class="hero-spotlight" aria-hidden="true"></div>
+        <div class="hero-copy">
+          <p class="eyebrow">
+            <span class="status-dot" aria-hidden="true"></span> FLUTTER
+            DEVELOPER · CROSS-PLATFORM ENGINEER
+          </p>
+          <h1 id="hero-title">
+            <span class="title-line"
+              ><span class="title-word" style="--word: 0">Thoughtful</span>
+              <span class="title-word" style="--word: 1">apps.</span> </span
+            ><span class="title-line title-italic"
+              ><span class="title-word" style="--word: 2">Lasting</span>
+              <span class="title-word" style="--word: 3">impressions.</span>
+            </span>
+          </h1>
+          <p class="hero-description">
+            Hi, I’m Sonu. I build reliable apps for mobile and desktop —
+            bringing thoughtful interfaces, native capabilities, and clean
+            architecture together.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-blue" href="#work"
+              >Explore my work
               <svg class="icon" aria-hidden="true">
                 <use href="#arrow-down" /></svg></a
-            ><span class="hero-edition">SELECTED WORK / 2026</span>
+            ><a class="quiet-link" href="resume.html"
+              >View résumé
+              <svg class="icon" aria-hidden="true"><use href="#arrow-up" /></svg
+            ></a>
+          </div>
+          <div class="hero-platforms">
+            <span>Flutter & Dart</span><span>iOS</span><span>Android</span
+            ><span>macOS</span>
           </div>
         </div>
-      </section>
-      <div
-        class="kinetic-band"
-        role="img"
-        aria-label="Mobile, desktop, native, human"
-      >
-        <div class="band-track" aria-hidden="true">
-          <span>MOBILE</span
-          ><svg viewBox="0 0 64 64" aria-hidden="true">
-            <path d="M32 2v60M2 32h60M11 11l42 42M11 53 53 11" /></svg
-          ><span class="outline-type">DESKTOP</span
-          ><svg viewBox="0 0 64 64" aria-hidden="true">
-            <path d="M32 2v60M2 32h60M11 11l42 42M11 53 53 11" /></svg
-          ><span>NATIVE</span
-          ><svg viewBox="0 0 64 64" aria-hidden="true">
-            <path d="M32 2v60M2 32h60M11 11l42 42M11 53 53 11" /></svg
-          ><span class="outline-type">HUMAN</span
-          ><svg viewBox="0 0 64 64" aria-hidden="true">
-            <path d="M32 2v60M2 32h60M11 11l42 42M11 53 53 11" /></svg
-          ><span>MOBILE</span>
+        <div class="hero-stage" id="guide-home">
+          <div class="stage-disc" aria-hidden="true"></div>
+          <span class="stage-note">A LITTLE CURIOSITY GOES A LONG WAY.</span>
+          <div
+            id="avatar-guide"
+            class="avatar-guide"
+            role="img"
+            aria-label="A stylized 3D developer in neutral clothing, waving hello"
+          >
+            <canvas id="avatar-canvas" aria-hidden="true"></canvas>
+            <svg
+              class="avatar-fallback"
+              viewBox="0 0 480 500"
+              aria-hidden="true"
+            >
+              <ellipse cx="240" cy="448" rx="108" ry="17" fill="#172e2320" />
+              <path
+                d="M213 337l-9 96h35l9-89m12-7 4 96h35l-13-107"
+                fill="#28372e"
+              />
+              <path
+                d="M202 427q-20 9-12 22h50v-21m20 0v21h51q2-19-24-21"
+                fill="#fefefe"
+                stroke="#cad0c4"
+                stroke-width="3"
+              />
+              <rect
+                x="177"
+                y="215"
+                width="123"
+                height="138"
+                rx="40"
+                fill="#f3f0e5"
+              />
+              <path d="M222 215v126h35V215" fill="#334039" />
+              <path
+                d="M182 237l-29 44-34-73m173 24 28 70"
+                fill="none"
+                stroke="#f3f0e5"
+                stroke-width="29"
+                stroke-linecap="round"
+              />
+              <path
+                d="M117 210l-9-26m-2 10-12-14m225 124 3 16"
+                stroke="#b97d55"
+                stroke-width="18"
+                stroke-linecap="round"
+              />
+              <rect
+                x="219"
+                y="194"
+                width="38"
+                height="35"
+                rx="14"
+                fill="#ae754e"
+              />
+              <ellipse cx="239" cy="149" rx="61" ry="67" fill="#c38a61" />
+              <path
+                d="M180 152q-23-88 49-91 77-13 72 76l-20-24q-25 15-62-10l-30 53"
+                fill="#25312b"
+              />
+              <path
+                d="M205 177q31 34 66-1-9 48-35 38-28-3-31-37"
+                fill="#344035"
+              />
+              <path
+                d="M224 179q13 8 26 0"
+                fill="none"
+                stroke="#fffaf0"
+                stroke-width="5"
+                stroke-linecap="round"
+              />
+              <g stroke="#28362b" stroke-width="5" fill="none">
+                <circle cx="212" cy="148" r="19" />
+                <circle cx="267" cy="148" r="19" />
+                <path d="M231 147h17" />
+              </g>
+              <circle cx="214" cy="149" r="4" fill="#28362b" />
+              <circle cx="265" cy="149" r="4" fill="#28362b" />
+            </svg>
+          </div>
+          <div class="stage-bottom">
+            <span class="wave-button-wrap"
+              ><button
+                id="wave-button"
+                aria-describedby="wave-tip"
+                class="wave-button"
+                type="button"
+              >
+                Say hello
+                <svg class="icon" aria-hidden="true">
+                  <use href="#wave-icon" />
+                </svg></button
+              ><span class="wave-tooltip" id="wave-tip" role="tooltip"
+                >A little version of me. A friendly hello.</span
+              ></span
+            ><span>I’ll show you around.</span>
+          </div>
         </div>
-      </div>
+        <div class="hero-footer">
+          <span>Built with intention. Down to the details.</span
+          ><a href="#work"
+            >SCROLL TO EXPLORE
+            <svg class="icon" aria-hidden="true"><use href="#arrow-down" /></svg
+          ></a>
+        </div>
+      </section>
       <section
         id="work"
-        class="work-section chapter"
+        class="work-section shell chapter"
         data-chapter="1"
         aria-labelledby="work-title"
       >
-        <div class="section-heading shell">
-          <p class="section-kicker">
-            <span>01 / SELECTED WORK</span><span>BUILT WITH INTENTION</span>
-          </p>
-          <h2 id="work-title" class="section-title">
-            <span>Ideas into</span
-            ><span class="title-offset"
-              >experiences<span class="period">.</span></span
-            >
-          </h2>
-          <div class="section-caption">
-            <span class="tiny-cross" aria-hidden="true">+</span>
-            <p>
-              Five stories. Different challenges.<br />The same care for what’s
-              under the surface.
-            </p>
-            <span>SCROLL THROUGH THE WORK ↓</span>
+        <div class="section-heading" data-watch>
+          <div>
+            <p class="eyebrow">01 / SELECTED WORK</p>
+            <h2 id="work-title">
+              Good ideas.<br /><em>Careful execution.</em>
+            </h2>
           </div>
-        </div>
-        <div class="case-stack shell">
-          <article
-            class="case-step"
-            data-case="01"
-            aria-labelledby="title-memo"
-          >
-            <div class="project-card card-memo">
-              <div class="case-top">
-                <span>01 / 05</span><span>Audio engineering / iOS & macOS</span
-                ><span class="case-status">Application development</span>
-              </div>
-              <div class="case-layout">
-                <div class="case-copy">
-                  <p class="case-product">Voice Memo</p>
-                  <h3 id="title-memo" class="case-title">
-                    <span>Sound, with substance.</span>
-                  </h3>
-                  <p class="project-summary">
-                    Recording, playback, native audio debugging, and the
-                    subscription experience around it.
-                  </p>
-                  <div class="tags">
-                    <span>Flutter</span><span>GetX</span
-                    ><span>Native audio</span><span>IAP</span>
-                  </div>
-                  <button
-                    class="project-open text-button"
-                    data-project="memo"
-                    aria-label="Read Voice Memo case study"
-                  >
-                    Explore the case study
-                    <svg class="icon" aria-hidden="true">
-                      <use href="#arrow-up" />
-                    </svg>
-                  </button>
-                </div>
-                <div class="visual-perspective">
-                  <div class="project-art">
-                    <img
-                      src="assets/images/voice.webp"
-                      width="1200"
-                      height="675"
-                      loading="lazy"
-                      decoding="async"
-                      alt="Concept artwork: a phone and sculptural audio waves on a lavender stage"
-                    /><span class="art-mark" aria-hidden="true"
-                      ><svg viewBox="0 0 64 64" aria-hidden="true">
-                        <path
-                          d="M32 2v60M2 32h60M11 11l42 42M11 53 53 11"
-                        /></svg></span
-                    ><span
-                      class="shutter shutter-left"
-                      aria-hidden="true"
-                    ></span
-                    ><span
-                      class="shutter shutter-right"
-                      aria-hidden="true"
-                    ></span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </article>
-          <article
-            class="case-step"
-            data-case="02"
-            aria-labelledby="title-drawing"
-          >
-            <div class="project-card card-drawing">
-              <div class="case-top">
-                <span>02 / 05</span
-                ><span>Creative tools / Local-first data</span
-                ><span class="case-status">Application development</span>
-              </div>
-              <div class="case-layout">
-                <div class="case-copy">
-                  <p class="case-product">Drawing & Coloring</p>
-                  <h3 id="title-drawing" class="case-title">
-                    <span>Room for imagination.</span>
-                  </h3>
-                  <p class="project-summary">
-                    Responsive brushes, SVG templates, saved canvas state, and
-                    an asset system designed for the moments in between
-                    connections.
-                  </p>
-                  <div class="tags">
-                    <span>Flutter</span><span>SVG canvas</span
-                    ><span>Firebase</span><span>Hive</span>
-                  </div>
-                  <button
-                    class="project-open text-button"
-                    data-project="drawing"
-                    aria-label="Read Drawing & Coloring case study"
-                  >
-                    Explore the case study
-                    <svg class="icon" aria-hidden="true">
-                      <use href="#arrow-up" />
-                    </svg>
-                  </button>
-                </div>
-                <div class="visual-perspective">
-                  <div class="project-art">
-                    <img
-                      src="assets/images/drawing.webp"
-                      width="1200"
-                      height="800"
-                      loading="lazy"
-                      decoding="async"
-                      alt="Concept artwork: a drawing tablet, colorful flower, and sculptural art materials"
-                    /><span class="art-mark" aria-hidden="true"
-                      ><svg viewBox="0 0 64 64" aria-hidden="true">
-                        <path
-                          d="M32 2v60M2 32h60M11 11l42 42M11 53 53 11"
-                        /></svg></span
-                    ><span
-                      class="shutter shutter-left"
-                      aria-hidden="true"
-                    ></span
-                    ><span
-                      class="shutter shutter-right"
-                      aria-hidden="true"
-                    ></span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </article>
-          <article
-            class="case-step"
-            data-case="03"
-            aria-labelledby="title-keyboard"
-          >
-            <div class="project-card card-keyboard">
-              <div class="case-top">
-                <span>03 / 05</span
-                ><span>Personalization / Native extensions</span
-                ><span class="case-status">Native integration</span>
-              </div>
-              <div class="case-layout">
-                <div class="case-copy">
-                  <p class="case-product">Keyboard Customization</p>
-                  <h3 id="title-keyboard" class="case-title">
-                    <span>A personal touch.</span>
-                  </h3>
-                  <p class="project-summary">
-                    Themes, fonts, wallpapers, and widgets — connecting Flutter
-                    with native iOS through shared storage.
-                  </p>
-                  <div class="tags">
-                    <span>Flutter</span><span>Swift</span
-                    ><span>App Groups</span>
-                  </div>
-                  <button
-                    class="project-open text-button"
-                    data-project="keyboard"
-                    aria-label="Read Keyboard Customization case study"
-                  >
-                    Explore the case study
-                    <svg class="icon" aria-hidden="true">
-                      <use href="#arrow-up" />
-                    </svg>
-                  </button>
-                </div>
-                <div class="visual-perspective">
-                  <div class="project-art">
-                    <img
-                      src="assets/images/keyboard.webp"
-                      width="1200"
-                      height="800"
-                      loading="lazy"
-                      decoding="async"
-                      alt="Concept artwork: a customizable phone keyboard and sculptural lilac keys"
-                    /><span class="art-mark" aria-hidden="true"
-                      ><svg viewBox="0 0 64 64" aria-hidden="true">
-                        <path
-                          d="M32 2v60M2 32h60M11 11l42 42M11 53 53 11"
-                        /></svg></span
-                    ><span
-                      class="shutter shutter-left"
-                      aria-hidden="true"
-                    ></span
-                    ><span
-                      class="shutter shutter-right"
-                      aria-hidden="true"
-                    ></span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </article>
-          <article
-            class="case-step"
-            data-case="04"
-            aria-labelledby="title-paywall"
-          >
-            <div class="project-card card-paywall">
-              <div class="case-top">
-                <span>04 / 05</span
-                ><span>Monetization / Configuration systems</span
-                ><span class="case-status">Partially implemented</span>
-              </div>
-              <div class="case-layout">
-                <div class="case-copy">
-                  <p class="case-product">Dynamic Paywalls</p>
-                  <h3 id="title-paywall" class="case-title">
-                    <span>Built to adapt.</span>
-                  </h3>
-                  <p class="project-summary">
-                    Configurable pricing cards, trial states, and purchase
-                    experiences, backed by Firebase.
-                  </p>
-                  <div class="tags">
-                    <span>Remote Config</span><span>Firestore</span
-                    ><span>IAP</span>
-                  </div>
-                  <button
-                    class="project-open text-button"
-                    data-project="paywall"
-                    aria-label="Read Dynamic Paywalls case study"
-                  >
-                    Explore the case study
-                    <svg class="icon" aria-hidden="true">
-                      <use href="#arrow-up" />
-                    </svg>
-                  </button>
-                </div>
-                <div class="visual-perspective">
-                  <div class="project-art">
-                    <div class="paywall-concept" aria-hidden="true">
-                      <span class="concept-eyebrow"
-                        >ONE SYSTEM. MANY POSSIBILITIES.</span
-                      >
-                      <div class="paywall-window">
-                        <span class="mini-star">✳</span
-                        ><strong>A little more<br />possibility.</strong
-                        ><span class="mini-label">Your premium experience</span>
-                        <div class="price-choice">
-                          <span>Monthly</span><i>○</i>
-                        </div>
-                        <div class="price-choice selected">
-                          <span>Annual <small>More room to create</small></span
-                          ><i>●</i>
-                        </div>
-                        <span class="mini-cta">Continue ↗</span>
-                      </div>
-                      <span class="config-chip chip-a">variant: creative</span
-                      ><span class="config-chip chip-b">remote → ready</span>
-                    </div>
-                    <span class="art-mark" aria-hidden="true"
-                      ><svg viewBox="0 0 64 64" aria-hidden="true">
-                        <path
-                          d="M32 2v60M2 32h60M11 11l42 42M11 53 53 11"
-                        /></svg></span
-                    ><span
-                      class="shutter shutter-left"
-                      aria-hidden="true"
-                    ></span
-                    ><span
-                      class="shutter shutter-right"
-                      aria-hidden="true"
-                    ></span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </article>
-          <article
-            class="case-step"
-            data-case="05"
-            aria-labelledby="title-media"
-          >
-            <div class="project-card card-media">
-              <div class="case-top">
-                <span>05 / 05</span
-                ><span>Full-stack Flutter / Media workflows</span
-                ><span class="case-status">In progress</span>
-              </div>
-              <div class="case-layout">
-                <div class="case-copy">
-                  <p class="case-product">Media Manager</p>
-                  <h3 id="title-media" class="case-title">
-                    <span>From link to library.</span>
-                  </h3>
-                  <p class="project-summary">
-                    Exploring URL analysis, metadata, backend APIs, and the file
-                    lifecycle behind a cross-platform media library.
-                  </p>
-                  <div class="tags">
-                    <span>Flutter</span><span>Express.js</span><span>Dio</span
-                    ><span>Hive</span>
-                  </div>
-                  <button
-                    class="project-open text-button"
-                    data-project="media"
-                    aria-label="Read Media Manager case study"
-                  >
-                    Explore the case study
-                    <svg class="icon" aria-hidden="true">
-                      <use href="#arrow-up" />
-                    </svg>
-                  </button>
-                </div>
-                <div class="visual-perspective">
-                  <div class="project-art">
-                    <div class="media-concept" aria-hidden="true">
-                      <div class="media-window">
-                        <div class="media-toolbar">
-                          <span>● ● ●</span><span>My media library</span
-                          ><span>↗</span>
-                        </div>
-                        <div class="media-preview">
-                          <span class="play-orbit">▷</span
-                          ><span>Every file.<br />In its place.</span>
-                        </div>
-                        <div class="download-row">
-                          <span class="download-symbol">↓</span>
-                          <div>
-                            <strong>From URL to library</strong
-                            ><span class="download-track"></span>
-                          </div>
-                          <span>→</span>
-                        </div>
-                      </div>
-                      <span class="config-chip chip-b"
-                        >Flutter ↔ API ↔ Files</span
-                      >
-                    </div>
-                    <span class="art-mark" aria-hidden="true"
-                      ><svg viewBox="0 0 64 64" aria-hidden="true">
-                        <path
-                          d="M32 2v60M2 32h60M11 11l42 42M11 53 53 11"
-                        /></svg></span
-                    ><span
-                      class="shutter shutter-left"
-                      aria-hidden="true"
-                    ></span
-                    ><span
-                      class="shutter shutter-right"
-                      aria-hidden="true"
-                    ></span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </article>
-        </div>
-        <div class="work-note shell">
-          <span>01—05 / FEATURED CASE STUDIES</span>
           <p>
-            Original concept artwork. Project details describe my contributions
-            and current development scope.
+            A few things I’ve helped bring to life, and the engineering that
+            makes them work.
           </p>
         </div>
+        <div class="work-grid">
+          <article class="project-card card-memo" data-watch data-case="01">
+            <button
+              class="project-open"
+              data-project="memo"
+              aria-label="Read Voice Memo case study"
+            >
+              <div class="project-art" data-direction-hover>
+                <div class="image-plane" data-parallax>
+                  <img
+                    src="assets/images/voice.webp"
+                    width="1200"
+                    height="675"
+                    loading="lazy"
+                    decoding="async"
+                    alt="Concept artwork: a phone and sculptural audio waves on a lavender stage"
+                  />
+                </div>
+                <span class="project-overlay" aria-hidden="true"
+                  ><span
+                    >Explore the case study
+                    <svg class="icon" aria-hidden="true">
+                      <use href="#arrow-up" /></svg></span></span
+                ><span class="project-index">01 / SELECTED WORK</span>
+              </div>
+              <div class="project-meta">
+                <div>
+                  <span class="project-type"
+                    >Audio engineering / Apple platforms</span
+                  >
+                  <h3>Voice Memo</h3>
+                </div>
+                <span class="project-arrow"
+                  ><svg class="icon" aria-hidden="true">
+                    <use href="#arrow-up" /></svg
+                ></span>
+              </div>
+            </button>
+            <p class="project-summary">
+              Voice recording, playback, native audio troubleshooting, and the
+              subscription experience around it.
+            </p>
+            <div class="project-bottom">
+              <div class="tags">
+                <span>Flutter</span><span>Native audio</span><span>GetX</span>
+              </div>
+            </div>
+          </article>
+          <article class="project-card card-drawing" data-watch data-case="02">
+            <button
+              class="project-open"
+              data-project="drawing"
+              aria-label="Read Drawing & Coloring case study"
+            >
+              <div class="project-art" data-direction-hover>
+                <div class="image-plane" data-parallax>
+                  <img
+                    src="assets/images/drawing.webp"
+                    width="1200"
+                    height="800"
+                    loading="lazy"
+                    decoding="async"
+                    alt="Concept artwork: a drawing tablet, colorful flower, and sculptural art materials"
+                  />
+                </div>
+                <span class="project-overlay" aria-hidden="true"
+                  ><span
+                    >Explore the case study
+                    <svg class="icon" aria-hidden="true">
+                      <use href="#arrow-up" /></svg></span></span
+                ><span class="project-index">02 / SELECTED WORK</span>
+              </div>
+              <div class="project-meta">
+                <div>
+                  <span class="project-type"
+                    >Creative tools / Local-first assets</span
+                  >
+                  <h3>Drawing & Coloring</h3>
+                </div>
+                <span class="project-arrow"
+                  ><svg class="icon" aria-hidden="true">
+                    <use href="#arrow-up" /></svg
+                ></span>
+              </div>
+            </button>
+            <p class="project-summary">
+              Responsive brushes, SVG templates, saved canvas state, and
+              creative assets designed to stay close at hand.
+            </p>
+            <div class="project-bottom">
+              <div class="tags">
+                <span>Flutter</span><span>SVG</span><span>Firebase</span>
+              </div>
+            </div>
+          </article>
+          <article class="project-card card-keyboard" data-watch data-case="03">
+            <button
+              class="project-open"
+              data-project="keyboard"
+              aria-label="Read Keyboard Customization case study"
+            >
+              <div class="project-art" data-direction-hover>
+                <div class="image-plane" data-parallax>
+                  <img
+                    src="assets/images/keyboard.webp"
+                    width="1200"
+                    height="800"
+                    loading="lazy"
+                    decoding="async"
+                    alt="Concept artwork: a customizable phone keyboard and sculptural lilac keys"
+                  />
+                </div>
+                <span class="project-overlay" aria-hidden="true"
+                  ><span
+                    >Explore the case study
+                    <svg class="icon" aria-hidden="true">
+                      <use href="#arrow-up" /></svg></span></span
+                ><span class="project-index">03 / SELECTED WORK</span>
+              </div>
+              <div class="project-meta">
+                <div>
+                  <span class="project-type"
+                    >Personalization / Native extensions</span
+                  >
+                  <h3>Keyboard Customization</h3>
+                </div>
+                <span class="project-arrow"
+                  ><svg class="icon" aria-hidden="true">
+                    <use href="#arrow-up" /></svg
+                ></span>
+              </div>
+            </button>
+            <p class="project-summary">
+              Themes, fonts, wallpapers, and widgets, connecting a Flutter
+              interface with native iOS components.
+            </p>
+            <div class="project-bottom">
+              <div class="tags">
+                <span>Flutter</span><span>Swift</span><span>App Groups</span>
+              </div>
+            </div>
+          </article>
+          <article class="project-card card-paywall" data-watch data-case="04">
+            <button
+              class="project-open"
+              data-project="paywall"
+              aria-label="Read Dynamic Paywall System case study"
+            >
+              <div class="project-art" data-direction-hover>
+                <div class="image-plane" data-parallax>
+                  <div class="paywall-concept" aria-hidden="true">
+                    <span class="concept-eyebrow"
+                      >ONE SYSTEM. MANY POSSIBILITIES.</span
+                    >
+                    <div class="paywall-window">
+                      <span class="mini-star"
+                        ><svg viewBox="0 0 32 32" aria-hidden="true">
+                          <path
+                            d="M16 2v28M2 16h28M6 6l20 20M6 26 26 6"
+                          /></svg></span
+                      ><strong>A little more<br />possibility.</strong
+                      ><span class="mini-label">Your premium experience</span>
+                      <div class="price-choice">
+                        <span>Monthly</span><i>○</i>
+                      </div>
+                      <div class="price-choice selected">
+                        <span>Annual <small>More room to create</small></span
+                        ><i>●</i>
+                      </div>
+                      <span class="mini-cta">Continue ↗</span>
+                    </div>
+                    <span class="config-chip chip-a">variant: creative</span
+                    ><span class="config-chip chip-b">remote → ready</span>
+                  </div>
+                </div>
+                <span class="project-overlay" aria-hidden="true"
+                  ><span
+                    >Explore the case study
+                    <svg class="icon" aria-hidden="true">
+                      <use href="#arrow-up" /></svg></span></span
+                ><span class="project-index">04 / SELECTED WORK</span>
+              </div>
+              <div class="project-meta">
+                <div>
+                  <span class="project-type"
+                    >Engineering systems / Subscriptions</span
+                  >
+                  <h3>Dynamic Paywall System</h3>
+                </div>
+                <span class="project-arrow"
+                  ><svg class="icon" aria-hidden="true">
+                    <use href="#arrow-up" /></svg
+                ></span>
+              </div>
+            </button>
+            <p class="project-summary">
+              Configurable pricing cards, trial states, and subscription
+              experiences backed by Firebase.
+            </p>
+            <div class="project-bottom">
+              <div class="tags">
+                <span>Remote Config</span><span>Firestore</span><span>IAP</span>
+              </div>
+              <span class="project-status">Partially implemented</span>
+            </div>
+          </article>
+          <article class="project-card card-media" data-watch data-case="05">
+            <button
+              class="project-open"
+              data-project="media"
+              aria-label="Read Media Manager case study"
+            >
+              <div class="project-art" data-direction-hover>
+                <div class="image-plane" data-parallax>
+                  <div class="media-concept" aria-hidden="true">
+                    <div class="media-window">
+                      <div class="media-toolbar">
+                        <span>● ● ●</span><span>My media library</span
+                        ><span>↗</span>
+                      </div>
+                      <div class="media-preview">
+                        <span class="play-orbit">▷</span
+                        ><span>Every file.<br />In its place.</span>
+                      </div>
+                      <div class="download-row">
+                        <span class="download-symbol">↓</span>
+                        <div>
+                          <strong>From URL to library</strong
+                          ><span class="download-track"></span>
+                        </div>
+                        <span>→</span>
+                      </div>
+                    </div>
+                    <span class="config-chip chip-b"
+                      >Flutter ↔ API ↔ Files</span
+                    >
+                  </div>
+                </div>
+                <span class="project-overlay" aria-hidden="true"
+                  ><span
+                    >Explore the case study
+                    <svg class="icon" aria-hidden="true">
+                      <use href="#arrow-up" /></svg></span></span
+                ><span class="project-index">05 / SELECTED WORK</span>
+              </div>
+              <div class="project-meta">
+                <div>
+                  <span class="project-type"
+                    >Full-stack Flutter / Media workflows</span
+                  >
+                  <h3>Media Manager</h3>
+                </div>
+                <span class="project-arrow"
+                  ><svg class="icon" aria-hidden="true">
+                    <use href="#arrow-up" /></svg
+                ></span>
+              </div>
+            </button>
+            <p class="project-summary">
+              Exploring media metadata, backend APIs, and the file lifecycle
+              behind a cross-platform media library.
+            </p>
+            <div class="project-bottom">
+              <div class="tags">
+                <span>Flutter</span><span>Express.js</span><span>Dio</span>
+              </div>
+              <span class="project-status">In progress</span>
+            </div>
+          </article>
+        </div>
+        <p class="work-note">
+          Original concept artwork illustrates each project’s focus; these are
+          not production screenshots.
+        </p>
       </section>
       <section
         id="archive"
         class="archive-section shell"
         aria-labelledby="archive-title"
       >
-        <div class="archive-heading">
+        <div class="archive-heading" data-watch>
           <div>
-            <p class="section-kicker">THE REST OF THE EXPLORATION</p>
-            <h2 id="archive-title" class="compact-title">
-              More under<br />the surface.
-            </h2>
+            <p class="eyebrow">A LITTLE MORE TO EXPLORE</p>
+            <h2 id="archive-title">The wider picture.</h2>
           </div>
           <span id="archive-count" role="status" aria-live="polite"
             >8 projects</span
@@ -650,14 +541,14 @@
           </button>
         </div>
         <div class="project-archive">
-          <article class="archive-item" data-group="audio">
+          <article class="archive-item" data-group="audio" data-watch>
             <button data-project="editor">
               <span class="archive-number">06</span
               ><span class="archive-description"
                 ><strong>Audio Editor & Processing</strong
                 ><span
-                  >Waveforms, file workflows, and reusable editing
-                  architecture.</span
+                  >Reusable editing interfaces, waveform workflows, and native
+                  audio.</span
                 ></span
               ><span class="archive-category">Audio</span
               ><svg class="icon" aria-hidden="true">
@@ -665,13 +556,13 @@
               </svg>
             </button>
           </article>
-          <article class="archive-item" data-group="data">
+          <article class="archive-item" data-group="data" data-watch>
             <button data-project="bible">
               <span class="archive-number">07</span
               ><span class="archive-description"
                 ><strong>Bible Reading App</strong
                 ><span
-                  >Books, chapters, verses, and cache-first architecture.</span
+                  >Structured content and a cache-first architecture.</span
                 ></span
               ><span class="archive-category">Data</span
               ><svg class="icon" aria-hidden="true">
@@ -679,13 +570,13 @@
               </svg>
             </button>
           </article>
-          <article class="archive-item" data-group="native">
+          <article class="archive-item" data-group="native" data-watch>
             <button data-project="esign">
               <span class="archive-number">08</span
               ><span class="archive-description"
                 ><strong>eSign PDF — Signature Maker</strong
                 ><span
-                  >PDF signing, purchase configuration, and release
+                  >Signature workflows, purchase configuration, and release
                   support.</span
                 ></span
               ><span class="archive-category">Native</span
@@ -694,13 +585,13 @@
               </svg>
             </button>
           </article>
-          <article class="archive-item" data-group="native">
+          <article class="archive-item" data-group="native" data-watch>
             <button data-project="printer">
               <span class="archive-number">09</span
               ><span class="archive-description"
                 ><strong>Smart Printer / Air Printer</strong
                 ><span
-                  >Printing, PDF handling, and file-lifecycle debugging.</span
+                  >Document handling and native file-lifecycle debugging.</span
                 ></span
               ><span class="archive-category">Native</span
               ><svg class="icon" aria-hidden="true">
@@ -708,14 +599,13 @@
               </svg>
             </button>
           </article>
-          <article class="archive-item" data-group="creative">
+          <article class="archive-item" data-group="creative" data-watch>
             <button data-project="graphic">
               <span class="archive-number">10</span
               ><span class="archive-description"
                 ><strong>Graphic Design App</strong
                 ><span
-                  >Creative application delivery and purchase
-                  troubleshooting.</span
+                  >Creative product delivery and purchase troubleshooting.</span
                 ></span
               ><span class="archive-category">Creative</span
               ><svg class="icon" aria-hidden="true">
@@ -723,7 +613,7 @@
               </svg>
             </button>
           </article>
-          <article class="archive-item" data-group="audio">
+          <article class="archive-item" data-group="audio" data-watch>
             <button data-project="voice">
               <span class="archive-number">11</span
               ><span class="archive-description"
@@ -737,13 +627,13 @@
               </svg>
             </button>
           </article>
-          <article class="archive-item" data-group="data">
+          <article class="archive-item" data-group="data" data-watch>
             <button data-project="vidhya">
               <span class="archive-number">12</span
               ><span class="archive-description"
                 ><strong>Cloud Vidhya</strong
                 ><span
-                  >Live learning with real-time WebRTC pipelines.</span
+                  >Live learning powered by real-time WebRTC pipelines.</span
                 ></span
               ><span class="archive-category">Data</span
               ><svg class="icon" aria-hidden="true">
@@ -751,7 +641,7 @@
               </svg>
             </button>
           </article>
-          <article class="archive-item" data-group="data">
+          <article class="archive-item" data-group="data" data-watch>
             <button data-project="hrms">
               <span class="archive-number">13</span
               ><span class="archive-description"
@@ -775,76 +665,34 @@
         aria-labelledby="about-title"
       >
         <div class="shell">
-          <p class="section-kicker">
-            <span>02 / THE WAY I THINK</span
-            ><span>PEOPLE FIRST. DETAILS ALWAYS.</span>
-          </p>
-          <h2 id="about-title" class="reading-statement">
-            <span class="reading-word" style="--word: 0"
-              >Good<span aria-hidden="true">Good</span></span
-            >
-            <span class="reading-word" style="--word: 1"
-              >products<span aria-hidden="true">products</span></span
-            >
-            <span class="reading-word" style="--word: 2"
-              >make<span aria-hidden="true">make</span></span
-            >
-            <span class="reading-word" style="--word: 3"
-              >complex<span aria-hidden="true">complex</span></span
-            >
-            <span class="reading-word" style="--word: 4"
-              >things<span aria-hidden="true">things</span></span
-            >
-            <span class="reading-word" style="--word: 5"
-              >feel<span aria-hidden="true">feel</span></span
-            >
-            <span class="reading-word" style="--word: 6"
-              >beautifully<span aria-hidden="true">beautifully</span></span
-            >
-            <span class="reading-word" style="--word: 7"
-              >simple.<span aria-hidden="true">simple.</span></span
-            >
-          </h2>
           <div class="about-grid">
-            <div
-              class="system-diagram"
-              aria-label="Connected layers: interface, logic, data, and native platform"
-            >
-              <div class="diagram-ring ring-one" aria-hidden="true"></div>
-              <div class="diagram-ring ring-two" aria-hidden="true"></div>
-              <svg
-                class="diagram-path"
-                viewBox="0 0 400 400"
-                aria-hidden="true"
-              >
-                <path d="M200 45V355M45 200H355M90 90 310 310M90 310 310 90" />
-              </svg>
-              <div class="diagram-core" aria-hidden="true">s.</div>
-              <span class="system-node node-one">Interface</span
-              ><span class="system-node node-two">Logic</span
-              ><span class="system-node node-three">Data</span
-              ><span class="system-node node-four">Native</span
-              ><span class="diagram-caption"
-                >CLEAR BOUNDARIES. CONNECTED EXPERIENCES.</span
-              >
+            <div class="about-heading" data-watch>
+              <p class="eyebrow">02 / THE PERSON BEHIND THE CODE</p>
+              <h2 id="about-title">
+                I care about how it feels.<br /><em>And how it works.</em>
+              </h2>
+              <div class="about-signature">
+                Sonu Shah<span>Curious by nature. Precise by practice.</span>
+              </div>
             </div>
-            <div class="about-copy">
+            <div class="about-copy" data-watch>
               <p class="about-lead">
-                I’m Sonu, a Flutter developer with a soft spot for the hard
-                parts.
+                The best part of building an app? Making something complicated
+                feel natural.
               </p>
               <p>
-                Audio engines. Creative canvases. Subscription states. Files
-                that need to be exactly where you left them. I enjoy connecting
-                the interface people see with the engineering they can trust.
+                My work spans audio tools, creative canvases, document
+                utilities, personalization, and content-driven products. I enjoy
+                the whole journey — from Figma and Flutter to backend
+                integrations and native platform debugging.
               </p>
               <p>
-                My work spans iOS, Android, and macOS — from translating Figma
-                designs to structuring reusable code, integrating Firebase and
-                APIs, and debugging native platform behavior.
+                I care about the details people notice without thinking about
+                them. A responsive brush. A recording that saves correctly. A
+                subscription state that makes sense.
               </p>
               <a
-                class="text-button"
+                class="text-link"
                 href="https://github.com/sonushah12"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -855,27 +703,40 @@
             </div>
           </div>
           <div class="capabilities">
-            <article>
-              <span>01 / BUILD</span>
-              <h3>At home on<br />every platform.</h3>
+            <article data-watch>
+              <span class="capability-icon" aria-hidden="true"
+                ><svg viewBox="0 0 32 32">
+                  <rect x="9" y="3" width="14" height="26" rx="3" />
+                  <path d="M14 24h4" /></svg
+              ></span>
+              <h3>At home on every platform.</h3>
               <p>
-                Flutter · Dart · GetX<br />Responsive UI · Native iOS & macOS
+                Flutter, Dart, GetX, responsive interfaces, and native iOS &
+                macOS integrations.
               </p>
             </article>
-            <article>
-              <span>02 / CONNECT</span>
-              <h3>Order behind<br />the interface.</h3>
+            <article data-watch>
+              <span class="capability-icon" aria-hidden="true"
+                ><svg viewBox="0 0 32 32">
+                  <path
+                    d="m16 3 13 7-13 7L3 10Zm-13 13 13 7 13-7M3 22l13 7 13-7"
+                  /></svg
+              ></span>
+              <h3>Clarity beneath the surface.</h3>
               <p>
-                Firebase · REST APIs · Dio<br />Hive · Local-first data ·
-                Modular architecture
+                Modular architecture, Firebase, REST APIs, Dio, Hive, and
+                local-first data workflows.
               </p>
             </article>
-            <article>
-              <span>03 / REFINE</span>
-              <h3>The details<br />make the difference.</h3>
+            <article data-watch>
+              <span class="capability-icon" aria-hidden="true"
+                ><svg viewBox="0 0 32 32">
+                  <path d="m12 6-8 10 8 10m8-20 8 10-8 10m-2-23-4 26" /></svg
+              ></span>
+              <h3>Care in the hard parts.</h3>
               <p>
-                Audio · Canvas · Files · Subscriptions<br />Platform debugging ·
-                Release support
+                Audio, canvas, file lifecycles, subscriptions, platform
+                debugging, and release support.
               </p>
             </article>
           </div>
@@ -883,33 +744,30 @@
       </section>
       <section
         id="journey"
-        class="journey-section chapter shell"
+        class="journey-section shell chapter"
         data-chapter="3"
         aria-labelledby="journey-title"
       >
-        <div class="section-heading">
-          <p class="section-kicker">
-            <span>03 / THE JOURNEY</span
-            ><a href="resume.html"
-              >VIEW RÉSUMÉ
-              <svg class="icon" aria-hidden="true"><use href="#arrow-up" /></svg
-            ></a>
-          </p>
-          <h2 id="journey-title" class="section-title">
-            <span>Always building.</span
-            ><span class="title-offset"
-              >Still becoming<span class="period">.</span></span
-            >
-          </h2>
+        <div class="section-heading" data-watch>
+          <div>
+            <p class="eyebrow">03 / MY JOURNEY SO FAR</p>
+            <h2 id="journey-title">
+              Always building.<br /><em>Always becoming.</em>
+            </h2>
+          </div>
+          <a class="text-link" href="resume.html"
+            >View résumé
+            <svg class="icon" aria-hidden="true"><use href="#arrow-up" /></svg
+          ></a>
         </div>
         <div class="timeline">
-          <div class="timeline-spine" aria-hidden="true"><span></span></div>
-          <article class="timeline-item">
+          <div class="timeline-trace" aria-hidden="true"><span></span></div>
+          <article class="timeline-item" data-watch>
             <div class="timeline-when">
               <span class="timeline-dot"></span><span>JAN 2025 — PRESENT</span
-              ><span class="current-badge">CURRENT CHAPTER</span>
+              ><span class="current-badge">Current chapter</span>
             </div>
-            <div class="timeline-role">
+            <div>
               <h3>Senior Flutter Developer</h3>
               <span class="company">Applie Info Solution</span>
             </div>
@@ -918,11 +776,11 @@
               signatures, and native iOS and macOS integrations.
             </p>
           </article>
-          <article class="timeline-item">
+          <article class="timeline-item" data-watch>
             <div class="timeline-when">
               <span class="timeline-dot"></span><span>JUN — DEC 2024</span>
             </div>
-            <div class="timeline-role">
+            <div>
               <h3>Flutter Developer</h3>
               <span class="company">Pdhamecha LLP</span>
             </div>
@@ -931,11 +789,11 @@
               background geofencing, and asynchronous Dart workflows.
             </p>
           </article>
-          <article class="timeline-item">
+          <article class="timeline-item" data-watch>
             <div class="timeline-when">
               <span class="timeline-dot"></span><span>2022 — 2024</span>
             </div>
-            <div class="timeline-role">
+            <div>
               <h3>Master of Computer Applications</h3>
               <span class="company">LJ Institute of Computer Applications</span>
             </div>
@@ -948,89 +806,79 @@
       </section>
       <section
         id="contact"
-        class="contact-section chapter"
+        class="contact-section shell chapter"
         data-chapter="4"
         aria-labelledby="contact-title"
       >
-        <div class="shell">
-          <p class="section-kicker">
-            <span>04 / SOMETHING GOOD STARTS HERE</span
-            ><span>AN IDEA. A CONVERSATION. A BEGINNING.</span>
-          </p>
-          <div class="contact-title-row">
+        <div class="contact-panel">
+          <div class="contact-copy" data-watch>
+            <p class="eyebrow">04 / A CONVERSATION IS A GOOD START</p>
             <h2 id="contact-title">
-              <span>Let’s make</span><span>it happen.</span>
+              Let’s make something<br /><em>people love using.</em>
             </h2>
-            <a
-              class="contact-orbit"
-              href="mailto:sonu.shah99098@gmail.com"
-              aria-label="Start a conversation by email"
-              ><svg class="icon" aria-hidden="true">
-                <use href="#arrow-up" /></svg
-              ><span>YOUR IDEA, NEXT.</span></a
-            >
-          </div>
-          <div class="contact-bottom">
             <p>
               Have an idea that needs thoughtful engineering?<br />I’d love to
               hear what you’re working on.
             </p>
             <div class="contact-actions">
               <a
-                class="button button-ink magnetic-button"
+                class="button button-blue border-accent"
                 href="mailto:sonu.shah99098@gmail.com"
                 >Start a conversation
                 <svg class="icon" aria-hidden="true">
                   <use href="#arrow-up" /></svg></a
               ><button class="copy-email" id="copy-email" type="button">
-                Copy email
+                Copy my email
                 <svg class="icon" aria-hidden="true">
                   <use href="#copy-icon" />
                 </svg>
               </button>
             </div>
+            <a class="contact-email" href="mailto:sonu.shah99098@gmail.com"
+              >sonu.shah99098@gmail.com</a
+            >
           </div>
-          <a class="contact-email" href="mailto:sonu.shah99098@gmail.com"
-            >sonu.shah99098@gmail.com</a
-          >
-          <footer class="site-footer">
-            <a class="footer-name" href="#home"
-              >SONU SHAH<span
-                >FLUTTER DEVELOPER / CROSS-PLATFORM ENGINEER</span
-              ></a
-            >
-            <div class="social-links">
-              <a
-                href="https://github.com/sonushah12"
-                target="_blank"
-                rel="noopener noreferrer"
-                >GitHub
-                <svg class="icon" aria-hidden="true">
-                  <use href="#arrow-up" /></svg></a
-              ><a
-                href="https://linkedin.com/in/shah-sonu"
-                target="_blank"
-                rel="noopener noreferrer"
-                >LinkedIn
-                <svg class="icon" aria-hidden="true">
-                  <use href="#arrow-up" /></svg></a
-              ><a href="tel:+919909843221"
-                >Call me
-                <svg class="icon" aria-hidden="true">
-                  <use href="#arrow-up" /></svg
-              ></a>
-            </div>
-            <span class="copyright"
-              >© <span id="year">2026</span> / BUILT WITH INTENTION</span
-            >
-          </footer>
+          <span class="contact-decoration" aria-hidden="true"
+            ><svg viewBox="0 0 160 160">
+              <path d="M30 130 130 30M30 30h100v100" /></svg
+          ></span>
         </div>
+        <footer class="site-footer">
+          <a class="wordmark" href="#home"
+            ><span class="brand-symbol" aria-hidden="true">s.</span
+            ><span>Sonu Shah</span></a
+          >
+          <div class="social-links">
+            <a
+              href="https://github.com/sonushah12"
+              target="_blank"
+              rel="noopener noreferrer"
+              >GitHub
+              <svg class="icon" aria-hidden="true">
+                <use href="#arrow-up" /></svg></a
+            ><a
+              href="https://linkedin.com/in/shah-sonu"
+              target="_blank"
+              rel="noopener noreferrer"
+              >LinkedIn
+              <svg class="icon" aria-hidden="true">
+                <use href="#arrow-up" /></svg></a
+            ><a href="tel:+919909843221"
+              >Call me
+              <svg class="icon" aria-hidden="true"><use href="#arrow-up" /></svg
+            ></a>
+          </div>
+          <span class="copyright"
+            >© <span id="year">2026</span> · Made with care.</span
+          >
+        </footer>
       </section>
     </main>
     <noscript
       ><p class="noscript-note shell">
         Project summaries and contact links are available above. Enable
-        JavaScript for expanded case studies, filters, and the 3D guide.
+        JavaScript for expanded case studies, filters, and the interactive
+        guide.
       </p></noscript
     >
     <aside

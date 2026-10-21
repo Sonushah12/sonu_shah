@@ -1,28 +1,61 @@
-// Native View Timelines bind every composition to scroll position. Reversing
-// scroll reverses the same playhead; no once-only state or scroll polling.
+// Local skill: portfolio-clean-motion. See its source notes for the distinction
+// between verified reference guidance and this original DOM implementation.
 const root = document.documentElement;
 const reduced = matchMedia("(prefers-reduced-motion: reduce)");
+const finePointer = matchMedia("(hover: hover) and (pointer: fine)");
 const native = CSS.supports("animation-timeline", "view()");
+const subjects = [...document.querySelectorAll("[data-watch]")];
+const words = [...document.querySelectorAll(".title-word")];
+const transient = new Set();
 let paused = root.classList.contains("motion-paused") || reduced.matches;
 let observer;
-const subjects = [
-  ...document.querySelectorAll(
-    ".case-step, .archive-item, .capabilities article, .timeline-item, .section-heading, .archive-heading, .reading-statement, .system-diagram, .about-copy, .contact-title-row, .kinetic-band",
-  ),
-];
-const path = document.querySelector(".diagram-path path");
-if (path) {
-  const length = path.getTotalLength();
-  path.style.setProperty("--path-length", length);
-  path.style.strokeDasharray = String(length);
+let introPlayed = false;
+function animate(element, frames, options) {
+  const animation = element.animate(frames, options);
+  transient.add(animation);
+  animation.addEventListener("finish", () => transient.delete(animation), {
+    once: true,
+  });
+  animation.addEventListener("cancel", () => transient.delete(animation), {
+    once: true,
+  });
+  return animation;
 }
-
+function intro() {
+  if (introPlayed) return;
+  introPlayed = true;
+  if (location.hash && location.hash !== "#home") return;
+  words.forEach((word, index) =>
+    animate(
+      word,
+      [
+        { opacity: 0, transform: "translateY(12px)" },
+        { opacity: 1, transform: "none" },
+      ],
+      {
+        duration: 500,
+        delay: index * 55,
+        easing: "cubic-bezier(.22,1,.36,1)",
+        fill: "backwards",
+      },
+    ),
+  );
+}
 function configure(nextPaused) {
   paused = nextPaused || reduced.matches;
   root.classList.toggle("motion-enabled", !paused);
   root.classList.toggle("motion-fallback", !paused && !native);
   observer?.disconnect();
-  if (paused || native) return;
+  if (paused) {
+    for (const animation of [...transient]) animation.cancel();
+    document.querySelectorAll(".project-overlay").forEach((overlay) => {
+      overlay.getAnimations().forEach((animation) => animation.cancel());
+    });
+    return;
+  }
+  intro();
+  if (native || !("IntersectionObserver" in window)) return;
+  // Watcher-style repeated visibility states: intentionally no once-only flag.
   observer = new IntersectionObserver(
     (entries) => {
       for (const entry of entries)
@@ -30,7 +63,7 @@ function configure(nextPaused) {
           ? "inside"
           : "outside";
     },
-    { threshold: 0.12 },
+    { threshold: 0.08 },
   );
   subjects.forEach((subject) => observer.observe(subject));
 }
@@ -40,44 +73,54 @@ window.addEventListener("portfolio:effects", (event) =>
 reduced.addEventListener("change", () =>
   configure(root.classList.contains("motion-paused")),
 );
-configure(paused);
-
-// The magnetic CTA caches geometry on pointer entry. Pointer movement performs
-// only transform writes; native scrolling retains control of the document.
-const pointer = matchMedia("(hover: hover) and (pointer: fine)");
-document.querySelectorAll(".magnetic-button").forEach((button) => {
+document.addEventListener("visibilitychange", () => {
+  for (const animation of transient) {
+    if (document.hidden) animation.pause();
+    else if (!paused) animation.play();
+  }
+});
+// Direction-aware hover is a bounded interaction. Geometry is read only when
+// entering the artwork; pointer movement is never polled or measured per frame.
+function direction(event, rect) {
+  const x = (event.clientX - rect.left - rect.width / 2) / (rect.width / 2);
+  const y = (event.clientY - rect.top - rect.height / 2) / (rect.height / 2);
+  return Math.abs(x) > Math.abs(y)
+    ? [x > 0 ? 100 : -100, 0]
+    : [0, y > 0 ? 100 : -100];
+}
+document.querySelectorAll("[data-direction-hover]").forEach((art) => {
+  const overlay = art.querySelector(".project-overlay");
   let rect;
-  let returnAnimation;
-  button.addEventListener("pointerenter", () => {
-    if (paused || !pointer.matches) return;
-    returnAnimation?.cancel();
-    rect = button.getBoundingClientRect();
-    button.style.willChange = "transform";
-  });
-  button.addEventListener("pointermove", (event) => {
-    if (!rect || paused || !pointer.matches) return;
-    const x = Math.max(
-      -8,
-      Math.min(8, (event.clientX - rect.left - rect.width / 2) * 0.08),
+  let current;
+  art.addEventListener("pointerenter", (event) => {
+    if (paused || !finePointer.matches) return;
+    rect = art.getBoundingClientRect();
+    const [x, y] = direction(event, rect);
+    current?.cancel();
+    current = animate(
+      overlay,
+      [
+        { transform: `translate(${x}%,${y}%)`, opacity: 0 },
+        { transform: "translate(0,0)", opacity: 1 },
+      ],
+      { duration: 260, easing: "cubic-bezier(.22,1,.36,1)", fill: "forwards" },
     );
-    const y = Math.max(
-      -6,
-      Math.min(6, (event.clientY - rect.top - rect.height / 2) * 0.12),
-    );
-    button.style.transform = `translate(${x}px, ${y}px)`;
   });
-  button.addEventListener("pointerleave", () => {
+  art.addEventListener("pointerleave", (event) => {
+    if (!rect || paused || !finePointer.matches) return;
+    const [x, y] = direction(event, rect);
+    const style = getComputedStyle(overlay);
+    const start = { transform: style.transform, opacity: style.opacity };
+    current?.cancel();
+    current = animate(
+      overlay,
+      [start, { transform: `translate(${x}%,${y}%)`, opacity: 0 }],
+      { duration: 210, easing: "cubic-bezier(.22,1,.36,1)", fill: "forwards" },
+    );
     rect = null;
-    const from = button.style.transform || "none";
-    button.style.removeProperty("transform");
-    if (!paused)
-      returnAnimation = button.animate(
-        [{ transform: from }, { transform: "none" }],
-        { duration: 300, easing: "cubic-bezier(.22,1,.36,1)" },
-      );
-    button.style.removeProperty("will-change");
   });
 });
+configure(paused);
 window.portfolioMotion = {
   get mode() {
     return paused
@@ -94,5 +137,8 @@ window.portfolioMotion = {
           animation.timeline &&
           animation.timeline.constructor.name !== "DocumentTimeline",
       ).length;
+  },
+  get transientAnimations() {
+    return transient.size;
   },
 };

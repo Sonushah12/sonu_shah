@@ -45,13 +45,13 @@ const publicFiles = [
   "assets/favicon.svg",
   "assets/fonts/manrope-latin.woff2",
   "assets/fonts/OFL.txt",
-  "assets/fonts/space-grotesk-latin.woff2",
-  "assets/fonts/SPACE-GROTESK-OFL.txt",
+  "assets/fonts/instrument-serif-latin.woff2",
+  "assets/fonts/instrument-serif-italic-latin.woff2",
+  "assets/fonts/INSTRUMENT-SERIF-OFL.txt",
   "assets/images/voice.webp",
   "assets/images/drawing.webp",
   "assets/images/keyboard.webp",
   "assets/vendor/THREE-LICENSE.txt",
-  "assets/vendor/GSAP-LICENSE.txt",
 ];
 await rm(publicDirectory, { recursive: true, force: true });
 for (const file of publicFiles) {
