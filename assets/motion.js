@@ -108,7 +108,9 @@ document.querySelectorAll("[data-direction-hover]").forEach((art) => {
   });
   art.addEventListener("pointerleave", (event) => {
     if (!rect || paused || !finePointer.matches) return;
-    const [x, y] = direction(event, rect);
+    // The paper card can settle from its small tilt while hovered.
+    // Measure its current bounds on departure, rather than using entry geometry.
+    const [x, y] = direction(event, art.getBoundingClientRect());
     const style = getComputedStyle(overlay);
     const start = { transform: style.transform, opacity: style.opacity };
     current?.cancel();
@@ -117,6 +119,10 @@ document.querySelectorAll("[data-direction-hover]").forEach((art) => {
       [start, { transform: `translate(${x}%,${y}%)`, opacity: 0 }],
       { duration: 210, easing: "cubic-bezier(.22,1,.36,1)", fill: "forwards" },
     );
+    rect = null;
+  });
+  art.addEventListener("pointercancel", () => {
+    current?.cancel();
     rect = null;
   });
 });

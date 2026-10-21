@@ -9,7 +9,7 @@ This is a project-authored skill, not an official Aceternity or AnimMaster packa
 
 ## Design intent
 
-Create calm, useful interfaces. Use warm neutral surfaces, one blue accent, serif display typography, and readable sans-serif body text. Keep the work and contributions easy to find. Give each motion a purpose: introduce content, indicate an action, connect stages, or preserve spatial continuity.
+Create calm, useful interactions within the owner's hand-drawn sketchbook design system. Use warm paper, Kalam marker headings, Patrick Hand body text, irregular borders, hard offset shadows, and restrained red, blue, and yellow accents. Centralize reusable shapes and colors in CSS tokens. Keep the work and contributions easy to find. Give each motion a purpose: introduce content, indicate an action, connect stages, or preserve spatial continuity. The owner's uploaded design brief supersedes the earlier serif and sans-serif direction.
 
 ## Motion recipes
 

@@ -9,12 +9,60 @@
       content="Professional experience and skills of Sonu Shah, Senior Flutter Developer."
     />
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link
+      rel="preload"
+      href="assets/fonts/patrick-hand-latin-400-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
     <style>
+      @font-face {
+        font-family: Patrick;
+        src: url("assets/fonts/patrick-hand-latin-400-normal.woff2")
+          format("woff2");
+        font-display: swap;
+      }
+      @font-face {
+        font-family: Kalam;
+        src: url("assets/fonts/kalam-latin-700-normal.woff2") format("woff2");
+        font-weight: 700;
+        font-display: swap;
+      }
+      html {
+        background: #fdfbf7;
+      }
+      h1,
+      h2,
+      h3 {
+        font-family: Kalam, cursive;
+      }
+      body {
+        font-family: Patrick, cursive !important;
+        font-size: 20px !important;
+      }
+      .tools button {
+        border: 2px solid #2d2d2d;
+        border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+        box-shadow: 3px 3px 0 #2d2d2d;
+      }
+      .tools button:hover {
+        background: #2d5da1;
+      }
+      @media print {
+        body {
+          font-size: 11pt !important;
+        }
+        html {
+          background: white;
+        }
+      }
+
       body {
         font:
           15px/1.7 system-ui,
           sans-serif;
-        color: #252c36;
+        color: #2d2d2d;
         max-width: 820px;
         margin: 50px auto;
         padding: 0 25px;
@@ -36,10 +84,10 @@
         margin-top: 5px;
       }
       a {
-        color: #4764ce;
+        color: #2d5da1;
       }
       small {
-        color: #65717d;
+        color: #625e58;
       }
       .tools {
         display: flex;
@@ -50,14 +98,14 @@
         font: inherit;
         cursor: pointer;
         padding: 10px 18px;
-        background: #252c36;
+        background: #2d2d2d;
         color: white;
         border: 0;
         border-radius: 3px;
       }
       a:focus-visible,
       button:focus-visible {
-        outline: 3px solid #4764ce;
+        outline: 3px solid #2d5da1;
         outline-offset: 4px;
       }
       @media print {

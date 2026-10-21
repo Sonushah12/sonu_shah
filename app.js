@@ -186,12 +186,17 @@
     dispatchPose();
   }
   if ("IntersectionObserver" in window) {
+    const visibleChapters = new Set();
     const chapterObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting)
-            setChapter(Number(entry.target.dataset.chapter));
+          const index = Number(entry.target.dataset.chapter);
+          if (entry.isIntersecting) visibleChapters.add(index);
+          else visibleChapters.delete(index);
         });
+        // Two adjacent chapters can share the reading band after a resize.
+        // Select from all current intersections, not just the latest callback.
+        if (visibleChapters.size) setChapter(Math.max(...visibleChapters));
       },
       { rootMargin: "-25% 0px -45% 0px", threshold: 0 },
     );

@@ -100,8 +100,8 @@ import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
     // A matte plinth and layered translucent discs provide depth without shadow maps.
     const base = new THREE.Group();
     scene.add(base);
-    mesh(new THREE.CylinderGeometry(1.13, 1.17, 0.085, 56), mat(0xd0daba, 1), base, 0, 0.005, 0);
-    mesh(new THREE.CylinderGeometry(1.12, 1.12, 0.022, 56), mat(0xe4eacb, 1), base, 0, 0.06, 0);
+    mesh(new THREE.CylinderGeometry(1.13, 1.17, 0.085, 56), mat(0xe5e0d8, 1), base, 0, 0.005, 0);
+    mesh(new THREE.CylinderGeometry(1.12, 1.12, 0.022, 56), mat(0xfdfbf7, 1), base, 0, 0.06, 0);
     for (let i = 0; i < 6; i++) {
       const disc = mesh(new THREE.CircleGeometry(0.36 + i * 0.073, 40), new THREE.MeshBasicMaterial({ color: 0x455b40, transparent: true, opacity: 0.024, depthWrite: false }), base, 0, 0.074 + i * 0.0001, 0);
       disc.rotation.x = -Math.PI / 2;
@@ -218,7 +218,7 @@ import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
     code.rotation.set(0.08, 0.28, -0.12);
     scene.add(code);
     mesh(round(0.67, 0.49, 0.10, 0.06), lime, code);
-    const codeInk = mat(0x4b5835);
+    const codeInk = mat(0x2d5da1);
     tube([[-0.09, 0.09, 0.066], [-0.2, 0, 0.067], [-0.09, -0.09, 0.067]], 0.018, codeInk, code);
     tube([[0.09, 0.09, 0.066], [0.2, 0, 0.067], [0.09, -0.09, 0.067]], 0.018, codeInk, code);
     tube([[0.04, 0.115, 0.066], [-0.04, -0.115, 0.066]], 0.013, codeInk, code);
