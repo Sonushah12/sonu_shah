@@ -1,25 +1,31 @@
 # Design and motion research
 
-The goal is a professional developer portfolio with a memorable character, readable work stories, and fast static delivery. The palette uses deep green ink (`#22372c`), pale sage (`#e6ebe0`), off-white (`#f7f8f2`), bright yellow-green (`#e6f36a`), and a lavender project surface (`#ddd3ef`). Self-hosted Manrope provides one coherent type family. A single 3D guide carries the main personality while the surrounding layout stays quiet.
+The portfolio uses off-white paper, ink, lavender, and a restrained purple accent. Self-hosted Space Grotesk provides expressive headings; Manrope keeps project narratives readable. The original neutral-clothing Three.js guide connects the chapters without replacing ordinary page navigation.
 
-## Online skills read and applied
+## Installed skills and applied guidance
 
-- [Anthropic Frontend Design](https://github.com/anthropics/skills/blob/main/skills/frontend-design/SKILL.md): deliberate typography, subject-specific identity, one memorable focal point, and browser-based visual critique.
-- [UI UX Pro Max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill): responsive hierarchy, keyboard access, contrast, reserved layout dimensions, and motion controls. Its local search workflow was inspected before running. The refined `creative portfolio 3D` query matched Portfolio/Personal and Scroll-Triggered Storytelling; automatic brutalist styling recommendations were rejected because they conflicted with the requested smooth professional design.
-- [Fixing Motion Performance](https://github.com/ibelick/ui-skills/blob/main/skills/fixing-motion-performance/SKILL.md): transform-based transitions, visibility observers, render-loop stop conditions, no continuous layout measurements, and reduced-motion handling.
-- [Vercel Web Interface Guidelines](https://github.com/vercel-labs/web-interface-guidelines/blob/main/command.md): semantics, focus, responsive interfaces, readable content, and progressive enhancement.
+The following skills are installed project-locally in `.agents/skills`, pinned by `skills-lock.json`:
 
-These were retrieved online and read during implementation; they are guidance sources, not installed runtime dependencies.
+- [HyperFrames Animation](https://github.com/heygen-com/hyperframes): the waterfall-entry recipe informed the overlapping, clipped headline arrival; svg-path-draw supplies measured path drawing; the GSAP adapters informed finite labeled timelines, transform/opacity motion, and cleanup. The website adapts composition recipes to browser interactions; it does not ship the HyperFrames video runtime.
+- [UI UX Pro Max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill): its local design-system search matched Scroll-Triggered Storytelling. Applied readable DOM chapters, distinct visual hierarchy, responsive simplification, local fonts, reserved artwork dimensions, keyboard access, and reduced-motion controls. Generic brutalist style suggestions were rejected because they conflicted with the requested smooth editorial direction.
+- [Fixing Motion Performance](https://github.com/ibelick/ui-skills/tree/main/skills/fixing-motion-performance): native CSS View Timelines for artwork drift, IntersectionObserver for one-time entrances, stopped render loops, no custom scroll-position polling, and temporary layer hints.
+
+The skills are development guidance, not browser dependencies. GSAP and Three.js are bundled locally. The GSAP distribution retains its license notice; the license reference is included in `assets/vendor`.
 
 ## Portfolio references
 
-- [Bruno Simon](https://bruno-simon.com), via the official [2019 source](https://github.com/brunosimon/folio-2019) and [2025 source](https://github.com/brunosimon/folio-2025): a recognizable interactive identity, staged exploration, and attention to resource loading. This project adapts those principles to a small guide alongside ordinary HTML, with no copied models or portfolio code.
-- [Brittany Chiang](https://brittanychiang.com), via the official [portfolio README](https://github.com/bchiang7/v4): clear developer positioning, disciplined content hierarchy, and easy access to work and experience.
+Earlier research consulted [Bruno Simon's official source](https://github.com/brunosimon/folio-2025) for a memorable interactive identity and staged exploration, and [Brittany Chiang's official source](https://github.com/bchiang7/v4) for clear developer positioning and content hierarchy. No portfolio code or models were copied.
 
-Direct showcase pages, Awwwards, Dennis Snellenberg’s site, and search engines returned network-policy errors. Their live rendering and current award rankings were not inspected. “World’s best” is subjective; no ranking or award is claimed for this implementation.
+Live showcase pages, Awwwards, some search engines, and the shared ChatGPT URL were inaccessible under the environment's network policy. The owner supplied the chat content directly. No current award ranking or award for this implementation is claimed.
 
-## Motion decisions
+## Motion system
 
-Native scrolling drives chapter changes through IntersectionObserver. A discrete FLIP transform moves the character from its hero stage into a small guide at the viewport edge. The character presents, thinks, stands confidently, and waves according to the current chapter. CSS Scroll Timeline provides the progress line when supported. The scene renders at a capped 30 FPS with limited pixel ratio and no expensive postprocessing; hidden tabs, offscreen scenes, pause controls, and reduced motion stop continuous rendering.
+`assets/motion.js` contains a finite GSAP introduction, bounded observer-triggered section entrances, and small measured SVG path draws. The intro is inspectable as `window.__timelines['portfolio-intro']`. Native CSS View Timelines move the project art on supported desktop browsers; unsupported browsers retain static art. No scroll hijacking, smooth-scroll library, autoplay audio, or persistent JavaScript scroll loop is used.
 
-The content is available immediately and the 3D bundle loads during browser idle time. No remote textures or character models are required. A static SVG character covers WebGL failure, disabled JavaScript, and Data Saver. Pause and hide controls are always reachable. Project previews are CSS compositions, not bitmap downloads.
+The guide uses section observers, discrete FLIP docking, and a capped 30 FPS Three.js scene. It changes between greeting, presenting, thinking, confident, and farewell poses. Its loop stops when hidden, offscreen, paused, or in a hidden tab. Reduced motion retains static poses; a static SVG covers WebGL failure and Data Saver. Pause and hide preferences persist. Reduced motion and manual pause also settle the new timeline effects into readable final states.
+
+## Artwork and content provenance
+
+Three original generated illustrations cover audio, drawing, and keyboard personalization. Their original PNGs remain outside the deployment; mechanically encoded WebP assets total approximately 119 KB. Two other project illustrations are lightweight original HTML/CSS compositions. All artwork is labeled conceptual, not a production screenshot. The external reference images in the pasted chat are not used as project evidence or publisher affiliations.
+
+The owner supplied ten new project areas. Five are featured and five appear in an eight-entry archive with the three earlier projects. Case studies distinguish direct contributions from ongoing work. Media Downloader is in progress; Dynamic Paywall is partially implemented; audio extraction and offline-reading plans are explicitly scoped. No download counts, revenue metrics, release claims, or external product links were invented. Existing employment, education, and contact information is preserved.

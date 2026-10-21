@@ -1,28 +1,34 @@
-# Validation
+# Validation — editorial portfolio redesign
 
-The completed portfolio passed 73 browser checks using Playwright and Chromium, with SwiftShader software WebGL. No uncaught browser errors or external runtime requests were observed.
+Validated against the generated `public/` output using Chromium and Python Playwright on 21 October 2026.
 
-## Verified behavior
+## Build and delivery
 
-- Responsive desktop, tablet, 390px and 320px layouts without horizontal overflow.
-- Mobile navigation and keyboard Escape behavior.
-- All three project dialogs, focus restoration, backdrop dismissal, and native focus containment.
-- Email copying through the real clipboard and the actual résumé link.
-- Five avatar chapter poses, explicit greeting, pause/resume, hide/show, persisted preferences, and reduced motion.
-- Failed-bundle and unavailable-WebGL fallback illustrations.
-- Rendering stops while paused/hidden; software-rendered geometry is capped at 30 FPS.
-- Footer content remains unobscured by the guide on narrow screens.
-- Zero axe WCAG A/AA violations on desktop, mobile, and dialogs. Automated checks do not replace a complete human accessibility assessment.
-- `npm ci`, `npm run build`, JavaScript syntax checks, and `git diff --check` passed.
+- `npm ci` succeeds with the committed lockfile.
+- `npm run build` emits 17 allowlisted runtime files into a clean `public/` directory.
+- `vercel.json` explicitly selects `public` as the output directory and `npm run build` as the build command.
+- Application scripts pass Node syntax checks; `git diff --check` passes.
+- No skill files, dependencies, or source modules are included in the public directory.
+- Both fonts, the three WebP images, the character renderer, and the motion bundle are served locally; there are no runtime CDN requirements.
 
-## Local performance evidence
+## Browser checks
 
-| Measurement | Desktop layout | Mobile layout |
-| --- | ---: | ---: |
-| Largest contentful paint | 1.46 s | 0.36 s |
-| Cumulative layout shift | 0 | 0 |
-| Longest 3D initialization task | 1.26 s | 0.19 s |
+80 checks passed, covering:
 
-These are isolated localhost measurements using a software renderer, not real-device or deployed-site performance. The optional renderer starts after the content paint and uses asynchronous shader compilation, but software WebGL still causes a noticeable initialization task. GPU hardware, slow networks, and actual hosting remain unmeasured.
+- All 13 case studies: opening, populated narratives, Escape dismissal, and focus restoration.
+- Media Downloader's in-progress scope and Dynamic Paywall's partial-implementation scope.
+- Five archive filters, their visible result counts, and live status text.
+- Horizontal overflow at widths 320, 390, 650, 768, 1024, and 1440 pixels.
+- Mobile navigation, motion pause/resume, stored preferences, guide hiding, and live reduced-motion preference changes.
+- Successful WebGL initialization; SVG fallback when WebGL fails; readable content without JavaScript; Data Saver skipping the 3D download.
+- Updated résumé content, no JavaScript errors, and no failed asset requests.
 
-Initial page assets total roughly 603 KB uncompressed, including the optional 3D bundle, or 173 KB with gzip. Python's development server sends uncompressed responses. Enable gzip/Brotli at deployment. The font is self-hosted; project illustrations require no image downloads. The 3D renderer uses 48 draw calls and approximately 42,000 triangles, with bounded resolution and no shadow maps.
+Axe's WCAG 2 A/AA and WCAG 2.1 AA rules reported zero violations for the main page and an open case-study dialog. Automated checks do not replace a full manual accessibility audit.
+
+Desktop and mobile screenshots were visually reviewed. A wide-card flow issue was found and fixed; the corrected media and paywall layouts were checked again. The system preference checks wait for the browser's asynchronous media-query change event before asserting the resulting state.
+
+## Performance observations
+
+In an unthrottled local desktop run, LCP was approximately 0.74 seconds and cumulative layout shift was 0. The largest observed main-thread task was 368 ms during the page/3D initialization period with software rendering. These are local observations, not production mobile Core Web Vitals guarantees.
+
+The original generated images are encoded as WebP: voice 21,974 bytes, drawing 56,522 bytes, and keyboard 40,554 bytes (119,050 bytes total). Images load lazily with reserved dimensions. Hero content does not wait for the optional character bundle. Motion is bounded, native-scrolling based, and user-controllable. Production hosting should enable Brotli or gzip for scripts, styles, and HTML.

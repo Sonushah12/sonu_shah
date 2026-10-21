@@ -1,3 +1,7 @@
 node_modules/
 .DS_Store
 /public/
+
+# Local Python skill-search caches
+__pycache__/
+*.pyc
