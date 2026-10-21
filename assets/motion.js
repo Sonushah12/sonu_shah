@@ -1,141 +1,98 @@
-import { gsap } from "gsap";
-
-// Finite, deterministic timelines: content never depends on an animation finishing.
-// Scroll-linked image movement lives in CSS View Timelines, not a scroll event loop.
+// Native View Timelines bind every composition to scroll position. Reversing
+// scroll reverses the same playhead; no once-only state or scroll polling.
 const root = document.documentElement;
 const reduced = matchMedia("(prefers-reduced-motion: reduce)");
-const seen = new WeakSet();
-const active = new Set();
+const native = CSS.supports("animation-timeline", "view()");
+let paused = root.classList.contains("motion-paused") || reduced.matches;
 let observer;
-let introPlayed = false;
-let effectsPaused = root.classList.contains("motion-paused") || reduced.matches;
-window.__timelines = window.__timelines || {};
-
-function track(timeline, elements) {
-  active.add(timeline);
-  elements.forEach((element) => {
-    element.style.willChange = "transform, opacity";
-  });
-  timeline.eventCallback("onComplete", () => {
-    elements.forEach((element) => {
-      element.style.removeProperty("will-change");
-    });
-    active.delete(timeline);
-  });
-  timeline.play();
-  return timeline;
+const subjects = [
+  ...document.querySelectorAll(
+    ".case-step, .archive-item, .capabilities article, .timeline-item, .section-heading, .archive-heading, .reading-statement, .system-diagram, .about-copy, .contact-title-row, .kinetic-band",
+  ),
+];
+const path = document.querySelector(".diagram-path path");
+if (path) {
+  const length = path.getTotalLength();
+  path.style.setProperty("--path-length", length);
+  path.style.strokeDasharray = String(length);
 }
 
-function intro() {
-  if (introPlayed) return;
-  introPlayed = true;
-  // Do not replay a hero entrance when opening a deep link.
-  if (location.hash && location.hash !== "#home") return;
-  const words = [...document.querySelectorAll(".headline-mask > span")];
-  const notes = [
-    ...document.querySelectorAll(".greeting-bubble, .floating-code"),
-  ];
-  const underline = document.querySelector(".accent-word path");
-  const length = underline.getTotalLength();
-  const timeline = gsap.timeline({
-    paused: true,
-    defaults: { ease: "power3.out" },
-  });
-  timeline
-    .addLabel("words", 0)
-    .from(
-      words,
-      { yPercent: 110, duration: 0.95, stagger: 0.1, clearProps: "transform" },
-      "words",
-    )
-    .from(
-      notes,
-      {
-        y: 16,
-        opacity: 0,
-        duration: 0.65,
-        stagger: 0.12,
-        clearProps: "transform,opacity",
-      },
-      0.35,
-    )
-    .fromTo(
-      underline,
-      { strokeDasharray: length, strokeDashoffset: length },
-      {
-        strokeDashoffset: 0,
-        duration: 0.7,
-        clearProps: "strokeDasharray,strokeDashoffset",
-      },
-      0.65,
-    );
-  window.__timelines["portfolio-intro"] = timeline;
-  track(timeline, [...words, ...notes]);
-}
-
-function observe() {
-  if (!("IntersectionObserver" in window)) return;
+function configure(nextPaused) {
+  paused = nextPaused || reduced.matches;
+  root.classList.toggle("motion-enabled", !paused);
+  root.classList.toggle("motion-fallback", !paused && !native);
+  observer?.disconnect();
+  if (paused || native) return;
   observer = new IntersectionObserver(
     (entries) => {
-      for (const entry of entries) {
-        if (!entry.isIntersecting || seen.has(entry.target)) continue;
-        const element = entry.target;
-        seen.add(element);
-        observer.unobserve(element);
-        const path = element.querySelector(".draw-path");
-        const pathLength = path?.getTotalLength();
-        const timeline = gsap.timeline({ paused: true });
-        timeline.from(element, {
-          y: 28,
-          opacity: 0,
-          duration: 0.75,
-          ease: "power3.out",
-          clearProps: "transform,opacity",
-        });
-        if (path)
-          timeline.fromTo(
-            path,
-            { strokeDasharray: pathLength, strokeDashoffset: pathLength },
-            {
-              strokeDashoffset: 0,
-              duration: 1,
-              ease: "power2.inOut",
-              clearProps: "strokeDasharray,strokeDashoffset",
-            },
-            0.15,
-          );
-        track(timeline, [element]);
-      }
+      for (const entry of entries)
+        entry.target.dataset.viewport = entry.isIntersecting
+          ? "inside"
+          : "outside";
     },
-    { threshold: 0.06, rootMargin: "0px 0px -25px 0px" },
+    { threshold: 0.12 },
   );
-  document.querySelectorAll("[data-reveal]").forEach((element) => {
-    if (!seen.has(element)) observer.observe(element);
-  });
+  subjects.forEach((subject) => observer.observe(subject));
 }
-
-function configure(paused) {
-  effectsPaused = paused || reduced.matches;
-  observer?.disconnect();
-  if (effectsPaused) {
-    for (const timeline of [...active]) {
-      timeline.progress(1);
-      timeline.kill();
-    }
-    active.clear();
-    return;
-  }
-  intro();
-  observe();
-}
-
 window.addEventListener("portfolio:effects", (event) =>
   configure(event.detail.paused),
 );
-document.addEventListener("visibilitychange", () => {
-  for (const timeline of active) {
-    if (document.hidden) timeline.pause();
-    else if (!effectsPaused) timeline.resume();
-  }
+reduced.addEventListener("change", () =>
+  configure(root.classList.contains("motion-paused")),
+);
+configure(paused);
+
+// The magnetic CTA caches geometry on pointer entry. Pointer movement performs
+// only transform writes; native scrolling retains control of the document.
+const pointer = matchMedia("(hover: hover) and (pointer: fine)");
+document.querySelectorAll(".magnetic-button").forEach((button) => {
+  let rect;
+  let returnAnimation;
+  button.addEventListener("pointerenter", () => {
+    if (paused || !pointer.matches) return;
+    returnAnimation?.cancel();
+    rect = button.getBoundingClientRect();
+    button.style.willChange = "transform";
+  });
+  button.addEventListener("pointermove", (event) => {
+    if (!rect || paused || !pointer.matches) return;
+    const x = Math.max(
+      -8,
+      Math.min(8, (event.clientX - rect.left - rect.width / 2) * 0.08),
+    );
+    const y = Math.max(
+      -6,
+      Math.min(6, (event.clientY - rect.top - rect.height / 2) * 0.12),
+    );
+    button.style.transform = `translate(${x}px, ${y}px)`;
+  });
+  button.addEventListener("pointerleave", () => {
+    rect = null;
+    const from = button.style.transform || "none";
+    button.style.removeProperty("transform");
+    if (!paused)
+      returnAnimation = button.animate(
+        [{ transform: from }, { transform: "none" }],
+        { duration: 300, easing: "cubic-bezier(.22,1,.36,1)" },
+      );
+    button.style.removeProperty("will-change");
+  });
 });
-configure(effectsPaused);
+window.portfolioMotion = {
+  get mode() {
+    return paused
+      ? "paused"
+      : native
+        ? "native-scroll-timelines"
+        : "repeating-intersection-fallback";
+  },
+  get animations() {
+    return document
+      .getAnimations()
+      .filter(
+        (animation) =>
+          animation.timeline &&
+          animation.timeline.constructor.name !== "DocumentTimeline",
+      ).length;
+  },
+};
