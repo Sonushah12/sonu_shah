@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#fafbf8" />
+    <meta name="theme-color" content="#fdfbf7" />
     <meta
       name="description"
       content="Sonu Shah, Flutter Developer and Cross-Platform App Engineer. Thoughtful applications, native integrations, creative tools, and reliable product experiences."
     />
     <meta
       property="og:title"
-      content="Sonu Shah — Thoughtful apps. Lasting impressions."
+      content="Sonu Shah — The app developer’s sketchbook"
     />
     <meta
       property="og:description"
@@ -21,21 +21,14 @@
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
     <link
       rel="preload"
-      href="assets/fonts/instrument-serif-latin.woff2"
+      href="assets/fonts/kalam-latin-700-normal.woff2"
       as="font"
       type="font/woff2"
       crossorigin
     />
     <link
       rel="preload"
-      href="assets/fonts/manrope-latin.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin
-    />
-    <link
-      rel="preload"
-      href="assets/fonts/instrument-serif-italic-latin.woff2"
+      href="assets/fonts/patrick-hand-latin-400-normal.woff2"
       as="font"
       type="font/woff2"
       crossorigin
@@ -52,7 +45,9 @@
       <a class="wordmark" href="#home" aria-label="Sonu Shah, home"
         ><span class="brand-symbol" aria-hidden="true">s.</span
         ><span
-          >Sonu Shah<span class="brand-caption">Flutter Developer</span></span
+          >Sonu Shah<span class="brand-caption"
+            >a developer’s sketchbook</span
+          ></span
         ></a
       ><button
         class="menu-toggle"
@@ -81,7 +76,9 @@
         data-chapter="0"
         aria-labelledby="hero-title"
       >
-        <div class="hero-spotlight" aria-hidden="true"></div>
+        <span class="margin-note" aria-hidden="true"
+          >Ideas, code &amp; a little curiosity.</span
+        >
         <div class="hero-copy">
           <p class="eyebrow">
             <span class="status-dot" aria-hidden="true"></span> FLUTTER
@@ -89,12 +86,20 @@
           </p>
           <h1 id="hero-title">
             <span class="title-line"
-              ><span class="title-word" style="--word: 0">Thoughtful</span>
-              <span class="title-word" style="--word: 1">apps.</span> </span
-            ><span class="title-line title-italic"
-              ><span class="title-word" style="--word: 2">Lasting</span>
-              <span class="title-word" style="--word: 3">impressions.</span>
-            </span>
+              ><span class="title-word">Big ideas.</span></span
+            >
+            <span class="title-line"
+              ><span class="title-word">Little details.</span></span
+            >
+            <span class="title-line title-italic"
+              ><span class="title-word">Apps that work.</span
+              ><svg
+                class="title-scribble"
+                viewBox="0 0 470 24"
+                aria-hidden="true"
+              >
+                <path d="M4 13Q144 2 460 8M12 21Q226 9 448 17" data-ink /></svg
+            ></span>
           </h1>
           <p class="hero-description">
             Hi, I’m Sonu. I build reliable apps for mobile and desktop —
@@ -103,7 +108,7 @@
           </p>
           <div class="hero-actions">
             <a class="button button-blue" href="#work"
-              >Explore my work
+              >Open the sketchbook
               <svg class="icon" aria-hidden="true">
                 <use href="#arrow-down" /></svg></a
             ><a class="quiet-link" href="resume.html"
@@ -118,7 +123,18 @@
         </div>
         <div class="hero-stage" id="guide-home">
           <div class="stage-disc" aria-hidden="true"></div>
-          <span class="stage-note">A LITTLE CURIOSITY GOES A LONG WAY.</span>
+          <span class="paper-tape stage-tape" aria-hidden="true"></span>
+          <svg class="stage-spark" viewBox="0 0 80 80" aria-hidden="true">
+            <path
+              d="m39 5 4 22L62 15 52 34l23 5-23 7 11 20-20-13-5 22-6-23L12 64l12-20L3 39l23-6L14 13l20 13Z"
+              data-ink
+            />
+          </svg>
+          <span class="stage-annotation" aria-hidden="true"
+            >your tiny tour guide<svg viewBox="0 0 100 65">
+              <path d="M92 5Q36 0 28 48m-13-8 14 14 11-16" data-ink /></svg
+          ></span>
+          <span class="stage-note">hello, I’m Sonu!</span>
           <div
             id="avatar-guide"
             class="avatar-guide"
@@ -212,13 +228,13 @@
               ><span class="wave-tooltip" id="wave-tip" role="tooltip"
                 >A little version of me. A friendly hello.</span
               ></span
-            ><span>I’ll show you around.</span>
+            ><span>scroll along with me ↘</span>
           </div>
         </div>
         <div class="hero-footer">
-          <span>Built with intention. Down to the details.</span
+          <span>From the first sketch to the last bug fix.</span
           ><a href="#work"
-            >SCROLL TO EXPLORE
+            >TURN THE PAGE
             <svg class="icon" aria-hidden="true"><use href="#arrow-down" /></svg
           ></a>
         </div>
@@ -232,9 +248,7 @@
         <div class="section-heading" data-watch>
           <div>
             <p class="eyebrow">01 / SELECTED WORK</p>
-            <h2 id="work-title">
-              Good ideas.<br /><em>Careful execution.</em>
-            </h2>
+            <h2 id="work-title">Less talk.<br /><em>More making.</em></h2>
           </div>
           <p>
             A few things I’ve helped bring to life, and the engineering that
@@ -242,7 +256,14 @@
           </p>
         </div>
         <div class="work-grid">
-          <article class="project-card card-memo" data-watch data-case="01">
+          <span class="work-annotation" aria-hidden="true"
+            >a few pages from my work ↓</span
+          >
+          <article
+            class="project-card card-memo paper-card"
+            data-watch
+            data-case="01"
+          >
             <button
               class="project-open"
               data-project="memo"
@@ -264,7 +285,7 @@
                     >Explore the case study
                     <svg class="icon" aria-hidden="true">
                       <use href="#arrow-up" /></svg></span></span
-                ><span class="project-index">01 / SELECTED WORK</span>
+                ><span class="project-index">01 — audio, with care</span>
               </div>
               <div class="project-meta">
                 <div>
@@ -289,7 +310,11 @@
               </div>
             </div>
           </article>
-          <article class="project-card card-drawing" data-watch data-case="02">
+          <article
+            class="project-card card-drawing paper-card"
+            data-watch
+            data-case="02"
+          >
             <button
               class="project-open"
               data-project="drawing"
@@ -311,7 +336,7 @@
                     >Explore the case study
                     <svg class="icon" aria-hidden="true">
                       <use href="#arrow-up" /></svg></span></span
-                ><span class="project-index">02 / SELECTED WORK</span>
+                ><span class="project-index">02 — room to create</span>
               </div>
               <div class="project-meta">
                 <div>
@@ -336,7 +361,11 @@
               </div>
             </div>
           </article>
-          <article class="project-card card-keyboard" data-watch data-case="03">
+          <article
+            class="project-card card-keyboard paper-card"
+            data-watch
+            data-case="03"
+          >
             <button
               class="project-open"
               data-project="keyboard"
@@ -358,7 +387,7 @@
                     >Explore the case study
                     <svg class="icon" aria-hidden="true">
                       <use href="#arrow-up" /></svg></span></span
-                ><span class="project-index">03 / SELECTED WORK</span>
+                ><span class="project-index">03 — make it yours</span>
               </div>
               <div class="project-meta">
                 <div>
@@ -383,7 +412,11 @@
               </div>
             </div>
           </article>
-          <article class="project-card card-paywall" data-watch data-case="04">
+          <article
+            class="project-card card-paywall paper-card"
+            data-watch
+            data-case="04"
+          >
             <button
               class="project-open"
               data-project="paywall"
@@ -421,7 +454,7 @@
                     >Explore the case study
                     <svg class="icon" aria-hidden="true">
                       <use href="#arrow-up" /></svg></span></span
-                ><span class="project-index">04 / SELECTED WORK</span>
+                ><span class="project-index">04 — under the hood</span>
               </div>
               <div class="project-meta">
                 <div>
@@ -447,7 +480,11 @@
               <span class="project-status">Partially implemented</span>
             </div>
           </article>
-          <article class="project-card card-media" data-watch data-case="05">
+          <article
+            class="project-card card-media paper-card"
+            data-watch
+            data-case="05"
+          >
             <button
               class="project-open"
               data-project="media"
@@ -484,7 +521,7 @@
                     >Explore the case study
                     <svg class="icon" aria-hidden="true">
                       <use href="#arrow-up" /></svg></span></span
-                ><span class="project-index">05 / SELECTED WORK</span>
+                ><span class="project-index">05 — on the workbench</span>
               </div>
               <div class="project-meta">
                 <div>
@@ -523,8 +560,8 @@
       >
         <div class="archive-heading" data-watch>
           <div>
-            <p class="eyebrow">A LITTLE MORE TO EXPLORE</p>
-            <h2 id="archive-title">The wider picture.</h2>
+            <p class="eyebrow">THE REST OF THE NOTEBOOK</p>
+            <h2 id="archive-title">More things I’ve worked on.</h2>
           </div>
           <span id="archive-count" role="status" aria-live="polite"
             >8 projects</span
@@ -667,15 +704,16 @@
         <div class="shell">
           <div class="about-grid">
             <div class="about-heading" data-watch>
-              <p class="eyebrow">02 / THE PERSON BEHIND THE CODE</p>
+              <p class="eyebrow">02 / A NOTE ABOUT ME</p>
               <h2 id="about-title">
-                I care about how it feels.<br /><em>And how it works.</em>
+                Curious mind.<br /><em>Careful hands.</em>
               </h2>
               <div class="about-signature">
                 Sonu Shah<span>Curious by nature. Precise by practice.</span>
               </div>
             </div>
-            <div class="about-copy" data-watch>
+            <div class="about-copy paper-card" data-watch>
+              <span class="paper-tape" aria-hidden="true"></span>
               <p class="about-lead">
                 The best part of building an app? Making something complicated
                 feel natural.
@@ -751,9 +789,7 @@
         <div class="section-heading" data-watch>
           <div>
             <p class="eyebrow">03 / MY JOURNEY SO FAR</p>
-            <h2 id="journey-title">
-              Always building.<br /><em>Always becoming.</em>
-            </h2>
+            <h2 id="journey-title">Connecting<br /><em>the dots.</em></h2>
           </div>
           <a class="text-link" href="resume.html"
             >View résumé
@@ -810,11 +846,12 @@
         data-chapter="4"
         aria-labelledby="contact-title"
       >
-        <div class="contact-panel">
+        <div class="contact-panel paper-card">
+          <span class="paper-tape" aria-hidden="true"></span>
           <div class="contact-copy" data-watch>
-            <p class="eyebrow">04 / A CONVERSATION IS A GOOD START</p>
+            <p class="eyebrow">04 / THE NEXT PAGE IS UNWRITTEN</p>
             <h2 id="contact-title">
-              Let’s make something<br /><em>people love using.</em>
+              Got a good idea?<br /><em>Let’s sketch it out.</em>
             </h2>
             <p>
               Have an idea that needs thoughtful engineering?<br />I’d love to
@@ -840,7 +877,7 @@
           </div>
           <span class="contact-decoration" aria-hidden="true"
             ><svg viewBox="0 0 160 160">
-              <path d="M30 130 130 30M30 30h100v100" /></svg
+              <path d="M15 145Q-8 15 130 35M96 9l38 25-30 24" data-ink /></svg
           ></span>
         </div>
         <footer class="site-footer">
@@ -869,7 +906,8 @@
             ></a>
           </div>
           <span class="copyright"
-            >© <span id="year">2026</span> · Made with care.</span
+            >© <span id="year">2026</span> · A little code. A lot of
+            care.</span
           >
         </footer>
       </section>

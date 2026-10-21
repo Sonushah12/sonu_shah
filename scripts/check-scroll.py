@@ -13,6 +13,7 @@ args = parser.parse_args()
 # Each tuple identifies a chapter and one visible effect representing it.
 scenes = [
     ('#home', '.hero-copy', 'transform'),
+    ('#home', '.title-scribble', 'strokeDashoffset'),
     ('#work .section-heading', '#work .section-heading', 'transform'),
     *[(f'.card-{key}', f'.card-{key} .image-plane', 'transform') for key in ['memo','drawing','keyboard','paywall','media']],
     ('.archive-heading', '.archive-heading', 'transform'),
@@ -23,6 +24,7 @@ scenes = [
     ('.timeline-item', '.timeline-item', 'transform'),
     ('.timeline', '.timeline-trace > span', 'transform'),
     ('.contact-copy', '.contact-copy', 'transform'),
+    ('.contact-decoration', '.contact-decoration', 'transform'),
 ]
 
 with sync_playwright() as playwright:

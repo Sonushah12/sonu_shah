@@ -1,6 +1,6 @@
 # Sonu Shah’s portfolio
 
-A static portfolio with a procedural Three.js developer guide, semantic project stories, a printable résumé, and no runtime CDN requests.
+A hand-drawn sketchbook portfolio with a procedural Three.js developer guide, semantic project stories, a printable résumé, and no runtime CDN requests.
 
 ## Run
 
@@ -21,7 +21,7 @@ npm ci
 npm run build
 ```
 
-Edit `assets/avatar.js` and rebuild the committed `assets/avatar.bundle.js`. The UI lives in `index.html`, `styles.css`, and `app.js`. The clean light design uses Instrument Serif headings, warm neutral surfaces, blue accents, and a simpler project grid. Project narratives are in `projects.js`; the finite text introduction, direction-aware hover, scroll-timeline coordination, and the repeating legacy fallback are in `assets/motion.js`. Rebuild both JavaScript bundles after editing their sources. `resume.html` has a print/save-PDF action.
+Edit `assets/avatar.js` and rebuild the committed `assets/avatar.bundle.js`. The UI lives in `index.html`, `styles.css`, and `app.js`. The sketchbook design uses Kalam marker headings, Patrick Hand body text, warm dotted paper, taped project sheets, irregular borders, hard shadows, and red, blue, and yellow accents. Colors, border shapes, and shadows are centralized in CSS tokens. Project narratives are in `projects.js`; the finite text introduction, direction-aware hover, scroll-timeline coordination, and the repeating legacy fallback are in `assets/motion.js`. Rebuild both JavaScript bundles after editing their sources. `resume.html` has a print/save-PDF action.
 
 ## Interaction and accessibility
 
@@ -35,7 +35,7 @@ For Vercel, the included `vercel.json` selects the static framework, runs `npm r
 
 Serve these static files over HTTPS. Enable Brotli or gzip for HTML, CSS, JavaScript, and SVG. The avatar bundle is approximately 132 KB with gzip (about 520 KB uncompressed); static hosts without compression transfer the full file. Assets are versioned in Git but not content-hashed, so use revalidation rather than a year-long immutable cache. Never cache `index.html` indefinitely.
 
-The 3D renderer caps device pixel ratio, avoids texture downloads and shadow maps, and stops its loop while hidden or paused. Manrope’s Latin variable font and Instrument Serif’s Latin regular/italic fonts are self-hosted. Three generated WebP illustrations total approximately 119 KB and load lazily. Library and font licenses are in `assets/vendor` and `assets/fonts`.
+The 3D renderer caps device pixel ratio, avoids texture downloads and shadow maps, and stops its loop while hidden or paused. Kalam’s Latin bold font and Patrick Hand’s Latin regular font are self-hosted. Three generated WebP illustrations total approximately 119 KB and load lazily. Library and font licenses are in `assets/vendor` and `assets/fonts`.
 
 ## Content
 
@@ -51,6 +51,6 @@ With the built site served locally, run:
 python3 scripts/check-scroll.py --url http://127.0.0.1:8000/
 ```
 
-This uses Python Playwright and an installed Chromium browser. It checks 15 representative scenes, including each featured project, at scroll positions reached from both directions. It also checks that pausing removes the effects and leaves static artwork. Full browser-validation results are recorded in [validation](docs/validation.md).
+This uses Python Playwright and an installed Chromium browser. It checks 17 representative scenes, including each featured project, the cover underline, and the contact arrow, at scroll positions reached from both directions. It also checks that pausing removes the effects and leaves static artwork. Full browser-validation results are recorded in [validation](docs/validation.md).
 
 The reusable [portfolio-clean-motion skill](.agents/skills/portfolio-clean-motion/SKILL.md) records the reference sources, motion limits, and implementation checks. Source notes distinguish verified documentation from original adaptations; no proprietary template code is bundled.
