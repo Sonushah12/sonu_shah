@@ -1,6 +1,0 @@
-GSAP 3.14.2
-Copyright (c) 2008-2025, GreenSock. All rights reserved.
-Subject to the terms at https://gsap.com/standard-license
-
-License reference and copyright reproduced from the distributed GSAP package.
-See the embedded notices in motion.bundle.js and the license URL for full terms.

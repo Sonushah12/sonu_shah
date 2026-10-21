@@ -1,42 +1,38 @@
-# Validation — reversible scroll redesign
+# Validation — clean reference-based rebuild
 
-Validated the generated `public/` build in Chromium with Python Playwright on 21 October 2026.
+Validated against the generated `public/` build using Chromium and Python Playwright on 22 October 2026.
 
-## Production build
+## Build and source checks
 
-- `npm run build` succeeds and creates the same 17 allowlisted runtime files in `public/`.
-- Application and motion scripts pass Node syntax checks; `git diff --check` passes.
-- Local fonts and the existing compressed project artwork require no runtime CDN requests.
-- The motion controller is 1,996 bytes before compression and 1,032 bytes with gzip. The browser no longer downloads the previous 72 KB GSAP-based motion bundle.
-- Vercel retains its explicit `public` output-directory configuration.
+- Clean `npm ci` and `npm run build` succeed with the committed dependency lockfile.
+- The build creates 17 allowlisted runtime files, including local fonts, artwork, and both compiled scripts.
+- HTML formatting/parser checks, Node syntax checks, and `git diff --check` pass.
+- Development skill files, source modules, dependencies, and tests are excluded from deployment.
+- The local motion controller is 2,631 bytes before compression, approximately 1,189 bytes with gzip.
 
-## Reversible scrolling
+## Functional browser validation
 
-166 browser checks passed. The suite sampled visual states at three scroll positions, then returned through the same positions in reverse. It checked that the visual state changes on forward scroll and matches when reached again by backward scroll.
+97 checks pass, including:
 
-The sampled effects include hero type, the platform band, work headings, perspective and shutters for all five projects, archive heading and rows, the about reading reveal, architecture rings and paths, experience heading and spine, individual experience entries, contact type, and the contact orbit. A mobile shutter also passes the direction checks. At desktop size, the browser exposes 61 native scroll-timeline animations.
-
-The repository includes `scripts/check-scroll.py`, a smaller repeatable regression check covering 14 representative scenes plus motion pause. Run it against a locally served production build; it requires Python Playwright and Chromium.
-
-## Functionality and accessibility
-
-The full browser suite covers:
-
-- All 13 case-study dialogs, their populated content, Escape dismissal, focus restoration, and project status labels.
-- Five archive filters and their announced counts.
-- No horizontal overflow at 320, 390, 600, 650, 768, 1024, and 1440 pixels.
-- Mobile navigation, stored guide preferences, manual pause/resume, and live system reduced-motion changes.
-- Guide chapter changes while traveling forward and backward through the page.
-- Repeating IntersectionObserver fallback when native View Timelines are unavailable.
-- Readable no-JavaScript content, WebGL failure preserving the static guide, and Data Saver skipping the character bundle.
+- All 13 project dialogs, populated narratives, Escape dismissal, and focus restoration.
+- Preservation of in-progress and partially implemented project scope labels.
+- Archive filters and announced result counts.
+- Direction-aware hover entry and exit from four edges.
+- Active-section navigation, mobile navigation, pause/resume, stored preferences, and live reduced-motion changes.
+- Hover-effect cleanup when motion is paused and resumed.
+- Repeating Watcher fallback when native scroll timelines are unavailable.
+- Readable content without JavaScript, static guide fallback on WebGL failure, and Data Saver skipping the optional renderer after the deferred loading path is reached.
+- No horizontal overflow at 320, 390, 650, 768, 1024, and 1440 pixels.
 - No JavaScript errors or failed asset requests; the résumé remains available.
 
-Axe reported zero WCAG 2 A/AA and WCAG 2.1 AA violations at the home, work, about, and contact positions, and with a case-study dialog open. The first review found a decorative band's missing semantic role and insufficient contrast in the hero's exit state. Both were corrected before the final passing run. Automated checks do not constitute a full manual accessibility audit.
+Axe reports zero WCAG 2 A/AA and WCAG 2.1 AA violations for the page and an open case-study dialog. Earlier checks caught spotlight overflow at tablet widths and slightly insufficient muted-text contrast on tinted panels. Both were corrected before the final passing run. Automated checks are not a complete manual accessibility audit.
 
-Desktop and mobile screenshots were reviewed. Moving chapter headings are clipped to their own container to prevent horizontal document overflow. Mobile image effects use a small translation and scale rather than desktop perspective rotations. A final targeted check at 320, 360, 390, and 600 pixels confirmed that the compact guide navigation and motion controls do not overlap.
+The committed `scripts/check-scroll.py` passes 15 scene checks for forward/backward visual-state matching, plus motion pause. It waits for fonts and completed frame boundaries before sampling compositor state, avoiding timing-dependent readings during optional 3D initialization.
+
+A final targeted review checks the greeting tooltip with both pointer and keyboard focus, verifies its local semantic structure, and confirms that the mobile guide navigation and motion controls remain separate at 320, 360, 390, and 600 pixels. Keyboard focus receives a visible inset treatment on the fixed controls. Desktop and mobile screenshots are reviewed.
 
 ## Performance observations
 
-In the final unthrottled local desktop run, LCP was approximately 0.83 seconds and cumulative layout shift was zero. Software WebGL initialization produced a largest observed main-thread task of 545 ms. These observations are not production mobile Core Web Vitals guarantees.
+The final unthrottled local run records LCP at approximately 0.99 seconds and zero cumulative layout shift. The largest observed main-thread task is 241 ms during the page/optional renderer startup period. These are local measurements, not production mobile Core Web Vitals guarantees.
 
-Most motion uses native scroll timelines and transform/opacity; there is no custom JavaScript scroll-position loop. SVG path drawing is confined to the small architecture illustration. The optional Three.js guide retains capped rendering and stops while hidden or paused. The three lazy-loaded WebP illustrations total 119,050 bytes. Production hosting should compress HTML, CSS, and JavaScript.
+The optional renderer initializes after the short text entrance rather than competing with it. The motion system uses native scroll timelines for gentle reversible movement, a repeating observer fallback, finite word and hover animations, and no custom JavaScript scroll-position loop. The guide remains capped and stops when paused or hidden. The three lazy-loaded WebP illustrations total 119,050 bytes. Production hosting should compress HTML, CSS, and scripts.

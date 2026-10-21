@@ -178,6 +178,11 @@
       "aria-label",
       `A stylized 3D developer in neutral clothing, ${chapter.pose}`,
     );
+    nav.querySelectorAll("a").forEach((link) => {
+      if (link.getAttribute("href") === `#${chapter.id}`)
+        link.setAttribute("aria-current", "location");
+      else link.removeAttribute("aria-current");
+    });
     dispatchPose();
   }
   if ("IntersectionObserver" in window) {
@@ -204,11 +209,9 @@
   }
   document.querySelector("#guide-next").addEventListener("click", () => {
     const next = chapters[(activeChapter + 1) % chapters.length];
-    document
-      .querySelector(`#${next.id}`)
-      .scrollIntoView({
-        behavior: userPaused || reducedMotion.matches ? "instant" : "smooth",
-      });
+    document.querySelector(`#${next.id}`).scrollIntoView({
+      behavior: userPaused || reducedMotion.matches ? "instant" : "smooth",
+    });
     history.replaceState(null, "", `#${next.id}`);
   });
   document.querySelector("#wave-button").addEventListener("click", () => {
@@ -309,14 +312,14 @@
   }
   // Content and controls work before the optional 3D renderer loads.
   function scheduleAvatar() {
-    // Two frame boundaries keep WebGL initialization behind the first content paint.
+    // Let the short text entrance finish before initializing the optional renderer.
     requestAnimationFrame(() =>
       requestAnimationFrame(() => {
         setTimeout(() => {
           if ("requestIdleCallback" in window)
             requestIdleCallback(loadAvatar, { timeout: 1200 });
           else loadAvatar();
-        }, 250);
+        }, 1200);
       }),
     );
   }
