@@ -1,31 +1,43 @@
-# Design and motion research
+# Design research — scroll-responsive portfolio
 
-The portfolio uses off-white paper, ink, lavender, and a restrained purple accent. Self-hosted Space Grotesk provides expressive headings; Manrope keeps project narratives readable. The original neutral-clothing Three.js guide connects the chapters without replacing ordinary page navigation.
+## Direction
 
-## Installed skills and applied guidance
+The UI uses deep ink (`#171a17`), citrus (`#d6f58b`), warm paper (`#eceee4`), and a restrained coral accent. Large Space Grotesk typography, offset headings, sharp frames, an asymmetric case-study layout, and a light approach chapter replace the previous lavender card grid. Manrope remains the local body font. Project narratives and their development-status distinctions remain intact.
 
-The following skills are installed project-locally in `.agents/skills`, pinned by `skills-lock.json`:
+## Sources inspected online
 
-- [HyperFrames Animation](https://github.com/heygen-com/hyperframes): the waterfall-entry recipe informed the overlapping, clipped headline arrival; svg-path-draw supplies measured path drawing; the GSAP adapters informed finite labeled timelines, transform/opacity motion, and cleanup. The website adapts composition recipes to browser interactions; it does not ship the HyperFrames video runtime.
-- [UI UX Pro Max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill): its local design-system search matched Scroll-Triggered Storytelling. Applied readable DOM chapters, distinct visual hierarchy, responsive simplification, local fonts, reserved artwork dimensions, keyboard access, and reduced-motion controls. Generic brutalist style suggestions were rejected because they conflicted with the requested smooth editorial direction.
-- [Fixing Motion Performance](https://github.com/ibelick/ui-skills/tree/main/skills/fixing-motion-performance): native CSS View Timelines for artwork drift, IntersectionObserver for one-time entrances, stopped render loops, no custom scroll-position polling, and temporary layer hints.
+The official GitHub source and README were retrieved and read for these Codrops experiments:
 
-The skills are development guidance, not browser dependencies. GSAP and Three.js are bundled locally. The GSAP distribution retains its license notice; the license reference is included in `assets/vendor`.
+- [ScrollTextMotion](https://github.com/codrops/ScrollTextMotion): typography that changes arrangement as the scroll playhead moves through a composition. The inspected source uses paired scrubbed timelines. This portfolio uses its own split-heading arrangement and native View Timelines.
+- [RotatingOnScrollAnimations](https://github.com/codrops/RotatingOnScrollAnimations): alternating image-plane orientations with rotation synchronized to scroll progress. This portfolio applies smaller deterministic rotations, transform-based shutters, and a simpler mobile translation.
+- [OneElementScroll](https://github.com/codrops/OneElementScroll): visual continuity across waypoints, with a single element joining different chapters. This supports the existing 3D guide's continuing role and its reversible chapter poses.
 
-## Portfolio references
+Repository discovery also identified [ConnectedGrid](https://github.com/codrops/ConnectedGrid), [3DCarousel](https://github.com/codrops/3DCarousel), and [ElasticGridScroll](https://github.com/codrops/ElasticGridScroll). These were discovery results, not fully inspected live implementations. No claim is made that any reference is the world's most unique or that this site has won an award. No demo code, images, or character models were copied.
 
-Earlier research consulted [Bruno Simon's official source](https://github.com/brunosimon/folio-2025) for a memorable interactive identity and staged exploration, and [Brittany Chiang's official source](https://github.com/bchiang7/v4) for clear developer positioning and content hierarchy. No portfolio code or models were copied.
+## Installed skills applied
 
-Live showcase pages, Awwwards, some search engines, and the shared ChatGPT URL were inaccessible under the environment's network policy. The owner supplied the chat content directly. No current award ranking or award for this implementation is claimed.
+- [UI UX Pro Max](../.agents/skills/ui-ux-pro-max/SKILL.md): a refined `portfolio personal scroll storytelling` design-system query matched Scroll-Triggered Storytelling. Applied complete DOM reading order, distinct chapters, a progress indicator, simpler mobile motion, and static reduced-motion states. The first query incorrectly returned a documentation pattern and was rejected. Generic brutalist style recommendations were also rejected where they conflicted with readable, fluid product presentation.
+- [HyperFrames Animation](../.agents/skills/hyperframes-animation/SKILL.md): deterministic, seekable compositions; explicit motion endpoints; measured SVG geometry; transform-based choreography. Its video runtime is not required for the interactive website.
+- [Fixing Motion Performance](../.agents/skills/fixing-motion-performance/SKILL.md): native View Timelines, no custom scroll-position polling, transform and opacity as the main animated properties, a bounded pointer interaction, and static final states for reduced motion and pause.
 
-## Motion system
+## Motion map
 
-`assets/motion.js` contains a finite GSAP introduction, bounded observer-triggered section entrances, and small measured SVG path draws. The intro is inspectable as `window.__timelines['portfolio-intro']`. Native CSS View Timelines move the project art on supported desktop browsers; unsupported browsers retain static art. No scroll hijacking, smooth-scroll library, autoplay audio, or persistent JavaScript scroll loop is used.
+All effects below follow scroll position in both directions on browsers with native View Timeline support:
 
-The guide uses section observers, discrete FLIP docking, and a capped 30 FPS Three.js scene. It changes between greeting, presenting, thinking, confident, and farewell poses. Its loop stops when hidden, offscreen, paused, or in a hidden tab. Reduced motion retains static poses; a static SVG covers WebGL failure and Data Saver. Pause and hide preferences persist. Reduced motion and manual pause also settle the new timeline effects into readable final states.
+| Area | Motion |
+| --- | --- |
+| Hero | Headline lines move apart; orbital frames turn in opposite directions |
+| Platform band | Large type moves horizontally as the band crosses the viewport |
+| Work introduction | Offset headline lines approach from opposing sides |
+| Five featured studies | Image planes unfold; two shutters open; headings rise into view |
+| Archive | The title moves into place and individual rows glide into position |
+| Approach | Words brighten in sequence; architecture rings turn and measured connection paths draw |
+| Capabilities | Each heading rises as its item enters the viewport |
+| Experience | Heading lines converge; the timeline spine draws; individual roles unfold |
+| Contact | Two type lines converge and the circular email link turns into position |
 
-## Artwork and content provenance
+Native scroll remains in control. There is no scroll hijacking, page pinning, video background, autoplay audio, or JavaScript scroll-position loop. A magnetic contact button caches its geometry on pointer entry and performs transform writes while the pointer moves. The existing Three.js guide retains capped rendering and visibility stop conditions.
 
-Three original generated illustrations cover audio, drawing, and keyboard personalization. Their original PNGs remain outside the deployment; mechanically encoded WebP assets total approximately 119 KB. Two other project illustrations are lightweight original HTML/CSS compositions. All artwork is labeled conceptual, not a production screenshot. The external reference images in the pasted chat are not used as project evidence or publisher affiliations.
+Older browsers receive repeating IntersectionObserver arrivals and departures instead of continuous native scrubbing. The fallback is explicitly tested; it is not described as an equivalent scrub implementation. Both variants honor reduced motion and manual pause, while all copy remains readable without motion or JavaScript.
 
-The owner supplied ten new project areas. Five are featured and five appear in an eight-entry archive with the three earlier projects. Case studies distinguish direct contributions from ongoing work. Media Downloader is in progress; Dynamic Paywall is partially implemented; audio extraction and offline-reading plans are explicitly scoped. No download counts, revenue metrics, release claims, or external product links were invented. Existing employment, education, and contact information is preserved.
+The previous GSAP runtime import is no longer required by the browser motion module. The local development dependency remains available for future work; the deployed motion bundle contains the small native-timeline controller rather than GSAP. The original three compressed project images remain unchanged and labeled conceptual.
