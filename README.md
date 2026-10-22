@@ -21,11 +21,13 @@ npm ci
 npm run build
 ```
 
-Edit `assets/avatar.js` and rebuild the committed `assets/avatar.bundle.js`. The UI lives in `index.html`, `styles.css`, and `app.js`. The sketchbook design uses Kalam marker headings, Patrick Hand body text, warm dotted paper, taped project sheets, irregular borders, hard shadows, and red, blue, and yellow accents. Colors, border shapes, and shadows are centralized in CSS tokens. Project narratives are in `projects.js`; the finite text introduction, direction-aware hover, scroll-timeline coordination, and the repeating legacy fallback are in `assets/motion.js`. Rebuild both JavaScript bundles after editing their sources. `resume.html` has a print/save-PDF action.
+Edit `assets/avatar.js` and rebuild the committed `assets/avatar.bundle.js`. The UI lives in `index.html`, `styles.css`, and `app.js`. The sketchbook design uses Kalam marker headings, Patrick Hand body text, warm dotted paper, taped project sheets, irregular borders, hard shadows, and red, blue, and yellow accents. Colors, border shapes, and shadows are centralized in CSS tokens. Project narratives are in `projects.js`; the finite text introduction, direction-aware hover, scroll-timeline coordination, and the repeating legacy fallback are in `assets/motion.js`. The paginated project notebook is in `assets/project-pager.js`, which is included in the same motion bundle. Rebuild both JavaScript bundles after editing their sources. `resume.html` has a print/save-PDF action.
 
 ## Interaction and accessibility
 
 Every main chapter has reversible scroll-driven effects in `styles.css`, using native CSS View Timelines. Older browsers receive repeating observer-triggered arrivals and departures. The guide changes poses as each section enters the viewport using IntersectionObserver. The welcome button triggers a wave. The guide can be hidden and motion paused; choices persist locally. System reduced motion renders static poses. Scrolling is native and never hijacked. Project details use native modal dialogs with focus restoration and Escape dismissal. All content and links remain functional if the optional renderer fails.
+
+Selected work displays one full-width project page at a time, with numbered pagination, previous/next controls, direction-aware page transitions, keyboard arrows/Home/End, and horizontal touch swipes. Inactive pages are hidden and inert; changes are announced to screen readers. Page heights remain stable as visitors browse. Motion pause and reduced-motion settings switch pages immediately. There is no autoplay. Without JavaScript, or when printing, all five featured projects appear as a reading list.
 
 ## Delivery
 
@@ -49,8 +51,9 @@ With the built site served locally, run:
 
 ```sh
 python3 scripts/check-scroll.py --url http://127.0.0.1:8000/
+python3 scripts/check-project-pagination.py --url http://127.0.0.1:8000/
 ```
 
-This uses Python Playwright and an installed Chromium browser. It checks 17 representative scenes, including each featured project, the cover underline, and the contact arrow, at scroll positions reached from both directions. It also checks that pausing removes the effects and leaves static artwork. Full browser-validation results are recorded in [validation](docs/validation.md).
+These use Python Playwright and an installed Chromium browser. The scroll check selects each project page and checks 17 representative scenes at scroll positions reached from both directions, plus motion pause. The pagination check exercises all pages, dialogs, keyboard controls, rapid navigation, touch gestures, stable heights, responsive layouts, reduced motion, no-JavaScript fallback, and printing. Full browser-validation results are recorded in [validation](docs/validation.md).
 
 The reusable [portfolio-clean-motion skill](.agents/skills/portfolio-clean-motion/SKILL.md) records the reference sources, motion limits, and implementation checks. Source notes distinguish verified documentation from original adaptations; no proprietary template code is bundled.
