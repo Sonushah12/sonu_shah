@@ -21,6 +21,7 @@ Create calm, useful interactions within the owner's hand-drawn sketchbook design
 6. **Tracing:** use a thin progress line to connect an existing timeline. Animate scaleY rather than height. It rewinds naturally with the scroll position.
 7. **Context tooltip:** use a compact hint on an existing focusable control. Animate presence with opacity and a 5 px translation, provide `role="tooltip"` and `aria-describedby`, and show it for both hover and keyboard focus. Avoid pointer-following rotation or extra tab stops.
 8. **Button emphasis:** use a small border emphasis on hover/focus and a maximum 2 px lift. No continuously moving borders, magnetic pointer following, or looping shimmer in the default state.
+9. **Project pagination:** present one page with numbered buttons, previous/next, arrow/Home/End keys, and horizontal swipes. Use a brief directional slide and small rotation, without perspective or autoplay. Hide and inert inactive pages, announce selections, and move focus away from outgoing pages. Measure equal page heights only after width/font changes. Cancel interrupted transitions and settle on the latest requested page. Pause/reduced motion switch instantly; vertical touch gestures retain native scrolling. Preserve all pages in no-JavaScript and print views.
 
 ## Implementation constraints
 

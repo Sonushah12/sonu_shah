@@ -255,298 +255,378 @@
             makes them work.
           </p>
         </div>
-        <div class="work-grid">
-          <span class="work-annotation" aria-hidden="true"
-            >a few pages from my work ↓</span
-          >
-          <article
-            class="project-card card-memo paper-card"
-            data-watch
-            data-case="01"
-          >
-            <button
-              class="project-open"
-              data-project="memo"
-              aria-label="Read Voice Memo case study"
+        <div
+          class="project-pager"
+          role="region"
+          aria-roledescription="carousel"
+          aria-label="Selected projects"
+        >
+          <div class="project-pager-heading">
+            <span class="pager-note">A few pages from my work.</span
+            ><span class="project-page-count" aria-hidden="true"
+              ><strong id="project-page-number">01</strong> / 05</span
             >
-              <div class="project-art" data-direction-hover>
-                <div class="image-plane" data-parallax>
-                  <img
-                    src="assets/images/voice.webp"
-                    width="1200"
-                    height="675"
-                    loading="lazy"
-                    decoding="async"
-                    alt="Concept artwork: a phone and sculptural audio waves on a lavender stage"
-                  />
-                </div>
-                <span class="project-overlay" aria-hidden="true"
-                  ><span
-                    >Explore the case study
-                    <svg class="icon" aria-hidden="true">
-                      <use href="#arrow-up" /></svg></span></span
-                ><span class="project-index">01 — audio, with care</span>
-              </div>
-              <div class="project-meta">
-                <div>
-                  <span class="project-type"
-                    >Audio engineering / Apple platforms</span
-                  >
-                  <h3>Voice Memo</h3>
-                </div>
-                <span class="project-arrow"
-                  ><svg class="icon" aria-hidden="true">
-                    <use href="#arrow-up" /></svg
-                ></span>
-              </div>
-            </button>
-            <p class="project-summary">
-              Voice recording, playback, native audio troubleshooting, and the
-              subscription experience around it.
-            </p>
-            <div class="project-bottom">
-              <div class="tags">
-                <span>Flutter</span><span>Native audio</span><span>GetX</span>
-              </div>
-            </div>
-          </article>
-          <article
-            class="project-card card-drawing paper-card"
-            data-watch
-            data-case="02"
-          >
-            <button
-              class="project-open"
-              data-project="drawing"
-              aria-label="Read Drawing & Coloring case study"
+          </div>
+          <div class="project-pages" id="project-pages" data-watch>
+            <article
+              class="project-card card-memo paper-card"
+              id="project-page-1"
+              data-case="01"
             >
-              <div class="project-art" data-direction-hover>
-                <div class="image-plane" data-parallax>
-                  <img
-                    src="assets/images/drawing.webp"
-                    width="1200"
-                    height="800"
-                    loading="lazy"
-                    decoding="async"
-                    alt="Concept artwork: a drawing tablet, colorful flower, and sculptural art materials"
-                  />
-                </div>
-                <span class="project-overlay" aria-hidden="true"
-                  ><span
-                    >Explore the case study
-                    <svg class="icon" aria-hidden="true">
-                      <use href="#arrow-up" /></svg></span></span
-                ><span class="project-index">02 — room to create</span>
-              </div>
-              <div class="project-meta">
-                <div>
-                  <span class="project-type"
-                    >Creative tools / Local-first assets</span
-                  >
-                  <h3>Drawing & Coloring</h3>
-                </div>
-                <span class="project-arrow"
-                  ><svg class="icon" aria-hidden="true">
-                    <use href="#arrow-up" /></svg
-                ></span>
-              </div>
-            </button>
-            <p class="project-summary">
-              Responsive brushes, SVG templates, saved canvas state, and
-              creative assets designed to stay close at hand.
-            </p>
-            <div class="project-bottom">
-              <div class="tags">
-                <span>Flutter</span><span>SVG</span><span>Firebase</span>
-              </div>
-            </div>
-          </article>
-          <article
-            class="project-card card-keyboard paper-card"
-            data-watch
-            data-case="03"
-          >
-            <button
-              class="project-open"
-              data-project="keyboard"
-              aria-label="Read Keyboard Customization case study"
-            >
-              <div class="project-art" data-direction-hover>
-                <div class="image-plane" data-parallax>
-                  <img
-                    src="assets/images/keyboard.webp"
-                    width="1200"
-                    height="800"
-                    loading="lazy"
-                    decoding="async"
-                    alt="Concept artwork: a customizable phone keyboard and sculptural lilac keys"
-                  />
-                </div>
-                <span class="project-overlay" aria-hidden="true"
-                  ><span
-                    >Explore the case study
-                    <svg class="icon" aria-hidden="true">
-                      <use href="#arrow-up" /></svg></span></span
-                ><span class="project-index">03 — make it yours</span>
-              </div>
-              <div class="project-meta">
-                <div>
-                  <span class="project-type"
-                    >Personalization / Native extensions</span
-                  >
-                  <h3>Keyboard Customization</h3>
-                </div>
-                <span class="project-arrow"
-                  ><svg class="icon" aria-hidden="true">
-                    <use href="#arrow-up" /></svg
-                ></span>
-              </div>
-            </button>
-            <p class="project-summary">
-              Themes, fonts, wallpapers, and widgets, connecting a Flutter
-              interface with native iOS components.
-            </p>
-            <div class="project-bottom">
-              <div class="tags">
-                <span>Flutter</span><span>Swift</span><span>App Groups</span>
-              </div>
-            </div>
-          </article>
-          <article
-            class="project-card card-paywall paper-card"
-            data-watch
-            data-case="04"
-          >
-            <button
-              class="project-open"
-              data-project="paywall"
-              aria-label="Read Dynamic Paywall System case study"
-            >
-              <div class="project-art" data-direction-hover>
-                <div class="image-plane" data-parallax>
-                  <div class="paywall-concept" aria-hidden="true">
-                    <span class="concept-eyebrow"
-                      >ONE SYSTEM. MANY POSSIBILITIES.</span
-                    >
-                    <div class="paywall-window">
-                      <span class="mini-star"
-                        ><svg viewBox="0 0 32 32" aria-hidden="true">
-                          <path
-                            d="M16 2v28M2 16h28M6 6l20 20M6 26 26 6"
-                          /></svg></span
-                      ><strong>A little more<br />possibility.</strong
-                      ><span class="mini-label">Your premium experience</span>
-                      <div class="price-choice">
-                        <span>Monthly</span><i>○</i>
-                      </div>
-                      <div class="price-choice selected">
-                        <span>Annual <small>More room to create</small></span
-                        ><i>●</i>
-                      </div>
-                      <span class="mini-cta">Continue ↗</span>
-                    </div>
-                    <span class="config-chip chip-a">variant: creative</span
-                    ><span class="config-chip chip-b">remote → ready</span>
+              <button
+                class="project-open"
+                data-project="memo"
+                aria-label="Read Voice Memo case study"
+              >
+                <div class="project-art" data-direction-hover>
+                  <div class="image-plane" data-parallax>
+                    <img
+                      src="assets/images/voice.webp"
+                      width="1200"
+                      height="675"
+                      loading="lazy"
+                      decoding="async"
+                      alt="Concept artwork: a phone and sculptural audio waves on a lavender stage"
+                    />
                   </div>
+                  <span class="project-overlay" aria-hidden="true"
+                    ><span
+                      >Explore the case study
+                      <svg class="icon" aria-hidden="true">
+                        <use href="#arrow-up" /></svg></span></span
+                  ><span class="project-index">01 — audio, with care</span>
                 </div>
-                <span class="project-overlay" aria-hidden="true"
-                  ><span
-                    >Explore the case study
+                <div class="project-copy">
+                  <div class="project-meta">
+                    <div>
+                      <span class="project-type"
+                        >Audio engineering / Apple platforms</span
+                      >
+                      <h3>Voice Memo</h3>
+                    </div>
+                  </div>
+
+                  <p class="project-summary">
+                    Voice recording, playback, native audio troubleshooting, and
+                    the subscription experience around it.
+                  </p>
+                  <div class="project-bottom">
+                    <div class="tags">
+                      <span>Flutter</span><span>Native audio</span
+                      ><span>GetX</span>
+                    </div>
+                  </div>
+                  <span class="project-read-link"
+                    >Read the case study
                     <svg class="icon" aria-hidden="true">
-                      <use href="#arrow-up" /></svg></span></span
-                ><span class="project-index">04 — under the hood</span>
-              </div>
-              <div class="project-meta">
-                <div>
-                  <span class="project-type"
-                    >Engineering systems / Subscriptions</span
-                  >
-                  <h3>Dynamic Paywall System</h3>
+                      <use href="#arrow-up" /></svg
+                  ></span>
                 </div>
-                <span class="project-arrow"
-                  ><svg class="icon" aria-hidden="true">
-                    <use href="#arrow-up" /></svg
-                ></span>
-              </div>
-            </button>
-            <p class="project-summary">
-              Configurable pricing cards, trial states, and subscription
-              experiences backed by Firebase.
-            </p>
-            <div class="project-bottom">
-              <div class="tags">
-                <span>Remote Config</span><span>Firestore</span><span>IAP</span>
-              </div>
-              <span class="project-status">Partially implemented</span>
-            </div>
-          </article>
-          <article
-            class="project-card card-media paper-card"
-            data-watch
-            data-case="05"
-          >
-            <button
-              class="project-open"
-              data-project="media"
-              aria-label="Read Media Manager case study"
+              </button>
+            </article>
+            <article
+              class="project-card card-drawing paper-card"
+              id="project-page-2"
+              data-case="02"
             >
-              <div class="project-art" data-direction-hover>
-                <div class="image-plane" data-parallax>
-                  <div class="media-concept" aria-hidden="true">
-                    <div class="media-window">
-                      <div class="media-toolbar">
-                        <span>● ● ●</span><span>My media library</span
-                        ><span>↗</span>
-                      </div>
-                      <div class="media-preview">
-                        <span class="play-orbit">▷</span
-                        ><span>Every file.<br />In its place.</span>
-                      </div>
-                      <div class="download-row">
-                        <span class="download-symbol">↓</span>
-                        <div>
-                          <strong>From URL to library</strong
-                          ><span class="download-track"></span>
+              <button
+                class="project-open"
+                data-project="drawing"
+                aria-label="Read Drawing & Coloring case study"
+              >
+                <div class="project-art" data-direction-hover>
+                  <div class="image-plane" data-parallax>
+                    <img
+                      src="assets/images/drawing.webp"
+                      width="1200"
+                      height="800"
+                      loading="lazy"
+                      decoding="async"
+                      alt="Concept artwork: a drawing tablet, colorful flower, and sculptural art materials"
+                    />
+                  </div>
+                  <span class="project-overlay" aria-hidden="true"
+                    ><span
+                      >Explore the case study
+                      <svg class="icon" aria-hidden="true">
+                        <use href="#arrow-up" /></svg></span></span
+                  ><span class="project-index">02 — room to create</span>
+                </div>
+                <div class="project-copy">
+                  <div class="project-meta">
+                    <div>
+                      <span class="project-type"
+                        >Creative tools / Local-first assets</span
+                      >
+                      <h3>Drawing & Coloring</h3>
+                    </div>
+                  </div>
+
+                  <p class="project-summary">
+                    Responsive brushes, SVG templates, saved canvas state, and
+                    creative assets designed to stay close at hand.
+                  </p>
+                  <div class="project-bottom">
+                    <div class="tags">
+                      <span>Flutter</span><span>SVG</span><span>Firebase</span>
+                    </div>
+                  </div>
+                  <span class="project-read-link"
+                    >Read the case study
+                    <svg class="icon" aria-hidden="true">
+                      <use href="#arrow-up" /></svg
+                  ></span>
+                </div>
+              </button>
+            </article>
+            <article
+              class="project-card card-keyboard paper-card"
+              id="project-page-3"
+              data-case="03"
+            >
+              <button
+                class="project-open"
+                data-project="keyboard"
+                aria-label="Read Keyboard Customization case study"
+              >
+                <div class="project-art" data-direction-hover>
+                  <div class="image-plane" data-parallax>
+                    <img
+                      src="assets/images/keyboard.webp"
+                      width="1200"
+                      height="800"
+                      loading="lazy"
+                      decoding="async"
+                      alt="Concept artwork: a customizable phone keyboard and sculptural lilac keys"
+                    />
+                  </div>
+                  <span class="project-overlay" aria-hidden="true"
+                    ><span
+                      >Explore the case study
+                      <svg class="icon" aria-hidden="true">
+                        <use href="#arrow-up" /></svg></span></span
+                  ><span class="project-index">03 — make it yours</span>
+                </div>
+                <div class="project-copy">
+                  <div class="project-meta">
+                    <div>
+                      <span class="project-type"
+                        >Personalization / Native extensions</span
+                      >
+                      <h3>Keyboard Customization</h3>
+                    </div>
+                  </div>
+
+                  <p class="project-summary">
+                    Themes, fonts, wallpapers, and widgets, connecting a Flutter
+                    interface with native iOS components.
+                  </p>
+                  <div class="project-bottom">
+                    <div class="tags">
+                      <span>Flutter</span><span>Swift</span
+                      ><span>App Groups</span>
+                    </div>
+                  </div>
+                  <span class="project-read-link"
+                    >Read the case study
+                    <svg class="icon" aria-hidden="true">
+                      <use href="#arrow-up" /></svg
+                  ></span>
+                </div>
+              </button>
+            </article>
+            <article
+              class="project-card card-paywall paper-card"
+              id="project-page-4"
+              data-case="04"
+            >
+              <button
+                class="project-open"
+                data-project="paywall"
+                aria-label="Read Dynamic Paywall System case study"
+              >
+                <div class="project-art" data-direction-hover>
+                  <div class="image-plane" data-parallax>
+                    <div class="paywall-concept" aria-hidden="true">
+                      <span class="concept-eyebrow"
+                        >ONE SYSTEM. MANY POSSIBILITIES.</span
+                      >
+                      <div class="paywall-window">
+                        <span class="mini-star"
+                          ><svg viewBox="0 0 32 32" aria-hidden="true">
+                            <path
+                              d="M16 2v28M2 16h28M6 6l20 20M6 26 26 6"
+                            /></svg></span
+                        ><strong>A little more<br />possibility.</strong
+                        ><span class="mini-label">Your premium experience</span>
+                        <div class="price-choice">
+                          <span>Monthly</span><i>○</i>
                         </div>
-                        <span>→</span>
+                        <div class="price-choice selected">
+                          <span>Annual <small>More room to create</small></span
+                          ><i>●</i>
+                        </div>
+                        <span class="mini-cta">Continue ↗</span>
                       </div>
+                      <span class="config-chip chip-a">variant: creative</span
+                      ><span class="config-chip chip-b">remote → ready</span>
                     </div>
-                    <span class="config-chip chip-b"
-                      >Flutter ↔ API ↔ Files</span
-                    >
                   </div>
+                  <span class="project-overlay" aria-hidden="true"
+                    ><span
+                      >Explore the case study
+                      <svg class="icon" aria-hidden="true">
+                        <use href="#arrow-up" /></svg></span></span
+                  ><span class="project-index">04 — under the hood</span>
                 </div>
-                <span class="project-overlay" aria-hidden="true"
-                  ><span
-                    >Explore the case study
+                <div class="project-copy">
+                  <div class="project-meta">
+                    <div>
+                      <span class="project-type"
+                        >Engineering systems / Subscriptions</span
+                      >
+                      <h3>Dynamic Paywall System</h3>
+                    </div>
+                  </div>
+
+                  <p class="project-summary">
+                    Configurable pricing cards, trial states, and subscription
+                    experiences backed by Firebase.
+                  </p>
+                  <div class="project-bottom">
+                    <div class="tags">
+                      <span>Remote Config</span><span>Firestore</span
+                      ><span>IAP</span>
+                    </div>
+                    <span class="project-status">Partially implemented</span>
+                  </div>
+                  <span class="project-read-link"
+                    >Read the case study
                     <svg class="icon" aria-hidden="true">
-                      <use href="#arrow-up" /></svg></span></span
-                ><span class="project-index">05 — on the workbench</span>
-              </div>
-              <div class="project-meta">
-                <div>
-                  <span class="project-type"
-                    >Full-stack Flutter / Media workflows</span
-                  >
-                  <h3>Media Manager</h3>
+                      <use href="#arrow-up" /></svg
+                  ></span>
                 </div>
-                <span class="project-arrow"
-                  ><svg class="icon" aria-hidden="true">
-                    <use href="#arrow-up" /></svg
-                ></span>
-              </div>
+              </button>
+            </article>
+            <article
+              class="project-card card-media paper-card"
+              id="project-page-5"
+              data-case="05"
+            >
+              <button
+                class="project-open"
+                data-project="media"
+                aria-label="Read Media Manager case study"
+              >
+                <div class="project-art" data-direction-hover>
+                  <div class="image-plane" data-parallax>
+                    <div class="media-concept" aria-hidden="true">
+                      <div class="media-window">
+                        <div class="media-toolbar">
+                          <span>● ● ●</span><span>My media library</span
+                          ><span>↗</span>
+                        </div>
+                        <div class="media-preview">
+                          <span class="play-orbit">▷</span
+                          ><span>Every file.<br />In its place.</span>
+                        </div>
+                        <div class="download-row">
+                          <span class="download-symbol">↓</span>
+                          <div>
+                            <strong>From URL to library</strong
+                            ><span class="download-track"></span>
+                          </div>
+                          <span>→</span>
+                        </div>
+                      </div>
+                      <span class="config-chip chip-b"
+                        >Flutter ↔ API ↔ Files</span
+                      >
+                    </div>
+                  </div>
+                  <span class="project-overlay" aria-hidden="true"
+                    ><span
+                      >Explore the case study
+                      <svg class="icon" aria-hidden="true">
+                        <use href="#arrow-up" /></svg></span></span
+                  ><span class="project-index">05 — on the workbench</span>
+                </div>
+                <div class="project-copy">
+                  <div class="project-meta">
+                    <div>
+                      <span class="project-type"
+                        >Full-stack Flutter / Media workflows</span
+                      >
+                      <h3>Media Manager</h3>
+                    </div>
+                  </div>
+
+                  <p class="project-summary">
+                    Exploring media metadata, backend APIs, and the file
+                    lifecycle behind a cross-platform media library.
+                  </p>
+                  <div class="project-bottom">
+                    <div class="tags">
+                      <span>Flutter</span><span>Express.js</span
+                      ><span>Dio</span>
+                    </div>
+                    <span class="project-status">In progress</span>
+                  </div>
+                  <span class="project-read-link"
+                    >Read the case study
+                    <svg class="icon" aria-hidden="true">
+                      <use href="#arrow-up" /></svg
+                  ></span>
+                </div>
+              </button>
+            </article>
+          </div>
+          <div
+            class="project-pagination"
+            aria-label="Project pagination"
+            hidden
+          >
+            <button
+              type="button"
+              class="project-page-arrow"
+              id="project-previous"
+              aria-label="Previous project"
+              aria-controls="project-pages"
+              disabled
+            >
+              <svg class="icon" aria-hidden="true">
+                <use href="#arrow-left" /></svg
+              ><span>Previous</span>
             </button>
-            <p class="project-summary">
-              Exploring media metadata, backend APIs, and the file lifecycle
-              behind a cross-platform media library.
-            </p>
-            <div class="project-bottom">
-              <div class="tags">
-                <span>Flutter</span><span>Express.js</span><span>Dio</span>
-              </div>
-              <span class="project-status">In progress</span>
-            </div>
-          </article>
+            <nav
+              class="project-page-buttons"
+              aria-label="Select a project page"
+            ></nav>
+            <button
+              type="button"
+              class="project-page-arrow"
+              id="project-next"
+              aria-label="Next project"
+              aria-controls="project-pages"
+            >
+              <span>Next</span
+              ><svg class="icon" aria-hidden="true">
+                <use href="#arrow-right" />
+              </svg>
+            </button>
+          </div>
+          <p class="project-page-hint" hidden>
+            Use the arrows to turn the page.<span>
+              Or swipe on touch screens.</span
+            >
+          </p>
+          <p
+            class="sr-only"
+            id="project-page-announcement"
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+          ></p>
         </div>
         <p class="work-note">
           Original concept artwork illustrates each project’s focus; these are
@@ -969,6 +1049,12 @@
     >
       <symbol id="arrow-up" viewBox="0 0 24 24">
         <path d="M5 19 19 5M5 5h14v14" />
+      </symbol>
+      <symbol id="arrow-left" viewBox="0 0 24 24">
+        <path d="M20 12H4m7-7-7 7 7 7" />
+      </symbol>
+      <symbol id="arrow-right" viewBox="0 0 24 24">
+        <path d="M4 12h16m-7-7 7 7-7 7" />
       </symbol>
       <symbol id="arrow-down" viewBox="0 0 24 24">
         <path d="M12 4v16m-6-6 6 6 6-6" />

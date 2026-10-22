@@ -1,5 +1,6 @@
 // Local skill: portfolio-clean-motion. See its source notes for the distinction
 // between verified reference guidance and this original DOM implementation.
+import "./project-pager.js";
 const root = document.documentElement;
 const reduced = matchMedia("(prefers-reduced-motion: reduce)");
 const finePointer = matchMedia("(hover: hover) and (pointer: fine)");

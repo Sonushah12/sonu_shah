@@ -38,6 +38,11 @@ with sync_playwright() as playwright:
     page.wait_for_timeout(1800)
     assert page.evaluate('portfolioMotion.mode') == 'native-scroll-timelines'
     for subject, target, property_name in scenes:
+        if subject.startswith('.card-'):
+            key = subject.removeprefix('.card-')
+            index = ['memo','drawing','keyboard','paywall','media'].index(key)
+            page.locator('.project-page-buttons button').nth(index).click()
+            page.wait_for_function('!document.querySelector(".project-pager").hasAttribute("data-transitioning")')
         top = page.locator(subject).first.evaluate('(e)=>e.getBoundingClientRect().top+scrollY')
         maximum = page.evaluate('document.documentElement.scrollHeight-innerHeight')
         positions = [0, 220, 440] if subject == '#home' else [max(0, top-950), max(0, top-600), min(maximum, top-200)]
