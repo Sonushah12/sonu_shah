@@ -1232,6 +1232,116 @@ html[data-avatar="ready"] .avatar-guide canvas {
   }
 }
 
+/* A finite native scroll chapter; no wheel/touch interception or scroll-position loop. */
+.project-scroll-track {
+  position: relative;
+}
+.project-scroll-step {
+  display: none;
+  position: absolute;
+  left: 0;
+  width: 1px;
+  pointer-events: none;
+}
+.project-scroll-active .project-scroll-step {
+  display: block;
+}
+.project-scroll-active .project-pager {
+  position: sticky;
+  top: var(--project-sticky-top, 120px);
+}
+.project-scroll-active .project-pages .project-open {
+  min-height: 350px;
+}
+.project-scroll-active .project-art {
+  min-height: 350px;
+}
+.project-scroll-active .project-pager-heading {
+  margin-bottom: 18px;
+}
+.project-scroll-active .project-copy {
+  padding-block: 18px 12px;
+}
+.project-scroll-active .project-copy .project-summary {
+  font-size: 21px;
+  margin-top: 18px;
+}
+.project-scroll-active .project-copy .project-bottom {
+  margin-block: 19px 23px;
+}
+.project-scroll-active .project-pagination {
+  margin-top: 25px;
+}
+.project-scroll-active .project-page-hint {
+  display: none;
+}
+@media (max-width: 700px) {
+  .project-scroll-active .project-pager-heading {
+    margin-bottom: 15px;
+  }
+  .project-scroll-active .pager-note {
+    font-size: 18px;
+  }
+  .project-scroll-active .project-page-count strong {
+    font-size: 28px;
+  }
+  .project-scroll-active .project-pages .project-card {
+    padding: 12px;
+  }
+  .project-scroll-active .project-pages .project-open {
+    min-height: 0;
+  }
+  .project-scroll-active .project-art {
+    min-height: 0;
+    height: clamp(84px, 17svh, 145px);
+    aspect-ratio: auto;
+  }
+  .project-scroll-active .project-copy {
+    padding: 14px 5px 4px;
+  }
+  .project-scroll-active .project-type,
+  .project-scroll-active .project-bottom {
+    display: none;
+  }
+  .project-scroll-active .project-copy .project-meta h3 {
+    font-size: 26px;
+    line-height: 1.2;
+    margin: 0;
+  }
+  .project-scroll-active .project-copy .project-summary {
+    font-size: 19px;
+    line-height: 1.35;
+    margin-top: 12px;
+  }
+  .project-scroll-active .project-read-link {
+    font-size: 21px;
+    min-height: 44px;
+    margin-top: 12px;
+  }
+  .project-scroll-active .project-pagination {
+    display: block;
+    margin-top: 18px;
+  }
+  .project-scroll-active .project-page-arrow {
+    display: none;
+  }
+}
+@media print {
+  .project-scroll-track {
+    height: auto !important;
+  }
+  .project-scroll-track .project-pager {
+    position: static !important;
+  }
+  .project-scroll-step {
+    display: none !important;
+  }
+  .project-scroll-active .project-type,
+  .project-scroll-active .project-bottom {
+    display: block;
+  }
+}
+
 /* Small original diagrams use the same ink and paper primitives. */
 .paywall-concept,
 .media-concept {

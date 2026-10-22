@@ -15,7 +15,6 @@ scenes = [
     ('#home', '.hero-copy', 'transform'),
     ('#home', '.title-scribble', 'strokeDashoffset'),
     ('#work .section-heading', '#work .section-heading', 'transform'),
-    *[(f'.card-{key}', f'.card-{key} .image-plane', 'transform') for key in ['memo','drawing','keyboard','paywall','media']],
     ('.archive-heading', '.archive-heading', 'transform'),
     ('.archive-item', '.archive-item', 'transform'),
     ('.about-heading', '.about-heading', 'transform'),
@@ -38,11 +37,6 @@ with sync_playwright() as playwright:
     page.wait_for_timeout(1800)
     assert page.evaluate('portfolioMotion.mode') == 'native-scroll-timelines'
     for subject, target, property_name in scenes:
-        if subject.startswith('.card-'):
-            key = subject.removeprefix('.card-')
-            index = ['memo','drawing','keyboard','paywall','media'].index(key)
-            page.locator('.project-page-buttons button').nth(index).click()
-            page.wait_for_function('!document.querySelector(".project-pager").hasAttribute("data-transitioning")')
         top = page.locator(subject).first.evaluate('(e)=>e.getBoundingClientRect().top+scrollY')
         maximum = page.evaluate('document.documentElement.scrollHeight-innerHeight')
         positions = [0, 220, 440] if subject == '#home' else [max(0, top-950), max(0, top-600), min(maximum, top-200)]
@@ -54,8 +48,17 @@ with sync_playwright() as playwright:
         assert states[1] == states[3], f'{subject}: reverse scroll did not restore the midpoint'
         assert states[0] == states[4], f'{subject}: reverse scroll did not restore the entry'
         print(f'PASS {subject}: forward and backward states match')
+    # The project notebook now changes pages over native scroll steps instead of
+    # moving individual images while the notebook stays sticky.
+    geometry = page.evaluate('''()=>{const t=document.querySelector('.project-scroll-track');return {top:t.getBoundingClientRect().top+scrollY,sticky:parseFloat(t.style.getPropertyValue('--project-sticky-top')),step:parseFloat(t.querySelectorAll('.project-scroll-step')[1].style.top)}}''')
+    for index in list(range(5)) + list(reversed(range(5))):
+        position = geometry['top'] + index * geometry['step'] - geometry['sticky'] + 8
+        page.evaluate('(y)=>scrollTo({top:y,behavior:"instant"})', position)
+        page.wait_for_function('(n)=>document.querySelector(".project-pager").dataset.page===String(n) && !document.querySelector(".project-pager").hasAttribute("data-transitioning")', arg=index + 1)
+        assert page.locator('.project-card:visible').count() == 1
+        print(f'PASS project {index + 1}: scroll selects the correct page')
     page.locator('#motion-toggle').click()
     assert page.evaluate('portfolioMotion.animations') == 0, 'Pause left active scroll animations'
     assert page.locator('.image-plane').first.evaluate('(e)=>getComputedStyle(e).transform') == 'none'
     browser.close()
-print(f'{len(scenes)} reversible scenes and motion pause passed.')
+print(f'{len(scenes)} reversible scenes, 5 project pages in both directions, and motion pause passed.')

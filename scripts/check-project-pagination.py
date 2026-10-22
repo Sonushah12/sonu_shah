@@ -45,6 +45,39 @@ with sync_playwright() as playwright:
     check('Previous is disabled on the first page', page.locator('#project-previous').is_disabled())
     check('Five numbered pages are available', page.locator('.project-page-buttons button').count() == 5)
 
+    # Native document scrolling drives the same page state as the manual controls.
+    geometry = page.evaluate('''()=>{const t=document.querySelector('.project-scroll-track');return {active:t.classList.contains('project-scroll-active'),top:t.getBoundingClientRect().top+scrollY,height:t.getBoundingClientRect().height,sticky:parseFloat(t.style.getPropertyValue('--project-sticky-top')),step:parseFloat(t.querySelectorAll('.project-scroll-step')[1].style.top)}}''')
+    check('Scroll pagination is enabled when the notebook fits', geometry['active'])
+    start = geometry['top'] - geometry['sticky'] + 8
+    page.evaluate('(y)=>scrollTo({top:y,behavior:"instant"})', start)
+    page.wait_for_timeout(100)
+    page.mouse.move(600, 300)
+    page.mouse.wheel(0, geometry['step'] + 12)
+    page.wait_for_function('document.querySelector(".project-pager").dataset.page==="2"')
+    settled(page)
+    check('Scrolling down advances the project', page.locator('.project-pager').get_attribute('data-page') == '2')
+    check('Wheel scrolling still moves the native document', page.evaluate('scrollY') > start)
+    page.mouse.wheel(0, -geometry['step'] - 12)
+    page.wait_for_function('document.querySelector(".project-pager").dataset.page==="1"')
+    settled(page)
+    check('Scrolling up returns to the previous project', page.locator('.project-pager').get_attribute('data-page') == '1')
+    select(page, 2)
+    expected = geometry['top'] + 2 * geometry['step'] - geometry['sticky'] + 3
+    check('Numbered buttons synchronize the scroll position', abs(page.evaluate('scrollY') - expected) < 2)
+    page.mouse.wheel(0, geometry['step'] + 8)
+    page.wait_for_function('document.querySelector(".project-pager").dataset.page==="4"')
+    settled(page)
+    check('Scrolling continues from a manually selected page', page.locator('.project-pager').get_attribute('data-page') == '4')
+    select(page, 4)
+    page.evaluate('(y)=>scrollTo({top:y,behavior:"instant"})', geometry['top'] + geometry['height'] - geometry['sticky'] + 160)
+    page.wait_for_timeout(100)
+    check('The notebook releases after the last project', page.locator('.project-pager').bounding_box()['y'] < 0)
+    check('The archive remains reachable through native scrolling', page.locator('#archive').bounding_box()['y'] < 1000)
+    page.evaluate('(y)=>scrollTo({top:y,behavior:"instant"})', start + 3 * geometry['step'])
+    page.wait_for_function('document.querySelector(".project-pager").dataset.page==="4"')
+    settled(page)
+    check('Re-entering the work chapter restores the scroll page', page.locator('.project-pager').get_attribute('data-page') == '4')
+
     for index, key in enumerate(['memo', 'drawing', 'keyboard', 'paywall', 'media']):
         select(page, index)
         check(f'{key}: current page and counter match', page.locator('.project-pager').get_attribute('data-page') == str(index + 1) and page.locator('#project-page-number').inner_text() == f'{index + 1:02}')
@@ -80,6 +113,9 @@ with sync_playwright() as playwright:
     page.emulate_media(reduced_motion='reduce')
     select(page, 0)
     check('Reduced motion changes pages instantly', not page.locator('.project-pager').get_attribute('data-transitioning'))
+    page.evaluate('(y)=>scrollTo({top:y,behavior:"instant"})', start + geometry['step'])
+    page.wait_for_function('document.querySelector(".project-pager").dataset.page==="2"')
+    check('Reduced motion preserves scroll navigation without transitions', not page.locator('.project-pager').get_attribute('data-transitioning'))
     page.emulate_media(reduced_motion='no-preference')
 
     for width in [320, 390, 700, 768, 1024, 1440]:
@@ -92,6 +128,14 @@ with sync_playwright() as playwright:
         check(f'{width}px: page height stays stable', max(heights) - min(heights) <= 1)
         check(f'{width}px: no horizontal overflow', page.evaluate('document.documentElement.scrollWidth<=innerWidth'))
         check(f'{width}px: page buttons retain 48px targets', page.locator('.project-page-buttons button').evaluate_all('(els)=>els.every(e=>{const r=e.getBoundingClientRect();return r.width>=48 && r.height>=48})'))
+
+    page.set_viewport_size({'width': 320, 'height': 568})
+    page.wait_for_timeout(200)
+    check('Short viewports avoid clipping the sticky notebook', not page.locator('.project-scroll-track').evaluate('(e)=>e.classList.contains("project-scroll-active")'))
+    select(page, 1)
+    check('Short viewports retain manual pagination', page.locator('.project-pager').get_attribute('data-page') == '2')
+    page.set_viewport_size({'width': 1440, 'height': 1000})
+    page.wait_for_timeout(200)
 
     page.emulate_media(media='print')
     check('Printing includes all five projects', page.locator('.project-card:visible').count() == 5)
