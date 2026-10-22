@@ -1,4 +1,4 @@
-// An original, progressively enhanced project notebook. No autoplay or scroll lock.
+// An original project notebook. Native scrolling drives a bounded sticky chapter.
 const pager = document.querySelector(".project-pager");
 if (pager) {
   const pages = pager.querySelector(".project-pages");
@@ -19,6 +19,25 @@ if (pager) {
   let touch;
   let suppressClick = false;
   let clickTimer;
+  let scrollObserver;
+  let scrollStep = 0;
+  let stickyTop = 0;
+  let manualScroll = 0;
+  let scrollSync = false;
+  const track = document.createElement("div");
+  track.className = "project-scroll-track";
+  pager.before(track);
+  track.append(pager);
+  const steps = cards.map((_, page) => {
+    const step = document.createElement("span");
+    step.className = "project-scroll-step";
+    step.setAttribute("aria-hidden", "true");
+    step.dataset.page = String(page);
+    track.append(step);
+    return step;
+  });
+  const note = pager.querySelector(".pager-note");
+  const originalNote = note.textContent;
 
   const buttons = cards.map((card, page) => {
     const button = document.createElement("button");
@@ -63,7 +82,7 @@ if (pager) {
       announcement.textContent = `Project ${index + 1} of ${cards.length}: ${titles[index]}`;
   }
 
-  function show(page, focus = false) {
+  function show(page, focus = false, fromScroll = false) {
     const target = Math.max(0, Math.min(cards.length - 1, page));
     if (target === index) return;
     settle();
@@ -87,6 +106,25 @@ if (pager) {
       buttons[index].focus({ preventScroll: true });
     old.inert = true;
     old.setAttribute("aria-hidden", "true");
+    if (!fromScroll && scrollStep) {
+      // The notebook stays in place while the native document moves to this page's step.
+      const token = ++manualScroll;
+      scrollSync = true;
+      window.scrollTo({
+        top:
+          track.getBoundingClientRect().top +
+          window.scrollY +
+          index * scrollStep -
+          stickyTop +
+          3,
+        behavior: "instant",
+      });
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => {
+          if (manualScroll === token) scrollSync = false;
+        }),
+      );
+    }
     const paused =
       reduced.matches ||
       document.documentElement.classList.contains("motion-paused");
@@ -133,7 +171,65 @@ if (pager) {
   function measure() {
     // One batched measurement per width/font change keeps all pages equally tall.
     // Every card shares the same stack cell, so this cannot stretch the document.
+    scrollObserver?.disconnect();
+    scrollObserver = null;
+    scrollStep = 0;
+    scrollSync = false;
+    manualScroll++;
+    const supported = "IntersectionObserver" in window;
+    track.classList.toggle("project-scroll-active", supported);
+    track.style.height = "";
     settle();
+    measureCards();
+    stickyTop = Math.ceil(
+      document.querySelector(".site-header").getBoundingClientRect().bottom +
+        16,
+    );
+    const height = Math.ceil(pager.getBoundingClientRect().height);
+    const fits = height <= window.innerHeight - stickyTop - 16;
+    if (!supported || !fits) {
+      // Short viewports keep the full reading layout and manual pagination.
+      track.classList.remove("project-scroll-active");
+      note.textContent = originalNote;
+      measureCards();
+      return;
+    }
+    note.textContent = "Scroll to turn the page ↓";
+    scrollStep = Math.round(
+      Math.max(240, Math.min(620, window.innerHeight * 0.56)),
+    );
+    track.style.height = `${height + scrollStep * (cards.length - 1)}px`;
+    track.style.setProperty("--project-sticky-top", `${stickyTop}px`);
+    steps.forEach((step, page) => {
+      step.style.top = `${page * scrollStep}px`;
+      step.style.height = `${page === cards.length - 1 ? height : scrollStep}px`;
+    });
+    const visible = new Set();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (scrollObserver !== observer) return;
+        entries.forEach((entry) => {
+          const page = Number(entry.target.dataset.page);
+          if (entry.isIntersecting) visible.add(page);
+          else visible.delete(page);
+        });
+        if (
+          visible.size &&
+          !scrollSync &&
+          !document.querySelector("#project-dialog").open
+        )
+          show(Math.max(...visible), false, true);
+      },
+      {
+        rootMargin: `-${stickyTop}px 0px -${Math.max(0, window.innerHeight - stickyTop - 2)}px 0px`,
+        threshold: 0,
+      },
+    );
+    scrollObserver = observer;
+    steps.forEach((step) => observer.observe(step));
+  }
+
+  function measureCards() {
     pages.style.minHeight = "";
     cards.forEach((card) => {
       card.hidden = false;
@@ -215,9 +311,10 @@ if (pager) {
       cancelAnimationFrame(resizeFrame);
       resizeFrame = requestAnimationFrame(measure);
     }).observe(pages);
-  } else
-    window.addEventListener("resize", () => {
-      cancelAnimationFrame(resizeFrame);
-      resizeFrame = requestAnimationFrame(measure);
-    });
+  }
+  // Height-only changes (rotation or browser chrome) also affect sticky eligibility.
+  window.addEventListener("resize", () => {
+    cancelAnimationFrame(resizeFrame);
+    resizeFrame = requestAnimationFrame(measure);
+  });
 }
